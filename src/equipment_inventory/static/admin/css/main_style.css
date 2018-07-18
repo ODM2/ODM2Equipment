@@ -1,0 +1,550 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+.title {
+    margin-top: 2.5%;
+}
+
+.alert {
+    border-radius: 0;
+    width: 100%;
+    padding: 3px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#username {
+    text-decoration: none;
+}
+
+.data-table {
+    width: 100%;
+}
+
+.navbar {
+    background: #f5f5f5;
+    margin-bottom: 0px;
+}
+
+.title h2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.title .btn {
+    margin-top: 0px;
+}
+
+.detail-mid {
+    margin-bottom: 20px;
+}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.row h1 {
+    margin: 0;
+    padding: 0;
+    margin-top: -1%;
+}
+
+.footer {
+    padding: 0px 15px;
+    margin-right: 0px;
+    margin-left: 0px;
+    width: 100%;
+    text-align: justify;
+    background: #f5f5f5;
+    margin-bottom: 0px !important;
+    margin-top: 2%;
+    padding-bottom: 5%;
+    padding-top: 1.7%;
+    border: 1px solid #e7e7e7;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 5px rgba(0, 0, 0, 0.095);
+    height: 170px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#image_logo {
+    padding: 0.6px 9px;
+    margin-top: 1px;
+}
+
+.new-btn {
+    float: right;
+    margin: 10px 0px;
+}
+
+#map-canvas {
+    height: 400px;
+    left: -15px;
+}
+
+.edit-site-button {
+    float: right;
+    margin-left: 5px;
+}
+
+table.data-table tbody tr {
+    background-color: #f6f6f6;
+}
+
+table.data-table tbody tr:nth-child(even) {
+    background-color: #FFF
+}
+
+table.data-table tbody thead th {
+    background: #fff;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+    /*Site tables*/
+    border: none;
+    vertical-align: middle;
+}
+
+.dataTables_wrapper {
+    margin: 0px 15px;
+}
+
+@media (max-width: 770px) {
+    .detail-mid {
+        padding-left: 30px;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+
+    #danger-button {
+        margin-top: 10px;
+    }
+
+    .title .btn {
+        margin-top: 10px;
+    }
+
+    .row {
+        margin-bottom: 10px;
+    }
+}
+
+/*/!* temporary style for forms *!/*/
+/*.form-table input, .form-table textarea, .select-two {*/
+/*/!* width: 100%; *!/*/
+/*}*/
+
+.form-group {
+    position: relative;
+    width: 65%;
+}
+
+.form-table th {
+    width: 20%;
+    text-align: right;
+    padding-right: 3%;
+    vertical-align: middle;
+}
+
+.form-table tr {
+    margin-bottom: 3%;
+}
+
+form input[type=submit] {
+    width: 115px;
+    float: right;
+}
+
+input[type=checkbox], input[type=radio] {
+    height: 20px;
+    float: left;
+    max-width: 15%;
+}
+
+.errorlist {
+    color: red;
+    list-style-type: none;
+}
+
+input.btn.btn-primary.form-control {
+    width: 50%;
+    min-width: 250px;
+}
+
+table a.btn.btn-default {
+    margin-right: 2%;
+    width: 25%;
+    min-width: 130px;
+    float: left;
+}
+
+.form-table label {
+    margin-bottom: 0px;
+}
+
+.form-table th {
+    vertical-align: middle;
+}
+
+/*.input-group .form-control {*/
+/*width: 85%; problem caused by this. divides the datetimepicker icon from input*/
+/*}*/
+
+.input-group {
+    width: 100%;
+}
+
+.form-table .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.glyphicon {
+    cursor: pointer;
+}
+
+a.icon-link {
+    text-decoration: none;
+    margin-left: 30%;
+}
+
+a.delete-icon {
+    color: rgb(169, 7, 7);
+    margin-left: 6%;
+}
+
+#login_section {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8%;
+    padding: 11% 2%;
+    border: 4px solid #265a88;
+    border-radius: 5px;
+    text-align: center;
+    background: #FAFAFA;
+}
+
+#login_section tr {
+    border: 0px white solid;
+}
+
+#login_section label {
+    padding-right: 7%;
+    font-weight: 500;
+}
+
+#login_section table {
+    width: 100%;
+    padding: 0px;
+    text-align: right;
+}
+
+#login_section input[value=login] {
+/*     margin-right: 20.4%;
+    width: 47.8%; */
+    
+background: #265a88;
+    
+color: white;
+}
+
+#site_content {
+    padding-bottom: 199px;
+}
+
+#login_section input[type=text], 
+#login_section input[type=password],
+#login_section input[value=login] {
+    width: 70%;
+    margin-bottom: 2%;
+    float: initial;
+}
+
+.content {
+    min-height: 100%;
+    position: relative;
+}
+
+.alert p {
+    display: inline;
+    padding-left: 5px;
+}
+
+label {
+    text-align: left;
+}
+
+.popover-content .btn-group .btn-default {
+    width: 45%;
+}
+
+.form-table label {
+    text-align: right;
+}
+
+/*.bootstrap-datetimepicker-widget ul {*/
+/*padding-left: 0px;*/
+/*}*/
+
+/*.bootstrap-datetimepicker-widget ul a.btn {*/
+/*width: 100%;*/
+/*}*/
+
+.input-append.date .add-on i {
+    top: 9px;
+    right: 30px;
+}
+
+.select2-container--default
+.select2-selection--single
+.select2-selection__arrow {
+    width: 45px;
+}
+
+/*.bootstrap-datetimepicker-widget {*/
+/*margin-top: 23px;*/
+/*margin-left: -248px;*/
+/*}*/
+
+/*.bootstrap-datetimepicker-widget:before {*/
+/*left: 216;*/
+/*}*/
+
+/*.bootstrap-datetimepicker-widget:after {*/
+/*left: 217;*/
+/*}*/
+
+
+#action-form, #results-form, #annotation-form, #model-form, .all-equipment-wrapper, .all-variables-wrapper, .all-units-wrapper {
+    display: none;
+}
+
+.select2-results__option[aria-disabled="true"] {
+    display: none !important;
+}
+
+.btn-default {
+    background-image: linear-gradient(to bottom, #fff 0, #F5F5F5 100%);
+}
+
+.btn-primary {
+    background-image: linear-gradient(to bottom, #5C96C8 0, #629ACB 100%);
+}
+
+.btn-danger {
+    background-image: linear-gradient(to bottom, #C26865 0, #CB3934 100%);
+}
+
+.btn-remove-action, .btn-remove-result, .btn-remove-model, .btn-remove-annotation {
+    width: 28%;
+    min-width: 130px;
+    float: left;
+}
+
+.btn-remove-result, .btn-remove-model {
+    float: right;
+}
+
+.btn-primary:focus, .btn-primary:hover {
+    background-color: #4D89BF;
+    background-position: 0 -15px;
+}
+
+/*.detail-mid {*/
+/*width: 84%;*/
+/*margin-left: auto;*/
+/*margin-right: auto;*/
+/*}*/
+
+.detail-mid th {
+    /*width: 24%;*/
+}
+
+.detail-mid td {
+    /* width: 46%; */
+}
+
+.table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
+    padding: 10px;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.row form.input-group  textarea.form-control {
+    border-radius: 4px;
+}
+
+.select2-container, form.input-group input.form-control, form.input-group textarea.form-control {
+    width: 100%;
+}
+
+form.form-control input[type="submit"].form-control {
+    width: 66%;
+}
+
+div.datetimepicker input.form-control {
+    width: 100%;
+}
+
+tr.form-required:after {
+    content: '*';
+    color: #461000;
+    font-weight: bold;
+    font-size: 1.2em;
+    position: relative;
+    top: 14px;
+}
+
+span.helptext {
+    display: inline-block;
+}
+
+
+.side-by-side-item {
+    border: 1px solid #CDCACA;
+    overflow: hidden;
+    padding: 22px 32px;
+
+}
+
+.side-by-side-item.small-box-item {
+    width: 48%;
+    float: left;
+    margin-right: 3%;
+    margin-left: initial;
+}
+
+.side-by-side-item table.dataTable thead .sorting:last-of-type {
+      width: 34%!important;
+}
+
+.side-table-details {
+    float:left;
+}
+
+.side-table-details th {
+    /* width: 50%; */
+    padding: 1%;
+}
+
+.side-table-details td {
+    /* width: 50%; */
+    /* padding-left: 14%; */
+}
+
+.side-dependent-table {
+    float: right;
+}
+
+.related-equipment-table {
+    clear: both;
+}
+
+.related-equipment-table th {
+    width: 50%;
+}
+
+a.add-related-equ-button.btn.btn-primary.btn-block {
+    /* margin-right: 66px; */
+    width: 97.5%;
+}
+
+div.home_title {
+    min-width: 1000px;
+}
+
+div.home_page {
+    margin-left: 400px;
+    position: absolute;
+    width: 600px;
+}
+
+div.quick_links {
+    float: left;
+    margin-left: 100px;
+    margin-top: 25px;
+    margin-bottom: 500px;
+    border-style: solid;
+    border-radius: 25px;
+    border-color: forestgreen;
+}
+
+div.quick_links_table {
+    margin: 25px;
+}
+
+div.sponsors {
+    min-width: 500px;
+}
+
+img.banner {
+    width: 100%;
+    min-width: 1100px;
+}
+
+
+label.checkbox-label {
+    font-weight: inherit;
+    line-height: 1.5em;
+}
+
+label.checkbox-label input {
+    margin-right: 5px;
+    height: initial;
+}
+
+
+td.results-label {
+    padding-top: 20px !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid rgba(200, 200, 200, .8) !important;
+}
+
+td.results-label label {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+tbody.action-fields + tbody.results-set {
+    border: none !important;
+}
+
+tbody.results-set + tbody.results-set {
+    border-top: 1px solid rgba(200, 200, 200, .8) !important;
+}
+tbody.results-set tr {
+    padding-left: 50px;
+}
+
+.add-result-btn + tbody {
+    border-top: 2px solid #ddd;
+}
+
+tbody + tbody.add-result-btn {
+    border-top: none;
+}
+
+a.add-result-btn {
+  float: right !important;
+}
+
