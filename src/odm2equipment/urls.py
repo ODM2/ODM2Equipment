@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls.conf import include
+from django.conf import settings
+
+# base url (/ or /{project_name}) to prepend to all paths.
+BASE_URL = settings.SITE_URL[1:]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('{}admin/'.format(BASE_URL), admin.site.urls),
+    path(BASE_URL, include('equipment_inventory.urls')),
 ]
