@@ -1,0 +1,117 @@
+html {
+    height: 100%;
+}
+
+html > body {
+    height: calc(100% - 141px);
+    /*font-family: "Roboto", "Helvetica", "Arial", sans-serif;*/
+    background: #e8e8e8;
+}
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+}
+
+/*MEDIA QUERIES*/
+
+@media only screen and (max-width: 767px) {
+    #table-macro-extra tr:first-child {
+        display: none;
+    }
+
+    #table-macro-extra {
+        top: -1px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .navbar-nav > li > a {
+        line-height: 35px !important;
+        height: initial;
+    }
+}
+
+@media (max-width: 576px) {
+    .buttons-toolbar .button-link, .buttons-toolbar form, .buttons-toolbar button {
+        width: 100%;
+    }
+}
+
+/*ICON COLORS*/
+.icon-blue {
+    color: rgb(31, 119, 180);
+}
+
+.icon-orange {
+    color: rgb(255, 127, 14);;
+}
+
+.icon-green {
+    color: rgb(44, 160, 44);
+}
+
+.icon-light-blue {
+    color: rgb(23, 190, 207);
+}
+
+/* HELPERS */
+
+.light-background {
+    background: #f5f5f5;
+}
+
+.vertical-alignment-helper {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width: inherit;
+    height: inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+}
+
+
+/*.button-link:hover {*/
+    /*text-decoration: none;*/
+/*}*/
+
+.buttons-toolbar .button-link, .buttons-toolbar button {
+    margin-bottom: 15px;
+}
+
+.buttons-toolbar {
+    margin-top: -30px;
+}
+
+.table-trigger {
+    cursor: pointer;
+}
+
+.table-trigger.disabled, .download-trigger.disabled, .tsa-trigger.disabled {
+    pointer-events: none;
+    color: #3b8a8a;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 1.7% 0 5%;
+    position: absolute;
+    bottom: 0;
+}
