@@ -58,7 +58,7 @@ html > body {
 
 /* HELPERS */
 
-.mdl-card.full-width .mdl-card__supporting-text, .mdl-card.full-width .mdl-card__title {
+.mdl-card.full-width .mdl-card__supporting-text, .mdl-card.full-width .mdl-card__title, .full-width {
     width: 100%;
 }
 

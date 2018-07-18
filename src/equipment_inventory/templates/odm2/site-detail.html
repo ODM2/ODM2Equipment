@@ -1,0 +1,106 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    {{ sampling_feature.sampling_feature_name|default_if_none:'' }} {{ sampling_feature.sampling_feature_code }}
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/site-detail.css' %}">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'odm2/js/site-detail.js' %}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ5EbbKQj8jxJ83DMDazMBScJ1ZkuaIAE&callback=initMap"></script>
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+                <i class="material-icons center-icon">mode_edit</i> Edit Site
+            </a>
+            <button type="button" data-toggle="modal" data-target="#site-delete-dialog"
+                    style="background: #d9534f; color:#FFF;"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+    <div class="detail-content col-sm-6">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover full-width">
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Code</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_code }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Name</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_name }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Description</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_description }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Type</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.site.site_type_id }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Elevation (m)</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.elevation_m }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Elevation Datum</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.elevation_datum_id }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Latitude (dec deg)</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.site.latitude }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Longitude (dec deg)</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.site.longitude }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="map-container col-12">
+            <div id="map"></div>
+            <input type="hidden" id="site-latitude" value="{{ sampling_feature.site.latitude }}">
+            <input type="hidden" id="site-longitude" value="{{ sampling_feature.site.longitude }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_content %}
+    <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+        <div class="row">
+            <div class="col-12">
+                <h6 class="page-title grid" style="grid-template-columns: auto auto;">
+                    <span>Variables measured at this site</span>
+                </h6>
+                <div class="buttons-toolbar row">
+                    <div class="col-sm-12 text-left">
+                        <a class="button-link mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="">
+                            New Deployment
+                        </a>
+                        <a class="button-link mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="">
+                            View Deployed Equipment
+                        </a>
+                        <a class="button-link mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="">
+                            View Site Visits
+                        </a>
+                    </div>
+                </div>
+
+                {% include 'includes/output-variables-list.template.html' with variables=output_variables %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
