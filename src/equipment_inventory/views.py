@@ -16,7 +16,7 @@ class HomeView(TemplateView):
 
 class SiteListView(ListView):
     model = SamplingFeature
-    template_name = 'odm2/site-list.html'
+    template_name = 'odm2/sites-list.html'
     context_object_name = 'sampling_features'
 
 

@@ -19,7 +19,7 @@
 {% block header_buttons_toolbar %}
     <div class="buttons-toolbar row">
         <div class="col-12 text-right">
-            <a href="" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+            <a href="{% url 'admin:odm2_samplingfeature_change' sampling_feature.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
                 <i class="material-icons center-icon">mode_edit</i> Edit Site
             </a>
             <button type="button" data-toggle="modal" data-target="#site-delete-dialog"

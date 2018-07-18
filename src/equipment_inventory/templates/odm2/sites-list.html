@@ -13,7 +13,9 @@
 {% block table-rows %}
     {% for sampling_feature in sampling_features %}
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_code }}</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'site-detail' sampling_feature.sampling_feature_code %}">{{ sampling_feature.sampling_feature_code }}</a>
+            </td>
             <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_name }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.site.site_type_id }}</td>
             <td class="mdl-data-table__cell--non-numeric">

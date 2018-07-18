@@ -19,6 +19,6 @@ from equipment_inventory.views import HomeView, SiteListView, SiteDetailView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('sites', SiteListView.as_view(), name='site-list'),
+    path('sites', SiteListView.as_view(), name='sites-list'),
     path('sites/<sampling_feature_code>', SiteDetailView.as_view(), name='site-detail')
 ]
