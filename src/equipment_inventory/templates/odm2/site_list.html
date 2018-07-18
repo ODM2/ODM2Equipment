@@ -1,0 +1,34 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    Sites
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Site Code</th>
+    <th class="mdl-data-table__cell--non-numeric">Site Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Site Type</th>
+    <th class="mdl-data-table__cell--non-numeric">Site Group</th>
+{% endblock %}
+
+{% block table-rows %}
+    {% for sampling_feature in sampling_features %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_code }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.sampling_feature_name }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ sampling_feature.site.site_type_id }}</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                {# TODO: DONT IGNORE! GOTTA FIND A LESS HARDCODED WAY OF DOING THING #}
+                {# some sampling feature annotations might help with the `site group` field here #}
+                {% if sampling_feature.sampling_feature_code|slice:"2" == "LR" %}
+                    Logan River
+                {% elif sampling_feature.sampling_feature_code|slice:"2" == "RB" %}
+                    Red Butte Creek
+                {% elif sampling_feature.sampling_feature_code|slice:"2" == "PR" %}
+                    Provo River
+                {% else %}
+                    EnviroDIY
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.urls.conf import path
 
-from equipment_inventory.views import HomeView
+from equipment_inventory.views import HomeView, SiteListView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('sites', SiteListView.as_view(), name='site-list')
 ]

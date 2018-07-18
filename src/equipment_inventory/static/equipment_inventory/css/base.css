@@ -58,6 +58,10 @@ html > body {
 
 /* HELPERS */
 
+.mdl-card.full-width .mdl-card__supporting-text, .mdl-card.full-width .mdl-card__title {
+    width: 100%;
+}
+
 .light-background {
     background: #f5f5f5;
 }
@@ -104,6 +108,62 @@ html > body {
     color: #3b8a8a;
 }
 
+span.user-info {
+    pointer-events: none;
+}
+
+.ribbon-content .page-title {
+    margin: -40px 0 40px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #DDD;
+    line-height: 24px;
+}
+
+.ribbon {
+    width: 100%;
+    height: 40vh;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+.ribbon-none {
+    background-color: transparent;
+}
+
+.ribbon-blue {
+    background-color: #337ab7;
+}
+
+.ribbon-green {
+    background-color: #62843e;
+}
+
+.ribbon-dark {
+    background-color: #494949;
+}
+
+.ribbon-lightblue {
+    background-color: #048a8a;
+}
+
+.ribbon-content {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    padding: 80px 4vw !important;
+    margin-bottom: 80px;
+    border-radius: 2px;
+}
+
+.ribbon-content:first-child {
+     margin-top: -35vh;
+}
+
+.ribbon-container {
+    padding: 0 15px;
+}
+
 /* FOOTER */
 
 .footer {
@@ -112,6 +172,5 @@ html > body {
     text-align: center;
     background: #f5f5f5;
     padding: 1.7% 0 5%;
-    position: absolute;
     bottom: 0;
 }

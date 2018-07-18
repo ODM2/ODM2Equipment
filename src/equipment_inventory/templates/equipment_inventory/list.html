@@ -1,0 +1,43 @@
+{% extends 'equipment_inventory/base.html' %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'equipment_inventory/css/list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="ribbon ribbon-none"></div>
+<div class="ribbon-container">
+    <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+        <div class="row">
+            <section class="item-list col-sm-12">
+                <header>
+                    <div class="page-title grid" style="grid-template-columns: auto auto;">
+                        <span>
+                            {% block list-title %}{% endblock %}
+                        </span>
+                    </div>
+
+                    {% include 'includes/messages.template.html' with messages=messages %}
+                </header>
+
+                <div class="row">
+                    <div class="list-container col-sm-12 col-md-6">
+                        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width">
+                            <thead>
+                            <tr>
+                                {% block table-headers %}{% endblock %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% block table-rows %}{% endblock %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
