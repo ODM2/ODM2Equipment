@@ -2,9 +2,10 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
+from nested_admin.nested import NestedModelAdmin, NestedTabularInline
 
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
-    InstrumentDeploymentForm
+    InstrumentDeploymentForm, ResultForm, FeatureActionForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
@@ -51,10 +52,6 @@ class ResultAdmin(admin.ModelAdmin):
     pass
 
 
-class ResultInline(admin.StackedInline):
-    model = Result
-
-
 @admin.register(CalibrationStandard)
 class CalibrationStandardAdmin(admin.ModelAdmin):
     pass
@@ -65,17 +62,28 @@ class SiteVisitActionAdmin(admin.ModelAdmin):
     form = SiteVisitActionForm
 
 
-class FeatureActionInline(admin.StackedInline):
-    model = FeatureAction
-
-
 @admin.register(EquipmentDeploymentAction)
 class EquipmentDeploymentAdmin(admin.ModelAdmin):
     form = EquipmentDeploymentForm
 
 
+class ResultInline(NestedTabularInline):
+    model = Result
+    form = ResultForm
+    extra = 0
+    min_num = 1
+
+
+class FeatureActionInline(NestedTabularInline):
+    model = FeatureAction
+    inlines = [ResultInline, ]
+    form = FeatureActionForm
+    can_delete = False
+    max_num = 1
+
+
 @admin.register(InstrumentDeploymentAction)
-class InstrumentDeploymentAdmin(admin.ModelAdmin):
+class InstrumentDeploymentAdmin(NestedModelAdmin):
     form = InstrumentDeploymentForm
     inlines = [FeatureActionInline, ]
 

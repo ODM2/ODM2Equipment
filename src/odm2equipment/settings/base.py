@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'easy_select2',
     'equipment_inventory',
+    'nested_admin',
     'django.contrib.admin',
     'odm2',
 
