@@ -1,0 +1,37 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    People
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Organization</th>
+    <th class="mdl-data-table__cell--non-numeric">Address</th>
+    <th class="mdl-data-table__cell--non-numeric">Phone</th>
+    <th class="mdl-data-table__cell--non-numeric">Email</th>
+{% endblock %}
+
+{% block table-rows %}
+    {% for person in people %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'people_detail' person.pk %}">{{ person.person_first_name }} {{ person.person_last_name }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{{ person.organization.organization_name}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ person. }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ visit.sampling_feature.sampling_feature_na }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{% if visit.sampling_feature.sampling_feature_code|slice:"2" == "LR" %}Logan River
+
+                {% elif visit.sampling_feature.sampling_feature_code|slice:"2" == "RB" %}Red Butte Creek
+
+                {% elif visit.sampling_feature.sampling_feature_code|slice:"2" == "PR" %}Provo River{% endif %}
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{% for person in visit.action.people.all %}
+                        <a href="{% url 'people_detail' person.affiliation_id %}">{{ person.affiliation.person.person_first_name }}
+                        {{ person.affiliation.person.person_last_name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                {% endfor %}</td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}

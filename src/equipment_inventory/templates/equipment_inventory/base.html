@@ -52,13 +52,13 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarSitesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions </a>
                             <div class="dropdown-menu" aria-labelledby="navbarSitesDropdown">
-                                <a class="nav-link" href=""> Site Visits</a>
+                                <a class="nav-link" href="{% url 'site-visit-list' %}"> Site Visits</a>
                                 <a class="nav-link" href=""> Deployments</a>
                                 <a class="nav-link" href=""> Calibrations</a>
                                 <a class="nav-link" href=""> Methods</a>
                                 <a class="nav-link" href=""> Calibration Standards</a>
                                 <a class="nav-link" href=""> Other Actions</a>
-                                <a class="nav-link" href=""> Results</a>
+                                <a class="nav-link" href="{% url 'results-list' %}"> Results</a>
                             </div>
                         </li>
 
@@ -75,7 +75,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarAffiliationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Affiliations </a>
                             <div class="dropdown-menu" aria-labelledby="navbarAffiliationsDropdown">
-                                <a class="nav-link" href=""> People</a>
+                                <a class="nav-link" href="{% url 'people-list' %}"> People</a>
                                 <a class="nav-link" href=""> Organizations</a>
                             </div>
                         </li>

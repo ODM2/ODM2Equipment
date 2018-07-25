@@ -1,0 +1,41 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    Site Visits
+    <div><a href="{% url 'admin:equipment_inventory_sitevisitaction_add' %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+                <i class="material-icons center-icon">mode_edit</i> Add Site Visit
+            </a></div>
+
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Date</th>
+    <th class="mdl-data-table__cell--non-numeric">Site Code</th>
+    <th class="mdl-data-table__cell--non-numeric">Site Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Site Group</th>
+    <th class="mdl-data-table__cell--non-numeric">People</th>
+{% endblock %}
+
+{% block table-rows %}
+    {% for visit in visits %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'site-visit-detail' visit.pk %}">{{ visit.begin_datetime }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{{ visit.feature_actions.first.sampling_feature.sampling_feature_code}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ visit.feature_actions.first.sampling_feature.sampling_feature_name }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ visit.feature_actions.first.sampling_feature.sampling_feature_na }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{% if visit.feature_actions.first.sampling_feature.sampling_feature_code|slice:"2" == "LR" %}Logan River
+
+                {% elif visit.feature_actions.first.sampling_feature.sampling_feature_code|slice:"2" == "RB" %}Red Butte Creek
+
+                {% elif visit.feature_actions.first.sampling_feature.sampling_feature_code|slice:"2" == "PR" %}Provo River{% endif %}
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{% for person in visit.action.people.all %}
+                        <a href="{% url 'people_detail' person.affiliation_id %}">{{ person.affiliation.person.person_first_name }}
+                        {{ person.affiliation.person.person_last_name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                {% endfor %}</td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}

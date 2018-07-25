@@ -1,0 +1,67 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    {{ sampling_feature.sampling_feature_name|default_if_none:'' }} {{ sampling_feature.sampling_feature_code }}
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/result-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="{% url 'admin:equipment_inventory_sitevisitaction_change' visit.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+                <i class="material-icons center-icon">mode_edit</i> Edit Site Visit
+            </a>
+            <button type="button" data-toggle="modal" data-target="#site-delete-dialog"
+                    style="background: #d9534f; color:#FFF;"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+    <div class="detail-content col-sm-6">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover full-width">
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Code</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ visit.feature_actions.first.sampling_feature.sampling_feature_code}}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Name</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ visit.feature_actions.first.sampling_feature.sampling_feature_name}}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">People</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                    {% for person in visit.action.people.all %}
+                        <a href="{% url 'people_detail' person.affiliation_id %}">{{ person.affiliation.person.person_first_name }}
+                            {{ person.affiliation.person.person_last_name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Begin Date Time</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ visit.begin_datetime }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">End Date Time</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ visit.end_datetime }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">UTC Offset</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ visit.end_datetime_utc_offeset }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Action Description</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ visit.action_description }}</td>
+            </tr>
+        </table>
+    </div>
+
+{% endblock %}
