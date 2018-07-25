@@ -5,8 +5,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable, Result
-
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People
+from equipment_inventory.models import *
 
 class HomeView(TemplateView):
     template_name = 'equipment_inventory/home.html'
@@ -47,3 +47,32 @@ class ResultDetailView(DetailView):
     context_object_name = 'result'
     slug_url_kwarg = 'result_id'
     slug_field = 'result_id'
+
+
+class SiteVisitListView(ListView):
+    model = SiteVisitAction
+    template_name = 'odm2/site-visits-list.html'
+    context_object_name = 'visits'
+
+
+class SiteVisitDetailView(DetailView):
+    model = SiteVisitAction
+    template_name = 'odm2/site-visit-detail.html'
+    context_object_name = 'visit'
+    slug_url_kwarg = 'action_id'
+    slug_field = 'action_id'
+
+
+class PeopleListView(ListView):
+    model = People
+    template_name = 'odm2/people-list.html'
+    context_object_name = 'people'
+
+
+class PeopleDetailView(DetailView):
+    model = People
+    template_name = 'odm2/people-detail.html'
+    context_object_name = 'person'
+    slug_url_kwarg = 'person_id'
+    slug_field = 'person_id'
+
