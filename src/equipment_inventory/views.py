@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result
 
 
 class HomeView(TemplateView):
@@ -33,3 +33,17 @@ class SiteDetailView(DetailView):
             variable_id__in=self.object.actions.instrument_deployments().values_list('feature_actions__results__variable_id')
         )
         return context
+
+
+class ResultsListView(ListView):
+    model = Result
+    template_name = 'odm2/results-list.html'
+    context_object_name = 'results'
+
+
+class ResultDetailView(DetailView):
+    model = Result
+    template_name = 'odm2/result-detail.html'
+    context_object_name = 'result'
+    slug_url_kwarg = 'result_id'
+    slug_field = 'result_id'

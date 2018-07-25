@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.urls.conf import path
 
-from equipment_inventory.views import HomeView, SiteListView, SiteDetailView
+from equipment_inventory.views import *
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('sites', SiteListView.as_view(), name='sites-list'),
-    path('sites/<sampling_feature_code>', SiteDetailView.as_view(), name='site-detail')
+    path('sites/<sampling_feature_code>', SiteDetailView.as_view(), name='site-detail'),
+    path('results', ResultsListView.as_view(), name='results-list'),
+    path('results/<result_id>', ResultDetailView.as_view(), name='result-detail'),
 ]
