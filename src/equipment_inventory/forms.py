@@ -15,27 +15,14 @@ select_2_default_options = {
 
 
 class SiteVisitActionForm(forms.ModelForm):
-    sampling_feature = forms.ModelChoiceField(
-        label='Site',
-        queryset=SamplingFeature.objects.all(),
-        widget=Select2(select2attrs={'placeholder': 'Choose a Site', **select_2_default_options}),
-    )
-    people = forms.ModelMultipleChoiceField(
-        label='Crew',
-        queryset=Affiliation.objects.all(),
-        widget=Select2Multiple(select2attrs={'placeholder': 'Select the crew members'}),
-    )
-
     class Meta:
         model = SiteVisitAction
         fields = [
-            'sampling_feature',
             'begin_datetime',
             'begin_datetime_utc_offset',
             'end_datetime',
             'end_datetime_utc_offset',
-            'action_description',
-            'people'
+            'action_description'
         ]
 
 
@@ -128,7 +115,7 @@ class InstrumentDeploymentForm(StandaloneActionForm):
 
 
 class FeatureActionForm(forms.ModelForm):
-    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False, widget=forms.HiddenInput())
+    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False)
 
     class Meta:
         model = FeatureAction

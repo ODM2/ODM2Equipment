@@ -2,6 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
+from django.db import models
+from django import forms
 from nested_admin.nested import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
@@ -10,7 +12,7 @@ from equipment_inventory.models import SiteVisitAction, GenericAction, Equipment
     InstrumentDeploymentAction
 from odm2.admin_helper import StandaloneActionAdminMixin
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
-    CalibrationStandard, Site, SamplingFeature, Affiliation, FeatureAction, EquipmentUsed
+    CalibrationStandard, Site, SamplingFeature, Affiliation, FeatureAction, EquipmentUsed, ActionBy
 
 
 @admin.register(Organization)
@@ -58,11 +60,6 @@ class CalibrationStandardAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(SiteVisitAction)
-class SiteVisitActionAdmin(admin.ModelAdmin):
-    form = SiteVisitActionForm
-
-
 @admin.register(EquipmentDeploymentAction)
 class EquipmentDeploymentAdmin(admin.ModelAdmin):
     form = EquipmentDeploymentForm
@@ -76,18 +73,44 @@ class ResultInline(NestedTabularInline):
     min_num = 1
 
 
+class SiteVisitFeatureActionInline(NestedStackedInline):
+    model = FeatureAction
+    form = FeatureActionForm
+    can_delete = False
+    max_num = 1
+
+
 class FeatureActionInline(NestedTabularInline):
     model = FeatureAction
     inlines = [ResultInline, ]
     form = FeatureActionForm
     can_delete = False
     max_num = 1
+    formfield_overrides = {
+        models.ForeignKey: {'widget': forms.HiddenInput}
+    }
 
 
 class SingleEquipmentUsedInline(NestedStackedInline):
     model = EquipmentUsed
     can_delete = False
     max_num = 1
+
+
+class ActionByInline(NestedTabularInline):
+    model = ActionBy
+    extra = 1
+
+
+@admin.register(SiteVisitAction)
+class SiteVisitActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
+    form = SiteVisitActionForm
+    action_type = 'Field activity'
+    inlines = [SiteVisitFeatureActionInline, ActionByInline]
+
+    def save_model(self, request, obj, form, change):
+        obj.method = Method.objects.get_or_create(method_type_id='Field activity', method_code='Site Visit', method_name='Site Visit')[0]
+        super(SiteVisitActionAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(InstrumentDeploymentAction)

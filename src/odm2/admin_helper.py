@@ -14,6 +14,9 @@ def pre_save_result(request, form, formset, formset_form, parent_site_visit, cha
 def pre_save_feature_action(request, form, formset, formset_form, parent_site_visit, change):
     if 'parent_site_visit' in form.changed_data:
         formset_form.instance.sampling_feature = get_action_sampling_feature(parent_site_visit)
+    elif not parent_site_visit:
+        # site visit stand-alone
+        pass
 
 
 class StandaloneActionAdminMixin(object):
@@ -36,8 +39,10 @@ class StandaloneActionAdminMixin(object):
         obj.save()
 
     def save_related(self, request, form, formsets, change):
-        parent_site_visit = form.cleaned_data['parent_site_visit']
-        self.save_parent_relationship(form, change, parent_site_visit)
+        parent_site_visit = None
+        if 'parent_site_visit' in form.data:
+            parent_site_visit = form.cleaned_data['parent_site_visit']
+            self.save_parent_relationship(form, change, parent_site_visit)
 
         form.save_m2m()
         for formset in formsets:
