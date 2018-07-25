@@ -528,6 +528,12 @@ class Action(ODM2Model):
 
     objects = ActionQuerySet.as_manager()
 
+    @property
+    def parent_site_visit(self):
+        if self.all_parent_site_visits:
+            [visit] = self.all_parent_site_visits
+            return visit.related_action
+
     def __str__(self):
         return '%s %s %s' % (
             self.begin_datetime, self.begin_datetime_utc_offset, self.action_type_id

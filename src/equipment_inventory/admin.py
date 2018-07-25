@@ -2,14 +2,15 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from nested_admin.nested import NestedModelAdmin, NestedTabularInline
+from nested_admin.nested import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
     InstrumentDeploymentForm, ResultForm, FeatureActionForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction
+from odm2.admin_helper import StandaloneActionAdminMixin
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
-    CalibrationStandard, Site, SamplingFeature, Affiliation, FeatureAction
+    CalibrationStandard, Site, SamplingFeature, Affiliation, FeatureAction, EquipmentUsed
 
 
 @admin.register(Organization)
@@ -68,6 +69,7 @@ class EquipmentDeploymentAdmin(admin.ModelAdmin):
 
 
 class ResultInline(NestedTabularInline):
+    initial_fields = {'result_type': 'Time series coverage'}
     model = Result
     form = ResultForm
     extra = 0
@@ -82,10 +84,20 @@ class FeatureActionInline(NestedTabularInline):
     max_num = 1
 
 
+class SingleEquipmentUsedInline(NestedStackedInline):
+    model = EquipmentUsed
+    can_delete = False
+    max_num = 1
+
+
 @admin.register(InstrumentDeploymentAction)
-class InstrumentDeploymentAdmin(NestedModelAdmin):
+class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = InstrumentDeploymentForm
-    inlines = [FeatureActionInline, ]
+    action_type = 'Instrument deployment'
+    inlines = [SingleEquipmentUsedInline, FeatureActionInline]
+
+    class Media:
+        css = {'all': ('equipment_inventory/css/form-style.css',)}
 
 
 @admin.register(GenericAction)

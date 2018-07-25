@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from django.views.generic.edit import ModelFormMixin
 from easy_select2.widgets import Select2, Select2Multiple
 
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
@@ -36,6 +37,18 @@ class SiteVisitActionForm(forms.ModelForm):
             'action_description',
             'people'
         ]
+
+
+class StandaloneActionForm(forms.ModelForm):
+    parent_site_visit = forms.ModelChoiceField(
+        queryset=Action.objects.site_visits(),
+        widget=Select2(select2attrs={'placeholder': 'Choose a Site Visit', **select_2_default_options})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(StandaloneActionForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['parent_site_visit'].initial = self.instance.parent_site_visit
 
 
 class GenericActionForm(forms.ModelForm):
@@ -98,26 +111,16 @@ class EquipmentDeploymentForm(forms.ModelForm):
         }
 
 
-class InstrumentDeploymentForm(forms.ModelForm):
-    site_visit = forms.ModelChoiceField(
-        queryset=Action.objects.site_visits(),
-        widget=Select2(select2attrs={'placeholder': 'Choose a Site Visit', **select_2_default_options})
-    )
-    equipment_used = forms.ModelChoiceField(
-        queryset=Equipment.objects.instruments(),
-        widget=Select2(select2attrs={'placeholder': 'Choose the equipment used in this deployment', **select_2_default_options})
-    )
-
+class InstrumentDeploymentForm(StandaloneActionForm):
     class Meta:
         model = InstrumentDeploymentAction
         fields = [
-            'site_visit',
+            'parent_site_visit',
             'method',
             'begin_datetime',
             'begin_datetime_utc_offset',
             'action_description',
             'action_file_link',
-            'equipment_used'
         ]
         widgets = {
             'method': Select2()
@@ -125,9 +128,11 @@ class InstrumentDeploymentForm(forms.ModelForm):
 
 
 class FeatureActionForm(forms.ModelForm):
+    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False, widget=forms.HiddenInput())
+
     class Meta:
         model = FeatureAction
-        fields = []
+        fields = ['sampling_feature']
 
 
 class ResultForm(forms.ModelForm):

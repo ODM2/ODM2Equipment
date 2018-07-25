@@ -2,6 +2,8 @@ import datetime
 from django.db import models
 
 # region ODM2 Core models
+from django.db.models.expressions import OuterRef, Subquery, F
+from django.db.models.query import Prefetch
 from django.db.models.query_utils import Q
 
 
@@ -41,10 +43,22 @@ class ActionQuerySet(ODM2QuerySet):
         return self.filter(action_type='Instrument deployment')
 
     def site_visits(self):
-        return self.filter(action_type='Site visit')
+        return self.filter(action_type='Field activity')
 
     def generic_actions(self):
         return self.exclude(action_type__in=['Equipment deployment', 'Instrument deployment', 'Instrument calibration', 'Site visit'])
+
+    def with_parent_visits(self):
+        related_action_model = [
+            related_object.related_model
+            for related_object in self.model._meta.related_objects
+            if related_object.name == 'related_actions'
+        ].pop()
+
+        return self.prefetch_related(Prefetch(
+            lookup='related_actions',
+            queryset=related_action_model.objects.filter(relationship_type_id='Is child of'),
+            to_attr='all_parent_site_visits'))
 
 
 class ActionTypeQuerySet(ODM2QuerySet):
