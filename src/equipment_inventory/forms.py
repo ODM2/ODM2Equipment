@@ -115,6 +115,14 @@ class InstrumentDeploymentForm(StandaloneActionForm):
 
 
 class FeatureActionForm(forms.ModelForm):
+    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False, widget=forms.HiddenInput)
+
+    class Meta:
+        model = FeatureAction
+        fields = ['sampling_feature']
+
+
+class SiteVisitFeatureActionForm(forms.ModelForm):
     sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False)
 
     class Meta:

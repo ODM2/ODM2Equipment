@@ -7,7 +7,7 @@ from django import forms
 from nested_admin.nested import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
-    InstrumentDeploymentForm, ResultForm, FeatureActionForm
+    InstrumentDeploymentForm, ResultForm, FeatureActionForm, SiteVisitFeatureActionForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction
 from odm2.admin_helper import StandaloneActionAdminMixin
@@ -75,7 +75,7 @@ class ResultInline(NestedTabularInline):
 
 class SiteVisitFeatureActionInline(NestedStackedInline):
     model = FeatureAction
-    form = FeatureActionForm
+    form = SiteVisitFeatureActionForm
     can_delete = False
     max_num = 1
 
@@ -86,9 +86,6 @@ class FeatureActionInline(NestedTabularInline):
     form = FeatureActionForm
     can_delete = False
     max_num = 1
-    formfield_overrides = {
-        models.ForeignKey: {'widget': forms.HiddenInput}
-    }
 
 
 class SingleEquipmentUsedInline(NestedStackedInline):
