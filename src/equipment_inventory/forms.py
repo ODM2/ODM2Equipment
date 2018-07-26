@@ -6,7 +6,8 @@ from easy_select2.widgets import Select2, Select2Multiple
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
-    ProcessingLevel, FeatureAction, Method, CalibrationAction, Model
+    ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
+    Organization, CalibrationReferenceEquipment, CalibrationStandard
 
 select_2_default_options = {
     'allowClear': True,
@@ -72,7 +73,11 @@ class GenericActionForm(forms.ModelForm):
 
 
 class InstrumentCalibrationForm(StandaloneActionForm):
-    method = forms.ModelChoiceField(queryset=Method.objects.equipment_deployment_methods(), widget=Select2)
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.instrument_calibration_methods(),
+        widget=Select2(
+            select2attrs={'placeholder': 'Choose the instrument calibration method', **select_2_default_options})
+    )
 
     class Meta:
         model = InstrumentCalibrationAction
@@ -89,7 +94,11 @@ class InstrumentCalibrationForm(StandaloneActionForm):
 
 
 class EquipmentDeploymentForm(StandaloneActionForm):
-    method = forms.ModelChoiceField(queryset=Method.objects.equipment_deployment_methods(), widget=Select2)
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.equipment_deployment_methods(),
+        widget=Select2(
+            select2attrs={'placeholder': 'Choose the equipment deployment method', **select_2_default_options})
+    )
 
     class Meta:
         model = EquipmentDeploymentAction
@@ -104,7 +113,10 @@ class EquipmentDeploymentForm(StandaloneActionForm):
 
 
 class InstrumentDeploymentForm(StandaloneActionForm):
-    method = forms.ModelChoiceField(queryset=Method.objects.instrument_deployment_methods(), widget=Select2)
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.instrument_deployment_methods(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the instrument deployment method', **select_2_default_options})
+    )
 
     class Meta:
         model = InstrumentDeploymentAction
@@ -155,6 +167,26 @@ class ResultForm(forms.ModelForm):
         }
 
 
+class SamplingFeatureForm(forms.ModelForm):
+    class Meta:
+        model = SamplingFeature
+        fields = '__all__'
+        widgets = {
+            'sampling_feature_geo_type': Select2(select2attrs={'placeholder': 'Choose the site\'s geo-type', **select_2_default_options}),
+            'elevation_datum': Select2(select2attrs={'placeholder': 'Choose the elevation datum', **select_2_default_options}),
+        }
+
+
+class SiteForm(forms.ModelForm):
+    class Meta:
+        model = Site
+        fields = '__all__'
+        widgets = {
+            'site_type': Select2(select2attrs={'placeholder': 'Choose the site type', **select_2_default_options}),
+            'spatial_reference': Select2(select2attrs={'placeholder': 'Choose the spatial reference', **select_2_default_options})
+        }
+
+
 class MethodForm(forms.ModelForm):
     class Meta:
         model = Method
@@ -162,4 +194,74 @@ class MethodForm(forms.ModelForm):
         widgets = {
             'method_type': Select2(select2attrs={'placeholder': 'Choose the method type', **select_2_default_options}),
             'organization': Select2(select2attrs={'placeholder': 'Choose the organization', **select_2_default_options}),
+        }
+
+
+class ActionByForm(forms.ModelForm):
+    class Meta:
+        model = ActionBy
+        fields = '__all__'
+        widgets = {
+            'affiliation': Select2(select2attrs={'placeholder': 'Choose the affiliated person', **select_2_default_options}),
+        }
+
+
+class CalibrationActionForm(forms.ModelForm):
+    class Meta:
+        model = CalibrationAction
+        fields = '__all__'
+        widgets = {
+            'instrument_output_variable': Select2(select2attrs={'placeholder': 'Choose the instrument output variable', **select_2_default_options}),
+        }
+
+
+class EquipmentUsedForm(forms.ModelForm):
+    class Meta:
+        model = EquipmentUsed
+        fields = ['equipment']
+        widgets = {
+            'equipment': Select2(select2attrs={'placeholder': 'Choose the equipment used', **select_2_default_options}),
+        }
+
+
+class PersonForm(forms.ModelForm):
+    class Meta:
+        model = People
+        fields = '__all__'
+
+
+class AffiliationForm(forms.ModelForm):
+    class Meta:
+        model = Affiliation
+        fields = '__all__'
+        widgets = {
+            'organization': Select2(select2attrs={'placeholder': 'Choose the affliated organization', **select_2_default_options}),
+        }
+
+
+class OrganizationForm(forms.ModelForm):
+    class Meta:
+        model = Organization
+        fields = '__all__'
+        widgets = {
+            'organization_type': Select2(select2attrs={'placeholder': 'Choose the organization type', **select_2_default_options}),
+            'parent_organization': Select2(select2attrs={'placeholder': 'Choose the parent organization', **select_2_default_options}),
+        }
+
+
+class CalibrationReferenceEquipmentForm(forms.ModelForm):
+    class Meta:
+        model = CalibrationReferenceEquipment
+        fields = '__all__'
+        widgets = {
+            'equipment': Select2(select2attrs={'placeholder': 'Choose the reference equipment', **select_2_default_options}),
+        }
+
+
+class CalibrationStandardForm(forms.ModelForm):
+    class Meta:
+        model = CalibrationStandard
+        fields = ['reference_material']
+        widgets = {
+            'reference_material': Select2(select2attrs={'placeholder': 'Choose the reference material', **select_2_default_options}),
         }

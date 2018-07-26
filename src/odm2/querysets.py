@@ -34,7 +34,7 @@ class MethodQuerySet(ODM2QuerySet):
     def equipment_deployment_methods(self):
         return self.filter(method_type='Equipment deployment')
 
-    def calibration_methods(self):
+    def instrument_calibration_methods(self):
         return self.filter(method_type='Instrument calibration')
 
 

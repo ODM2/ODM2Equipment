@@ -1,7 +1,9 @@
 from django.contrib import admin
 from nested_admin.nested import NestedStackedInline, NestedTabularInline
 
-from equipment_inventory.forms import SiteVisitFeatureActionForm, FeatureActionForm, ResultForm
+from equipment_inventory.forms import SiteVisitFeatureActionForm, FeatureActionForm, ResultForm, SiteForm, ActionByForm, \
+    EquipmentUsedForm, AffiliationForm, CalibrationActionForm, CalibrationReferenceEquipmentForm, \
+    CalibrationStandardForm
 from odm2.models import CalibrationAction, Site, ActionBy, EquipmentUsed, FeatureAction, Result, Affiliation, Equipment, \
     CalibrationStandard, CalibrationReferenceEquipment
 
@@ -29,6 +31,7 @@ class InstrumentFeatureActionInline(FeatureActionInline):
 
 
 class SingleEquipmentUsedInline(NestedStackedInline):
+    form = EquipmentUsedForm
     model = EquipmentUsed
     can_delete = False
     max_num = 1
@@ -36,36 +39,43 @@ class SingleEquipmentUsedInline(NestedStackedInline):
 
 
 class MultipleEquipmentUsedInline(NestedStackedInline):
+    form = EquipmentUsedForm
     model = EquipmentUsed
     min_num = 1
     extra = 0
 
 
 class ActionByInline(NestedTabularInline):
+    form = ActionByForm
     model = ActionBy
     extra = 1
 
 
 class CalibrationReferenceEquipmentInline(NestedTabularInline):
+    form = CalibrationReferenceEquipmentForm
     model = CalibrationReferenceEquipment
     extra = 0
 
 
 class CalibrationStandardInline(NestedTabularInline):
+    form = CalibrationStandardForm
     model = CalibrationStandard
     extra = 0
 
 
 class CalibrationActionInline(NestedStackedInline):
     inlines = [CalibrationReferenceEquipmentInline, CalibrationStandardInline]
+    form = CalibrationActionForm
     model = CalibrationAction
     can_delete = False
 
 
 class AffiliationInline(admin.StackedInline):
+    form = AffiliationForm
     model = Affiliation
     extra = 0
 
 
 class SiteInline(admin.StackedInline):
+    form = SiteForm
     model = Site

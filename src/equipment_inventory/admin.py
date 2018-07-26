@@ -1,22 +1,21 @@
 from django.contrib import admin
-from nested_admin.nested import NestedModelAdmin, NestedTabularInline, NestedStackedInline
+from nested_admin.nested import NestedModelAdmin
 
 from equipment_inventory.admin_inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
     SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
     MultipleEquipmentUsedInline, CalibrationActionInline
-from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
-    InstrumentDeploymentForm, ResultForm, FeatureActionForm, SiteVisitFeatureActionForm, InstrumentCalibrationForm, \
-    MethodForm
+from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, MethodForm, \
+    InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.admin_helper import StandaloneActionAdminMixin
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
-    CalibrationStandard, Site, SamplingFeature, Affiliation, FeatureAction, EquipmentUsed, ActionBy
+    CalibrationStandard, SamplingFeature
 
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    pass
+    form = OrganizationForm
 
 
 @admin.register(Equipment)
@@ -36,6 +35,7 @@ class InstrumentOutputVariableAdmin(admin.ModelAdmin):
 
 @admin.register(People)
 class PeopleAdmin(admin.ModelAdmin):
+    form = PersonForm
     inlines = [AffiliationInline]
 
 
@@ -96,5 +96,6 @@ class GenericActionAdmin(admin.ModelAdmin):
 
 @admin.register(SamplingFeature)
 class SamplingFeatureAdmin(admin.ModelAdmin):
+    form = SamplingFeatureForm
     inlines = [SiteInline, ]
     exclude = ('sampling_feature_type', )
