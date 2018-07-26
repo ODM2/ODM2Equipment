@@ -37,6 +37,9 @@ class MethodQuerySet(ODM2QuerySet):
     def instrument_calibration_methods(self):
         return self.filter(method_type='Instrument calibration')
 
+    def generic_action_methods(self):
+        return self.exclude(method_type__in=['Equipment deployment', 'Instrument deployment', 'Instrument calibration', 'Field activity'])
+
 
 class ActionQuerySet(ODM2QuerySet):
     def deployments(self):
@@ -55,7 +58,7 @@ class ActionQuerySet(ODM2QuerySet):
         return self.filter(action_type='Instrument calibration')
 
     def generic_actions(self):
-        return self.exclude(action_type__in=['Equipment deployment', 'Instrument deployment', 'Instrument calibration', 'Site visit'])
+        return self.exclude(action_type__in=['Equipment deployment', 'Instrument deployment', 'Instrument calibration', 'Field activity'])
 
     def with_parent_visits(self):
         related_action_model = [

@@ -9,9 +9,9 @@ from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, Eq
     ReferenceMaterialForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
-from odm2.admin_helper import StandaloneActionAdminMixin
+from equipment_inventory.admin_helpers import StandaloneActionAdminMixin
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
-    CalibrationStandard, SamplingFeature, ReferenceMaterial
+    SamplingFeature, ReferenceMaterial
 
 
 @admin.register(Organization)
@@ -92,8 +92,9 @@ class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
 
 
 @admin.register(GenericAction)
-class GenericActionAdmin(admin.ModelAdmin):
+class GenericActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = GenericActionForm
+    inlines = [MultipleEquipmentUsedInline, FeatureActionInline]
 
 
 @admin.register(SamplingFeature)

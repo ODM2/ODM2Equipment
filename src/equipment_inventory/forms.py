@@ -38,25 +38,21 @@ class StandaloneActionForm(forms.ModelForm):
             self.fields['parent_site_visit'].initial = self.instance.parent_site_visit
 
 
-class GenericActionForm(forms.ModelForm):
-    site_visit = forms.ModelChoiceField(
-        queryset=Action.objects.site_visits(),
-        widget=Select2(select2attrs={'placeholder': 'Choose a Site Visit', **select_2_default_options})
-    )
+class GenericActionForm(StandaloneActionForm):
     action_type = forms.ModelChoiceField(
         queryset=ActionType.objects.generic_action_types(),
         widget=Select2(select2attrs={'placeholder': 'Choose the action type (or not.)', **select_2_default_options})
     )
-
-    equipment_used = forms.ModelMultipleChoiceField(
-        queryset=Equipment.objects.all(),
-        widget=Select2Multiple(select2attrs={'placeholder': 'Choose the equipment used in this deployment'})
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.generic_action_methods(),
+        widget=Select2(
+            select2attrs={'placeholder': 'Choose the instrument calibration method', **select_2_default_options})
     )
 
     class Meta:
         model = GenericAction
         fields = [
-            'site_visit',
+            'parent_site_visit',
             'action_type',
             'method',
             'begin_datetime',
@@ -64,12 +60,8 @@ class GenericActionForm(forms.ModelForm):
             'end_datetime',
             'end_datetime_utc_offset',
             'action_description',
-            'action_file_link',
-            'equipment_used'
+            'action_file_link'
         ]
-        widgets = {
-            'method': Select2()
-        }
 
 
 class InstrumentCalibrationForm(StandaloneActionForm):

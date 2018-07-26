@@ -35,7 +35,8 @@ class StandaloneActionAdminMixin(object):
             form.instance.related_actions.create(relationship_type_id='Is child of', related_action=parent_site_visit)
 
     def save_model(self, request, obj, form, change):
-        obj.action_type_id = self.action_type
+        if not obj.action_type_id:
+            obj.action_type_id = self.action_type
         obj.save()
 
     def save_related(self, request, form, formsets, change):
