@@ -13,7 +13,7 @@ from odm2.querysets import AffiliationQuerySet, RelatedActionManager, ResultMana
     EquipmentManager, CalibrationReferenceEquipmentManager, EquipmentUsedManager, MaintenanceActionManager, \
     RelatedEquipmentManager, CalibrationActionManager, ODM2QuerySet, ActionQuerySet, ActionByQuerySet, \
     FeatureActionQuerySet, TimeSeriesValuesQuerySet, EquipmentModelQuerySet, OrganizationQuerySet, ActionTypeQuerySet, \
-    EquipmentQuerySet
+    EquipmentQuerySet, MethodQuerySet
 
 
 # TODO: function to handle the file upload folder for file fields.
@@ -494,6 +494,8 @@ class Method(ODM2Model):
     annotations = models.ManyToManyField('Annotation', related_name='annotated_methods', through='MethodAnnotation')
     extension_property_values = models.ManyToManyField('ExtensionProperty', related_name='methods', through='MethodExtensionPropertyValue')
     external_identifiers = models.ManyToManyField('ExternalIdentifierSystem', related_name='methods', through='MethodExternalIdentifier')
+
+    objects = MethodQuerySet.as_manager()
 
     def __str__(self):
         return '%s (%s)' % (self.method_name, self.method_type_id)

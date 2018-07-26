@@ -31,6 +31,9 @@ class MethodQuerySet(ODM2QuerySet):
     def instrument_deployment_methods(self):
         return self.filter(method_type='Instrument deployment')
 
+    def equipment_deployment_methods(self):
+        return self.filter(method_type='Equipment deployment')
+
 
 class ActionQuerySet(ODM2QuerySet):
     def deployments(self):

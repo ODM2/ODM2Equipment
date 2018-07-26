@@ -60,11 +60,6 @@ class CalibrationStandardAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(EquipmentDeploymentAction)
-class EquipmentDeploymentAdmin(admin.ModelAdmin):
-    form = EquipmentDeploymentForm
-
-
 class ResultInline(NestedTabularInline):
     initial_fields = {'result_type': 'Time series coverage'}
     model = Result
@@ -73,19 +68,19 @@ class ResultInline(NestedTabularInline):
     min_num = 1
 
 
-class SiteVisitFeatureActionInline(NestedStackedInline):
-    model = FeatureAction
-    form = SiteVisitFeatureActionForm
-    can_delete = False
-    max_num = 1
-
-
-class FeatureActionInline(NestedTabularInline):
-    model = FeatureAction
-    inlines = [ResultInline, ]
+class FeatureActionInline(NestedStackedInline):
     form = FeatureActionForm
+    model = FeatureAction
     can_delete = False
     max_num = 1
+
+
+class SiteVisitFeatureActionInline(FeatureActionInline):
+    form = SiteVisitFeatureActionForm
+
+
+class InstrumentFeatureActionInline(FeatureActionInline):
+    inlines = [ResultInline, ]
 
 
 class SingleEquipmentUsedInline(NestedStackedInline):
@@ -110,11 +105,18 @@ class SiteVisitActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
         super(SiteVisitActionAdmin, self).save_model(request, obj, form, change)
 
 
+@admin.register(EquipmentDeploymentAction)
+class EquipmentDeploymentAdmin(StandaloneActionAdminMixin, admin.ModelAdmin):
+    form = EquipmentDeploymentForm
+    action_type = 'Equipment deployment'
+    inlines = [SingleEquipmentUsedInline, FeatureActionInline]
+
+
 @admin.register(InstrumentDeploymentAction)
 class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = InstrumentDeploymentForm
     action_type = 'Instrument deployment'
-    inlines = [SingleEquipmentUsedInline, FeatureActionInline]
+    inlines = [SingleEquipmentUsedInline, InstrumentFeatureActionInline]
 
     class Media:
         css = {'all': ('equipment_inventory/css/form-style.css',)}

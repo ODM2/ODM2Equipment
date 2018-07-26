@@ -6,8 +6,7 @@ from easy_select2.widgets import Select2, Select2Multiple
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
-    ProcessingLevel, FeatureAction
-
+    ProcessingLevel, FeatureAction, Method
 
 select_2_default_options = {
     'allowClear': True,
@@ -72,33 +71,24 @@ class GenericActionForm(forms.ModelForm):
         }
 
 
-class EquipmentDeploymentForm(forms.ModelForm):
-    site_visit = forms.ModelChoiceField(
-        queryset=Action.objects.site_visits(),
-        widget=Select2(select2attrs={'placeholder': 'Choose a Site Visit', **select_2_default_options})
-    )
-    equipment_used = forms.ModelChoiceField(
-        queryset=Equipment.objects.non_instruments(),
-        widget=Select2(select2attrs={'placeholder': 'Choose the equipment used in this deployment', **select_2_default_options})
-    )
+class EquipmentDeploymentForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(queryset=Method.objects.equipment_deployment_methods(), widget=Select2)
 
     class Meta:
         model = EquipmentDeploymentAction
         fields = [
-            'site_visit',
+            'parent_site_visit',
             'method',
             'begin_datetime',
             'begin_datetime_utc_offset',
             'action_description',
-            'action_file_link',
-            'equipment_used'
+            'action_file_link'
         ]
-        widgets = {
-            'method': Select2()
-        }
 
 
 class InstrumentDeploymentForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(queryset=Method.objects.instrument_deployment_methods(), widget=Select2)
+
     class Meta:
         model = InstrumentDeploymentAction
         fields = [
@@ -109,9 +99,6 @@ class InstrumentDeploymentForm(StandaloneActionForm):
             'action_description',
             'action_file_link',
         ]
-        widgets = {
-            'method': Select2()
-        }
 
 
 class FeatureActionForm(forms.ModelForm):
