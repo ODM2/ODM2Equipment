@@ -6,7 +6,7 @@ from equipment_inventory.admin_inlines import SiteVisitFeatureActionInline, Acti
     MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, MethodForm, \
     InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm, \
-    ReferenceMaterialForm
+    ReferenceMaterialForm, EquipmentForm, EquipmentModelForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from equipment_inventory.admin_helpers import StandaloneActionAdminMixin
@@ -21,12 +21,12 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    pass
+    form = EquipmentForm
 
 
 @admin.register(EquipmentModel)
 class EquipmentModelAdmin(admin.ModelAdmin):
-    pass
+    form = EquipmentModelForm
 
 
 @admin.register(InstrumentOutputVariable)

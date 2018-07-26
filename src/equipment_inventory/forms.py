@@ -7,7 +7,8 @@ from equipment_inventory.models import SiteVisitAction, GenericAction, Equipment
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
     ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
-    Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue
+    Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue, \
+    EquipmentModel
 
 select_2_default_options = {
     'allowClear': True,
@@ -276,4 +277,25 @@ class ReferenceMaterialValueForm(forms.ModelForm):
         widgets = {
             'variable': Select2(select2attrs={'placeholder': 'Choose the variable', **select_2_default_options}),
             'unit': Select2(select2attrs={'placeholder': 'Choose the units', **select_2_default_options}),
+        }
+
+
+class EquipmentForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = '__all__'
+        widgets = {
+            'equipment_type': Select2(select2attrs={'placeholder': 'Choose the equipment type', **select_2_default_options}),
+            'equipment_model': Select2(select2attrs={'placeholder': 'Choose the equipment model', **select_2_default_options}),
+            'equipment_owner': Select2(select2attrs={'placeholder': 'Choose the owner', **select_2_default_options}),
+            'equipment_vendor': Select2(select2attrs={'placeholder': 'Choose the vendor', **select_2_default_options}),
+        }
+
+
+class EquipmentModelForm(forms.ModelForm):
+    class Meta:
+        model = EquipmentModel
+        fields = '__all__'
+        widgets = {
+            'model_manufacturer': Select2(select2attrs={'placeholder': 'Choose the model manufacturer', **select_2_default_options}),
         }
