@@ -7,7 +7,7 @@ from equipment_inventory.models import SiteVisitAction, GenericAction, Equipment
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
     ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
-    Organization, CalibrationReferenceEquipment, CalibrationStandard
+    Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue
 
 select_2_default_options = {
     'allowClear': True,
@@ -264,4 +264,24 @@ class CalibrationStandardForm(forms.ModelForm):
         fields = ['reference_material']
         widgets = {
             'reference_material': Select2(select2attrs={'placeholder': 'Choose the reference material', **select_2_default_options}),
+        }
+
+
+class ReferenceMaterialForm(forms.ModelForm):
+    class Meta:
+        model = ReferenceMaterial
+        exclude = ['reference_material_expiration_date', 'sampling_feature', 'external_identifiers']
+        widgets = {
+            'reference_material_medium': Select2(select2attrs={'placeholder': 'Choose the medium', **select_2_default_options}),
+            'reference_material_organization': Select2(select2attrs={'placeholder': 'Choose the organization ', **select_2_default_options}),
+        }
+
+
+class ReferenceMaterialValueForm(forms.ModelForm):
+    class Meta:
+        model = ReferenceMaterialValue
+        exclude = ['citation']
+        widgets = {
+            'variable': Select2(select2attrs={'placeholder': 'Choose the variable', **select_2_default_options}),
+            'unit': Select2(select2attrs={'placeholder': 'Choose the units', **select_2_default_options}),
         }

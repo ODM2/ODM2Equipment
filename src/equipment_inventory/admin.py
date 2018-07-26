@@ -3,14 +3,15 @@ from nested_admin.nested import NestedModelAdmin
 
 from equipment_inventory.admin_inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
     SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
-    MultipleEquipmentUsedInline, CalibrationActionInline
+    MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, MethodForm, \
-    InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm
+    InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm, \
+    ReferenceMaterialForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.admin_helper import StandaloneActionAdminMixin
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
-    CalibrationStandard, SamplingFeature
+    CalibrationStandard, SamplingFeature, ReferenceMaterial
 
 
 @admin.register(Organization)
@@ -49,9 +50,10 @@ class ResultAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(CalibrationStandard)
-class CalibrationStandardAdmin(admin.ModelAdmin):
-    pass
+@admin.register(ReferenceMaterial)
+class ReferenceMaterialAdmin(admin.ModelAdmin):
+    form = ReferenceMaterialForm
+    inlines = [ReferenceMaterialValueInline]
 
 
 @admin.register(SiteVisitAction)
@@ -97,5 +99,7 @@ class GenericActionAdmin(admin.ModelAdmin):
 @admin.register(SamplingFeature)
 class SamplingFeatureAdmin(admin.ModelAdmin):
     form = SamplingFeatureForm
-    inlines = [SiteInline, ]
+    inlines = [SiteInline]
     exclude = ('sampling_feature_type', )
+
+
