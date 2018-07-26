@@ -1,5 +1,5 @@
 from equipment_inventory.managers import SiteVisitActionManager, GenericActionManager, EquipmentDeploymentManager, \
-    InstrumentDeploymentManager, InstrumentCalibrationManager
+    InstrumentDeploymentManager, InstrumentCalibrationManager, EquipmentMaintenanceManager
 from odm2.models import Action
 
 
@@ -33,6 +33,13 @@ class InstrumentDeploymentAction(Action):
 
 class InstrumentCalibrationAction(Action):
     objects = InstrumentCalibrationManager()
+
+    class Meta:
+        proxy = True
+
+
+class EquipmentMaintenanceAction(Action):
+    objects = EquipmentMaintenanceManager()
 
     class Meta:
         proxy = True

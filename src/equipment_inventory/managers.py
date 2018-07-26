@@ -26,3 +26,8 @@ class InstrumentDeploymentManager(models.Manager):
 class InstrumentCalibrationManager(models.Manager):
     def get_queryset(self):
         return Action.objects.instrument_calibrations().with_parent_visits()
+
+
+class EquipmentMaintenanceManager(models.Manager):
+    def get_queryset(self):
+        return Action.objects.equipment_maintenance().with_parent_visits()

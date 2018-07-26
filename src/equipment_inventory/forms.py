@@ -4,11 +4,11 @@ from django.views.generic.edit import ModelFormMixin
 from easy_select2.widgets import Select2, Select2Multiple
 
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction, InstrumentCalibrationAction
+    InstrumentDeploymentAction, InstrumentCalibrationAction, EquipmentMaintenanceAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
     ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
     Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue, \
-    EquipmentModel
+    EquipmentModel, MaintenanceAction
 
 select_2_default_options = {
     'allowClear': True,
@@ -100,6 +100,26 @@ class EquipmentDeploymentForm(StandaloneActionForm):
             'method',
             'begin_datetime',
             'begin_datetime_utc_offset',
+            'action_description',
+            'action_file_link'
+        ]
+
+
+class FactoryServiceForm(forms.ModelForm):
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.equipment_maintenance_methods(),
+        widget=Select2(
+            select2attrs={'placeholder': 'Choose the equipment maintenance method', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentDeploymentAction
+        fields = [
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'end_datetime',
+            'end_datetime_utc_offset',
             'action_description',
             'action_file_link'
         ]
@@ -206,6 +226,12 @@ class CalibrationActionForm(forms.ModelForm):
         widgets = {
             'instrument_output_variable': Select2(select2attrs={'placeholder': 'Choose the instrument output variable', **select_2_default_options}),
         }
+
+
+class FactoryServiceMaintenanceActionForm(forms.ModelForm):
+    class Meta:
+        model = MaintenanceAction
+        exclude = ['is_factory_service']
 
 
 class EquipmentUsedForm(forms.ModelForm):
