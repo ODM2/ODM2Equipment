@@ -1,15 +1,13 @@
 from django.contrib import admin
-
-# Register your models here.
-from django.contrib import admin
-from django.db import models
-from django import forms
 from nested_admin.nested import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
+from equipment_inventory.admin_inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
+    SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
+    MultipleEquipmentUsedInline, CalibrationActionInline
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
-    InstrumentDeploymentForm, ResultForm, FeatureActionForm, SiteVisitFeatureActionForm
+    InstrumentDeploymentForm, ResultForm, FeatureActionForm, SiteVisitFeatureActionForm, InstrumentCalibrationForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction
+    InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.admin_helper import StandaloneActionAdminMixin
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
     CalibrationStandard, Site, SamplingFeature, Affiliation, FeatureAction, EquipmentUsed, ActionBy
@@ -35,11 +33,6 @@ class InstrumentOutputVariableAdmin(admin.ModelAdmin):
     pass
 
 
-class AffiliationInline(admin.StackedInline):
-    model = Affiliation
-    extra = 0
-
-
 @admin.register(People)
 class PeopleAdmin(admin.ModelAdmin):
     inlines = [AffiliationInline]
@@ -58,40 +51,6 @@ class ResultAdmin(admin.ModelAdmin):
 @admin.register(CalibrationStandard)
 class CalibrationStandardAdmin(admin.ModelAdmin):
     pass
-
-
-class ResultInline(NestedTabularInline):
-    initial_fields = {'result_type': 'Time series coverage'}
-    model = Result
-    form = ResultForm
-    extra = 0
-    min_num = 1
-
-
-class FeatureActionInline(NestedStackedInline):
-    form = FeatureActionForm
-    model = FeatureAction
-    can_delete = False
-    max_num = 1
-
-
-class SiteVisitFeatureActionInline(FeatureActionInline):
-    form = SiteVisitFeatureActionForm
-
-
-class InstrumentFeatureActionInline(FeatureActionInline):
-    inlines = [ResultInline, ]
-
-
-class SingleEquipmentUsedInline(NestedStackedInline):
-    model = EquipmentUsed
-    can_delete = False
-    max_num = 1
-
-
-class ActionByInline(NestedTabularInline):
-    model = ActionBy
-    extra = 1
 
 
 @admin.register(SiteVisitAction)
@@ -122,13 +81,16 @@ class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
         css = {'all': ('equipment_inventory/css/form-style.css',)}
 
 
+@admin.register(InstrumentCalibrationAction)
+class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
+    form = InstrumentCalibrationForm
+    action_type = 'Instrument calibration'
+    inlines = [MultipleEquipmentUsedInline, CalibrationActionInline, FeatureActionInline]
+
+
 @admin.register(GenericAction)
 class GenericActionAdmin(admin.ModelAdmin):
     form = GenericActionForm
-
-
-class SiteInline(admin.StackedInline):
-    model = Site
 
 
 @admin.register(SamplingFeature)

@@ -4,9 +4,9 @@ from django.views.generic.edit import ModelFormMixin
 from easy_select2.widgets import Select2, Select2Multiple
 
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction
+    InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
-    ProcessingLevel, FeatureAction, Method
+    ProcessingLevel, FeatureAction, Method, CalibrationAction
 
 select_2_default_options = {
     'allowClear': True,
@@ -69,6 +69,23 @@ class GenericActionForm(forms.ModelForm):
         widgets = {
             'method': Select2()
         }
+
+
+class InstrumentCalibrationForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(queryset=Method.objects.equipment_deployment_methods(), widget=Select2)
+
+    class Meta:
+        model = InstrumentCalibrationAction
+        fields = [
+            'parent_site_visit',
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'end_datetime',
+            'end_datetime_utc_offset',
+            'action_description',
+            'action_file_link'
+        ]
 
 
 class EquipmentDeploymentForm(StandaloneActionForm):
