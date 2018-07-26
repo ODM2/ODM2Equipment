@@ -6,7 +6,7 @@ from easy_select2.widgets import Select2, Select2Multiple
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
-    ProcessingLevel, FeatureAction, Method, CalibrationAction
+    ProcessingLevel, FeatureAction, Method, CalibrationAction, Model
 
 select_2_default_options = {
     'allowClear': True,
@@ -119,7 +119,7 @@ class InstrumentDeploymentForm(StandaloneActionForm):
 
 
 class FeatureActionForm(forms.ModelForm):
-    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False, widget=forms.HiddenInput)
+    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = FeatureAction
@@ -127,7 +127,11 @@ class FeatureActionForm(forms.ModelForm):
 
 
 class SiteVisitFeatureActionForm(forms.ModelForm):
-    sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False)
+    sampling_feature = forms.ModelChoiceField(
+        queryset=SamplingFeature.objects.all(),
+        required=False,
+        widget=Select2(select2attrs={'placeholder': 'Choose the site', **select_2_default_options})
+    )
 
     class Meta:
         model = FeatureAction
@@ -148,4 +152,14 @@ class ResultForm(forms.ModelForm):
             'unit': Select2(select2attrs={'placeholder': 'Choose the units', **select_2_default_options}),
             'processing_level': Select2(select2attrs={'placeholder': 'Choose the processing level', **select_2_default_options}),
             'sampled_medium': Select2(select2attrs={'placeholder': 'Choose the sampled medium', **select_2_default_options})
+        }
+
+
+class MethodForm(forms.ModelForm):
+    class Meta:
+        model = Method
+        fields = '__all__'
+        widgets = {
+            'method_type': Select2(select2attrs={'placeholder': 'Choose the method type', **select_2_default_options}),
+            'organization': Select2(select2attrs={'placeholder': 'Choose the organization', **select_2_default_options}),
         }

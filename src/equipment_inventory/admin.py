@@ -5,7 +5,8 @@ from equipment_inventory.admin_inlines import SiteVisitFeatureActionInline, Acti
     SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
     MultipleEquipmentUsedInline, CalibrationActionInline
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, \
-    InstrumentDeploymentForm, ResultForm, FeatureActionForm, SiteVisitFeatureActionForm, InstrumentCalibrationForm
+    InstrumentDeploymentForm, ResultForm, FeatureActionForm, SiteVisitFeatureActionForm, InstrumentCalibrationForm, \
+    MethodForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction
 from odm2.admin_helper import StandaloneActionAdminMixin
@@ -40,7 +41,7 @@ class PeopleAdmin(admin.ModelAdmin):
 
 @admin.register(Method)
 class MethodAdmin(admin.ModelAdmin):
-    pass
+    form = MethodForm
 
 
 @admin.register(Result)
@@ -78,7 +79,7 @@ class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     inlines = [SingleEquipmentUsedInline, InstrumentFeatureActionInline]
 
     class Media:
-        css = {'all': ('equipment_inventory/css/form-style.css',)}
+        css = {'all': ('equipment_inventory/css/form-style.css', )}
 
 
 @admin.register(InstrumentCalibrationAction)
