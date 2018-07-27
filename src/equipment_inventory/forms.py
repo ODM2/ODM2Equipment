@@ -4,11 +4,12 @@ from django.views.generic.edit import ModelFormMixin
 from easy_select2.widgets import Select2, Select2Multiple
 
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction, InstrumentCalibrationAction, EquipmentMaintenanceAction
+    InstrumentDeploymentAction, InstrumentCalibrationAction, InstrumentRetrievalAction, \
+    EquipmentRetrievalAction, RetrievalRelatedAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
     ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
     Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue, \
-    EquipmentModel, MaintenanceAction, InstrumentOutputVariable
+    EquipmentModel, MaintenanceAction, InstrumentOutputVariable, RelatedAction
 
 select_2_default_options = {
     'allowClear': True,
@@ -143,6 +144,54 @@ class InstrumentDeploymentForm(StandaloneActionForm):
         ]
 
 
+class RelatedDeploymentRetrievalForm(forms.ModelForm):
+    related_action = forms.ModelChoiceField(
+        queryset=Action.objects.deployments(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the deployment', **select_2_default_options}),
+        label='Deployment'
+    )
+
+    class Meta:
+        model = RetrievalRelatedAction
+        exclude = ['relationship_type']
+
+
+class EquipmentRetrievalForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.equipment_retrieval_methods(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the equipment retrieval method', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentRetrievalAction
+        fields = [
+            'parent_site_visit',
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'action_description',
+            'action_file_link',
+        ]
+
+
+class InstrumentRetrievalForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.instrument_retrieval_methods(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the instrument retrieval method', **select_2_default_options})
+    )
+
+    class Meta:
+        model = InstrumentRetrievalAction
+        fields = [
+            'parent_site_visit',
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'action_description',
+            'action_file_link',
+        ]
+
+
 class FeatureActionForm(forms.ModelForm):
     sampling_feature = forms.ModelChoiceField(queryset=SamplingFeature.objects.all(), required=False, widget=forms.HiddenInput())
 
@@ -232,6 +281,28 @@ class FactoryServiceMaintenanceActionForm(forms.ModelForm):
     class Meta:
         model = MaintenanceAction
         exclude = ['is_factory_service']
+
+
+class InstrumentEquipmentUsedForm(forms.ModelForm):
+    equipment = forms.ModelChoiceField(
+        queryset=Equipment.objects.instruments(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the equipment used', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentUsed
+        fields = ['equipment']
+
+
+class NonInstrumentEquipmentUsedForm(forms.ModelForm):
+    equipment = forms.ModelChoiceField(
+        queryset=Equipment.objects.non_instruments(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the equipment used', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentUsed
+        fields = ['equipment']
 
 
 class EquipmentUsedForm(forms.ModelForm):

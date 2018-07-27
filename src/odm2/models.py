@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from odm2.querysets import AffiliationQuerySet, RelatedActionManager, ResultManager, \
+from odm2.querysets import AffiliationQuerySet, RelatedActionQuerySet, ResultManager, \
     DataLoggerFileManager, InstrumentOutputVariableManager, \
     EquipmentManager, CalibrationReferenceEquipmentManager, EquipmentUsedManager, MaintenanceActionManager, \
     RelatedEquipmentManager, CalibrationActionManager, ODM2QuerySet, ActionQuerySet, ActionByQuerySet, \
@@ -677,7 +677,7 @@ class RelatedAction(ObjectRelation):
     action = models.ForeignKey('Action', on_delete=models.CASCADE, related_name='related_actions', db_column='actionid')
     related_action = models.ForeignKey('Action', on_delete=models.CASCADE, related_name='reverse_related_actions', db_column='relatedactionid')
 
-    objects = RelatedActionManager()
+    objects = RelatedActionQuerySet.as_manager()
 
     def __str__(self):
         return '(%s) %s (%s)' % (self.action, self.relationship_type_id, self.related_action)

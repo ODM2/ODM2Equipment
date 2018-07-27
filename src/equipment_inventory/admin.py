@@ -1,15 +1,19 @@
 from django.contrib import admin
 from equipment_inventory.admin_helpers.inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
     SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
-    MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline, FactoryServiceMaintenanceInline
+    MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline, FactoryServiceMaintenanceInline, \
+    RelatedDeploymentRetrievalInline, MultipleIntrumentEquipmentUsedInline, SingleInstrumentEquipmentUsedInline, \
+    SingleNonInstrumentEquipmentUsedInline
 from nested_admin.nested import NestedModelAdmin
 
 from equipment_inventory.admin_helpers.helpers import StandaloneActionAdminMixin
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, MethodForm, \
     InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm, \
-    ReferenceMaterialForm, EquipmentForm, EquipmentModelForm, FactoryServiceForm, InstrumentOutputVariableForm
+    ReferenceMaterialForm, EquipmentForm, EquipmentModelForm, FactoryServiceForm, InstrumentOutputVariableForm, \
+    EquipmentRetrievalForm, InstrumentRetrievalForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction, InstrumentCalibrationAction, EquipmentMaintenanceAction
+    InstrumentDeploymentAction, InstrumentCalibrationAction, EquipmentMaintenanceAction, EquipmentRetrievalAction, \
+    InstrumentRetrievalAction
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
     SamplingFeature, ReferenceMaterial, Variable, Unit
 
@@ -76,24 +80,38 @@ class SiteVisitActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
 class EquipmentDeploymentAdmin(StandaloneActionAdminMixin, admin.ModelAdmin):
     form = EquipmentDeploymentForm
     action_type = 'Equipment deployment'
-    inlines = [SingleEquipmentUsedInline, FeatureActionInline]
+    inlines = [SingleNonInstrumentEquipmentUsedInline, FeatureActionInline]
 
 
 @admin.register(InstrumentDeploymentAction)
 class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = InstrumentDeploymentForm
     action_type = 'Instrument deployment'
-    inlines = [SingleEquipmentUsedInline, InstrumentFeatureActionInline]
+    inlines = [SingleInstrumentEquipmentUsedInline, InstrumentFeatureActionInline]
 
     class Media:
         css = {'all': ('equipment_inventory/css/form-style.css', )}
+
+
+@admin.register(EquipmentRetrievalAction)
+class EquipmentRetrievalAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
+    form = EquipmentRetrievalForm
+    action_type = 'Equipment retrieval'
+    inlines = [RelatedDeploymentRetrievalInline, SingleNonInstrumentEquipmentUsedInline, FeatureActionInline]
+
+
+@admin.register(InstrumentRetrievalAction)
+class InstrumentRetrievalAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
+    form = InstrumentRetrievalForm
+    action_type = 'Instrument retrieval'
+    inlines = [RelatedDeploymentRetrievalInline, SingleInstrumentEquipmentUsedInline, FeatureActionInline]
 
 
 @admin.register(InstrumentCalibrationAction)
 class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = InstrumentCalibrationForm
     action_type = 'Instrument calibration'
-    inlines = [MultipleEquipmentUsedInline, CalibrationActionInline, FeatureActionInline]
+    inlines = [MultipleIntrumentEquipmentUsedInline, CalibrationActionInline, FeatureActionInline]
 
 
 @admin.register(EquipmentMaintenanceAction)
@@ -113,6 +131,3 @@ class GenericActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
 class SamplingFeatureAdmin(admin.ModelAdmin):
     form = SamplingFeatureForm
     inlines = [SiteInline]
-    exclude = ('sampling_feature_type', )
-
-

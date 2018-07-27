@@ -3,9 +3,10 @@ from nested_admin.nested import NestedStackedInline, NestedTabularInline
 
 from equipment_inventory.forms import SiteVisitFeatureActionForm, FeatureActionForm, ResultForm, SiteForm, ActionByForm, \
     EquipmentUsedForm, AffiliationForm, CalibrationActionForm, CalibrationReferenceEquipmentForm, \
-    CalibrationStandardForm, ReferenceMaterialValueForm, FactoryServiceMaintenanceActionForm
-from equipment_inventory.models import EquipmentMaintenanceAction
-from odm2.models import CalibrationAction, Site, ActionBy, EquipmentUsed, FeatureAction, Result, Affiliation, Equipment, \
+    CalibrationStandardForm, ReferenceMaterialValueForm, FactoryServiceMaintenanceActionForm, \
+    InstrumentEquipmentUsedForm, NonInstrumentEquipmentUsedForm, RelatedDeploymentRetrievalForm
+from equipment_inventory.models import RetrievalRelatedAction
+from odm2.models import CalibrationAction, Site, ActionBy, EquipmentUsed, FeatureAction, Result, Affiliation, \
     CalibrationStandard, CalibrationReferenceEquipment, ReferenceMaterialValue, MaintenanceAction
 
 
@@ -39,8 +40,38 @@ class SingleEquipmentUsedInline(NestedStackedInline):
     min_num = 1
 
 
+class SingleInstrumentEquipmentUsedInline(NestedStackedInline):
+    form = InstrumentEquipmentUsedForm
+    model = EquipmentUsed
+    can_delete = False
+    max_num = 1
+    min_num = 1
+
+
+class SingleNonInstrumentEquipmentUsedInline(NestedStackedInline):
+    form = NonInstrumentEquipmentUsedForm
+    model = EquipmentUsed
+    can_delete = False
+    max_num = 1
+    min_num = 1
+
+
 class MultipleEquipmentUsedInline(NestedStackedInline):
     form = EquipmentUsedForm
+    model = EquipmentUsed
+    min_num = 1
+    extra = 0
+
+
+class MultipleIntrumentEquipmentUsedInline(NestedStackedInline):
+    form = InstrumentEquipmentUsedForm
+    model = EquipmentUsed
+    min_num = 1
+    extra = 0
+
+
+class MultipleNonIntrumentEquipmentUsedInline(NestedStackedInline):
+    form = NonInstrumentEquipmentUsedForm
     model = EquipmentUsed
     min_num = 1
     extra = 0
@@ -50,6 +81,16 @@ class ActionByInline(NestedTabularInline):
     form = ActionByForm
     model = ActionBy
     extra = 1
+
+
+class RelatedDeploymentRetrievalInline(NestedStackedInline):
+    form = RelatedDeploymentRetrievalForm
+    model = RetrievalRelatedAction
+    fk_name = 'action'
+    can_delete = False
+    max_num = 1
+    min_num = 1
+    extra = 0
 
 
 class CalibrationReferenceEquipmentInline(NestedTabularInline):
