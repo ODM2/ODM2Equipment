@@ -1,6 +1,7 @@
 from equipment_inventory.managers import SiteVisitActionManager, GenericActionManager, EquipmentDeploymentManager, \
-    InstrumentDeploymentManager, InstrumentCalibrationManager, EquipmentMaintenanceManager
-from odm2.models import Action
+    InstrumentDeploymentManager, InstrumentCalibrationManager, EquipmentMaintenanceManager, InstrumentRetrievalManager, \
+    EquipmentRetrievalManager, RetrievalRelatedActionManager
+from odm2.models import Action, RelatedAction
 
 
 class SiteVisitAction(Action):
@@ -31,6 +32,20 @@ class InstrumentDeploymentAction(Action):
         proxy = True
 
 
+class EquipmentRetrievalAction(Action):
+    objects = EquipmentRetrievalManager()
+
+    class Meta:
+        proxy = True
+
+
+class InstrumentRetrievalAction(Action):
+    objects = InstrumentRetrievalManager()
+
+    class Meta:
+        proxy = True
+
+
 class InstrumentCalibrationAction(Action):
     objects = InstrumentCalibrationManager()
 
@@ -40,6 +55,13 @@ class InstrumentCalibrationAction(Action):
 
 class EquipmentMaintenanceAction(Action):
     objects = EquipmentMaintenanceManager()
+
+    class Meta:
+        proxy = True
+
+
+class RetrievalRelatedAction(RelatedAction):
+    objects = RetrievalRelatedActionManager()
 
     class Meta:
         proxy = True
