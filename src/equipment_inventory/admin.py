@@ -1,15 +1,15 @@
 from django.contrib import admin
+from equipment_inventory.admin_helpers.inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
+    SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
+    MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline, FactoryServiceMaintenanceInline
 from nested_admin.nested import NestedModelAdmin
 
-from equipment_inventory.admin_inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
-    SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
-    MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline
+from equipment_inventory.admin_helpers.helpers import StandaloneActionAdminMixin
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, MethodForm, \
     InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm, \
-    ReferenceMaterialForm
+    ReferenceMaterialForm, EquipmentForm, EquipmentModelForm, FactoryServiceForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction, InstrumentCalibrationAction
-from equipment_inventory.admin_helpers import StandaloneActionAdminMixin
+    InstrumentDeploymentAction, InstrumentCalibrationAction, EquipmentMaintenanceAction
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
     SamplingFeature, ReferenceMaterial
 
@@ -21,12 +21,12 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    pass
+    form = EquipmentForm
 
 
 @admin.register(EquipmentModel)
 class EquipmentModelAdmin(admin.ModelAdmin):
-    pass
+    form = EquipmentModelForm
 
 
 @admin.register(InstrumentOutputVariable)
@@ -43,11 +43,6 @@ class PeopleAdmin(admin.ModelAdmin):
 @admin.register(Method)
 class MethodAdmin(admin.ModelAdmin):
     form = MethodForm
-
-
-@admin.register(Result)
-class ResultAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(ReferenceMaterial)
@@ -89,6 +84,13 @@ class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = InstrumentCalibrationForm
     action_type = 'Instrument calibration'
     inlines = [MultipleEquipmentUsedInline, CalibrationActionInline, FeatureActionInline]
+
+
+@admin.register(EquipmentMaintenanceAction)
+class FactoryServiceAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
+    form = FactoryServiceForm
+    action_type = 'Equipment maintenance'
+    inlines = [SingleEquipmentUsedInline, FactoryServiceMaintenanceInline]
 
 
 @admin.register(GenericAction)

@@ -1,4 +1,4 @@
-from odm2.models import Result, FeatureAction
+from odm2.models import Result, FeatureAction, MaintenanceAction
 
 
 def get_action_sampling_feature(action):
@@ -19,11 +19,17 @@ def pre_save_feature_action(request, form, formset, formset_form, parent_site_vi
         pass
 
 
+def pre_save_factory_service(request, form, formset, formset_form, parent_site_visit, change):
+    if not formset_form.instance.pk:
+        formset_form.instance.is_factory_service = True
+
+
 class StandaloneActionAdminMixin(object):
     action_type = None
     formset_pre_save = {
         Result: pre_save_result,
-        FeatureAction: pre_save_feature_action
+        FeatureAction: pre_save_feature_action,
+        MaintenanceAction: pre_save_factory_service
     }
 
     def save_parent_relationship(self, form, change, parent_site_visit):

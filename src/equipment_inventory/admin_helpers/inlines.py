@@ -3,9 +3,10 @@ from nested_admin.nested import NestedStackedInline, NestedTabularInline
 
 from equipment_inventory.forms import SiteVisitFeatureActionForm, FeatureActionForm, ResultForm, SiteForm, ActionByForm, \
     EquipmentUsedForm, AffiliationForm, CalibrationActionForm, CalibrationReferenceEquipmentForm, \
-    CalibrationStandardForm, ReferenceMaterialValueForm
+    CalibrationStandardForm, ReferenceMaterialValueForm, FactoryServiceMaintenanceActionForm
+from equipment_inventory.models import EquipmentMaintenanceAction
 from odm2.models import CalibrationAction, Site, ActionBy, EquipmentUsed, FeatureAction, Result, Affiliation, Equipment, \
-    CalibrationStandard, CalibrationReferenceEquipment, ReferenceMaterialValue
+    CalibrationStandard, CalibrationReferenceEquipment, ReferenceMaterialValue, MaintenanceAction
 
 
 class ResultInline(NestedTabularInline):
@@ -67,6 +68,12 @@ class CalibrationActionInline(NestedStackedInline):
     inlines = [CalibrationReferenceEquipmentInline, CalibrationStandardInline]
     form = CalibrationActionForm
     model = CalibrationAction
+    can_delete = False
+
+
+class FactoryServiceMaintenanceInline(NestedStackedInline):
+    form = FactoryServiceMaintenanceActionForm
+    model = MaintenanceAction
     can_delete = False
 
 
