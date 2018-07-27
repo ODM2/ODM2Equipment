@@ -8,7 +8,7 @@ from equipment_inventory.models import SiteVisitAction, GenericAction, Equipment
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
     ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
     Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue, \
-    EquipmentModel, MaintenanceAction
+    EquipmentModel, MaintenanceAction, InstrumentOutputVariable
 
 select_2_default_options = {
     'allowClear': True,
@@ -324,4 +324,16 @@ class EquipmentModelForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'model_manufacturer': Select2(select2attrs={'placeholder': 'Choose the model manufacturer', **select_2_default_options}),
+        }
+
+
+class InstrumentOutputVariableForm(forms.ModelForm):
+    class Meta:
+        model = InstrumentOutputVariable
+        fields = '__all__'
+        widgets = {
+            'model': Select2(select2attrs={'placeholder': 'Choose the model', **select_2_default_options}),
+            'variable': Select2(select2attrs={'placeholder': 'Choose the variable', **select_2_default_options}),
+            'instrument_method': Select2(select2attrs={'placeholder': 'Choose the method', **select_2_default_options}),
+            'instrument_raw_output_unit': Select2(select2attrs={'placeholder': 'Choose the units', **select_2_default_options}),
         }

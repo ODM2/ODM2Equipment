@@ -7,11 +7,21 @@ from nested_admin.nested import NestedModelAdmin
 from equipment_inventory.admin_helpers.helpers import StandaloneActionAdminMixin
 from equipment_inventory.forms import SiteVisitActionForm, GenericActionForm, EquipmentDeploymentForm, MethodForm, \
     InstrumentDeploymentForm, InstrumentCalibrationForm, SamplingFeatureForm, PersonForm, OrganizationForm, \
-    ReferenceMaterialForm, EquipmentForm, EquipmentModelForm, FactoryServiceForm
+    ReferenceMaterialForm, EquipmentForm, EquipmentModelForm, FactoryServiceForm, InstrumentOutputVariableForm
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
     InstrumentDeploymentAction, InstrumentCalibrationAction, EquipmentMaintenanceAction
 from odm2.models import Organization, Equipment, EquipmentModel, InstrumentOutputVariable, People, Method, Result, \
-    SamplingFeature, ReferenceMaterial
+    SamplingFeature, ReferenceMaterial, Variable, Unit
+
+
+@admin.register(Variable)
+class VariableAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Unit)
+class UnitAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Organization)
@@ -31,7 +41,7 @@ class EquipmentModelAdmin(admin.ModelAdmin):
 
 @admin.register(InstrumentOutputVariable)
 class InstrumentOutputVariableAdmin(admin.ModelAdmin):
-    pass
+    form = InstrumentOutputVariableForm
 
 
 @admin.register(People)
