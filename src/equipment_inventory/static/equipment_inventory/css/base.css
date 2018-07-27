@@ -34,7 +34,13 @@ html > body {
 }
 
 @media (max-width: 576px) {
-    .buttons-toolbar .button-link, .buttons-toolbar form, .buttons-toolbar button {
+    .buttons-toolbar.button-link, .buttons-toolbar form, .buttons-toolbar button {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .fullwidth-sm {
         width: 100%;
     }
 }
@@ -91,7 +97,7 @@ html > body {
     /*text-decoration: none;*/
 /*}*/
 
-.buttons-toolbar .button-link, .buttons-toolbar button {
+.buttons-toolbar.button-link, .buttons-toolbar button {
     margin-bottom: 15px;
 }
 
@@ -117,6 +123,10 @@ span.user-info {
     padding-bottom: 10px;
     border-bottom: 1px solid #DDD;
     line-height: 24px;
+}
+
+.page-title .grid {
+    grid-template-columns: auto auto;
 }
 
 .ribbon {
@@ -173,4 +183,16 @@ span.user-info {
     background: #f5f5f5;
     padding: 1.7% 0 5%;
     bottom: 0;
+}
+
+.delete {
+    background: #d9534f;
+    color:#FFF;
+    transition: none;
+}
+
+.delete:hover {
+    background: linear-gradient(to bottom, #C26865 0, #CB3934 100%) repeat-x;
+    border-color: #b92c28;
+    color: #fff;
 }

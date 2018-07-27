@@ -5,8 +5,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment
 from equipment_inventory.models import *
+
 
 class HomeView(TemplateView):
     template_name = 'equipment_inventory/home.html'
@@ -76,3 +77,12 @@ class PeopleDetailView(DetailView):
     slug_url_kwarg = 'person_id'
     slug_field = 'person_id'
 
+
+class CalibrationActionListView(ListView):
+    model = InstrumentCalibrationAction
+    template_name = 'odm2/calibration-action-list.html'
+
+
+class CalibrationActionDetailView(DetailView):
+    model = InstrumentCalibrationAction
+    template_name = 'odm2/calibration-action-detail.html'
