@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 # Create your views here.
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, \
+    CalibrationStandard
 from equipment_inventory.models import *
 
 
@@ -78,7 +80,6 @@ class PeopleDetailView(DetailView):
     slug_field = 'person_id'
 
 
-
 class EquipmentDeploymentsListView(ListView):
     model = EquipmentDeploymentAction
     template_name = 'odm2/equipment-deployments-list.html'
@@ -106,6 +107,7 @@ class InstrumentDeploymentDetailView(DetailView):
     slug_url_kwarg = 'action_id'
     slug_field = 'action_id'
 
+
 class CalibrationActionListView(ListView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-list.html'
@@ -114,4 +116,18 @@ class CalibrationActionListView(ListView):
 class CalibrationActionDetailView(DetailView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-detail.html'
+
+
+class CalibrationStandardsListView(ListView):
+    model = CalibrationStandard
+    template_name = 'odm2/calibration-standards.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        paginator = Paginator(context.get('object_list', []), 25)
+
+        page = self.request.GET.get('page', 1)
+        context.update(object_list=paginator.get_page(page))
+        return context
+
 
