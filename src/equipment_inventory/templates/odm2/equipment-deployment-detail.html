@@ -1,0 +1,99 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    {{ sampling_feature.sampling_feature_name|default_if_none:'' }} {{ sampling_feature.sampling_feature_code }}
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/result-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="{% url 'admin:equipment_inventory_equipmentdeploymentaction_change' deployment.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+                <i class="material-icons center-icon">mode_edit</i> Edit Deployment
+            </a>
+            <button type="button" data-toggle="modal" data-target="#equipmentdeploymentaction-delete-dialog"
+                    style="background: #d9534f; color:#FFF;"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+    <div class="detail-content col-sm-6">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover full-width">
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Code:</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.parent_site_visit.feature_actions.first.sampling_feature.sampling_feature_code }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Site Name:</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.parent_site_visit.feature_actions.first.sampling_feature.sampling_feature_name }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Begin Date Time:</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.begin_datetime }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">End Date Time:</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.end_datetime }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">UTC Offset:</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.begin_datetime_utc_offset }}</td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="detail-content col-sm-6">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover full-width">
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Action Description</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.action_description }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Action link</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.action_file_link }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Currently Deployed</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ deployment.result_datetime }}</td>
+            </tr>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block extra_content %}
+    <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+        <div class="row">
+            <div class="col-12">
+                <h6 class="page-title grid" style="grid-template-columns: auto auto;">
+                    <span>Equipment Used</span>
+                </h6>
+                <div class="buttons-toolbar row">
+                    <div class="col-sm-12 text-left">
+                        <a class="button-link mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="">
+                            New Deployment
+                        </a>
+                        <a class="button-link mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="">
+                            View Deployed Equipment
+                        </a>
+                        <a class="button-link mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="">
+                            View Site Visits
+                        </a>
+                    </div>
+                </div>
+
+                {% include 'includes/equipment-used.template.html' with equipments=deployment.equipment_used.all %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

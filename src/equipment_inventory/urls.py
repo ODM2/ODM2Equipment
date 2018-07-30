@@ -26,5 +26,10 @@ urlpatterns = [
     path('site-visits', SiteVisitListView.as_view(), name='site-visit-list'),
     path('site-visits/<action_id>', SiteVisitDetailView.as_view(), name='site-visit-detail'),
     path('people', PeopleListView.as_view(), name='people-list'),
-    path('people-detail/<person_id>', PeopleDetailView.as_view(), name='people_detail')
+    path('people-detail/<person_id>', PeopleDetailView.as_view(), name='people-detail'),
+    path('equipment-deployments', EquipmentDeploymentsListView.as_view(), name='equipment-deployments-list'),
+    path('instrument-deployments', InstrumentDeploymentsListView.as_view(), name='instrument-deployments-list'),
+    path('equipment-deployment-detail/<action_id>', EquipmentDeploymentDetailView.as_view(), name='equipment-deployment-detail'),
+    path('instrument-deployment-detail/<action_id>', InstrumentDeploymentDetailView.as_view(), name='instrument-deployment-detail'),
+
 ]
