@@ -1,7 +1,5 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-
-# Create your views here.
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -80,6 +78,38 @@ class PeopleDetailView(DetailView):
     slug_field = 'person_id'
 
 
+class ActionDetailView(DetailView):
+    model = Action
+    template_name = 'odm2/action-detail.html'
+    page_title = 'Action Detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(page_title=self.page_title)
+        return context
+
+
+class ActionListView(ListView):
+    model = Action
+
+    default_page_count = 25
+    default_sort_order = '-begin_datetime'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+
+        page = self.request.GET.get('page', 1)
+        per_page = self.request.GET.get('per_page', self.default_page_count)
+        sort_by = self.request.GET.get('sort_by', self.default_sort_order)
+
+        actions = self.object_list.order_by(sort_by)
+
+        paginator = Paginator(actions, per_page)
+        context['actions'] = paginator.get_page(page)
+
+        return context
+
+
 class EquipmentDeploymentsListView(ListView):
     model = EquipmentDeploymentAction
     template_name = 'odm2/equipment-deployments-list.html'
@@ -94,7 +124,7 @@ class EquipmentDeploymentDetailView(DetailView):
     slug_field = 'action_id'
 
 
-class InstrumentDeploymentsListView(ListView):
+class InstrumentDeploymentsListView(ActionListView):
     model = InstrumentDeploymentAction
     template_name = 'odm2/instrument-deployments-list.html'
     context_object_name = 'deployments'
@@ -108,14 +138,26 @@ class InstrumentDeploymentDetailView(DetailView):
     slug_field = 'action_id'
 
 
-class CalibrationActionListView(ListView):
+class CalibrationActionListView(ActionListView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-list.html'
 
 
-class CalibrationActionDetailView(DetailView):
+class CalibrationActionDetailView(ActionDetailView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-detail.html'
+    page_title = 'Calibration Details'
+
+
+class InstrumentRetrievalListView(ActionListView):
+    model = InstrumentRetrievalAction
+    template_name = 'odm2/instrument-retrievals.html'
+
+
+class InstrumentRetrievalDetailView(ActionDetailView):
+    model = InstrumentRetrievalAction
+    template_name = 'odm2/instrument-retrieval.html'
+    page_title = 'Instrument Retrieval Details'
 
 
 class CalibrationStandardsListView(ListView):
