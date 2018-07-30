@@ -28,5 +28,7 @@ urlpatterns = [
     path('people', PeopleListView.as_view(), name='people-list'),
     path('people-detail/<person_id>', PeopleDetailView.as_view(), name='people_detail'),
     path('calibrations', CalibrationActionListView.as_view(), name='calibrations'),
-    path('calibrations/<int:pk>', CalibrationActionDetailView.as_view(), name='calibration')
+    path('calibrations/<int:pk>', CalibrationActionDetailView.as_view(), name='calibration'),
+    path('other-actions', OtherActionsListView.as_view(), name='other-actions'),
+    path('actions/<int:pk>', ActionDetailView.as_view(), name='action'),
 ]

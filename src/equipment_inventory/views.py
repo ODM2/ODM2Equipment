@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-# Create your views here.
+from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -78,11 +76,44 @@ class PeopleDetailView(DetailView):
     slug_field = 'person_id'
 
 
+class ActionDetailView(DetailView):
+    model = Action
+    template_name = 'odm2/action-detail.html'
+
+
 class CalibrationActionListView(ListView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-list.html'
 
 
-class CalibrationActionDetailView(DetailView):
+class CalibrationActionDetailView(ActionDetailView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-detail.html'
+
+
+class ActionListView(ListView):
+    model = Action
+
+
+class OtherActionsListView(ActionListView):
+    model = InstrumentRetrievalAction
+    template_name = 'odm2/other-actions.html'
+
+    default_page_count = 25
+    default_sort_order = '-begin_datetime'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+
+        page = self.request.GET.get('page', 1)
+        per_page = self.request.GET.get('per_page', self.default_page_count)
+        sort_by = self.request.GET.get('sort_by', self.default_sort_order)
+
+        actions = self.object_list.order_by(sort_by)
+
+        paginator = Paginator(actions, per_page)
+        context['actions'] = paginator.get_page(page)
+
+        return context
+
+
