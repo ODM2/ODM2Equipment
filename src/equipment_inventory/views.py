@@ -78,6 +78,34 @@ class PeopleDetailView(DetailView):
     slug_field = 'person_id'
 
 
+
+class EquipmentDeploymentsListView(ListView):
+    model = EquipmentDeploymentAction
+    template_name = 'odm2/equipment-deployments-list.html'
+    context_object_name = 'deployments'
+
+
+class EquipmentDeploymentDetailView(DetailView):
+    model = EquipmentDeploymentAction
+    template_name = 'odm2/equipment-deployment-detail.html'
+    context_object_name = 'deployment'
+    slug_url_kwarg = 'action_id'
+    slug_field = 'action_id'
+
+
+class InstrumentDeploymentsListView(ListView):
+    model = InstrumentDeploymentAction
+    template_name = 'odm2/instrument-deployments-list.html'
+    context_object_name = 'deployments'
+
+
+class InstrumentDeploymentDetailView(DetailView):
+    model = InstrumentDeploymentAction
+    template_name = 'odm2/instrument-deployment-detail.html'
+    context_object_name = 'deployment'
+    slug_url_kwarg = 'action_id'
+    slug_field = 'action_id'
+
 class CalibrationActionListView(ListView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-list.html'
@@ -86,3 +114,4 @@ class CalibrationActionListView(ListView):
 class CalibrationActionDetailView(DetailView):
     model = InstrumentCalibrationAction
     template_name = 'odm2/calibration-action-detail.html'
+
