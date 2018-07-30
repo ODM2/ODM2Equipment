@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block detail-title %}
-    <h3>Calibration Details</h3>
+    <h3>{{ page_title }}</h3>
 {% endblock %}
 
 {% block styles %}
@@ -14,12 +14,12 @@
     <div class="buttons-toolbar row">
         <div class="col-12 text-right">
             <a href="{% url 'admin:equipment_inventory_instrumentcalibrationaction_change' object.pk %}" id="btn-edit-sampling_feature"
-               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 fullwidth-sm">
+               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
                 <i class="material-icons center-icon">mode_edit</i> Edit Calibration
             </a>
 
             <a href="{% url 'admin:equipment_inventory_instrumentcalibrationaction_delete' object.pk %}"
-               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 fullwidth-sm">
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
                 <i class="material-icons center-icon">delete_forever</i> Delete
             </a>
         </div>

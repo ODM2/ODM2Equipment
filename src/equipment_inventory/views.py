@@ -79,25 +79,16 @@ class PeopleDetailView(DetailView):
 class ActionDetailView(DetailView):
     model = Action
     template_name = 'odm2/action-detail.html'
+    page_title = 'Action Detail'
 
-
-class CalibrationActionListView(ListView):
-    model = InstrumentCalibrationAction
-    template_name = 'odm2/calibration-action-list.html'
-
-
-class CalibrationActionDetailView(ActionDetailView):
-    model = InstrumentCalibrationAction
-    template_name = 'odm2/calibration-action-detail.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(page_title=self.page_title)
+        return context
 
 
 class ActionListView(ListView):
     model = Action
-
-
-class OtherActionsListView(ActionListView):
-    model = InstrumentRetrievalAction
-    template_name = 'odm2/other-actions.html'
 
     default_page_count = 25
     default_sort_order = '-begin_datetime'
@@ -116,4 +107,53 @@ class OtherActionsListView(ActionListView):
 
         return context
 
+
+class EquipmentDeploymentsListView(ListView):
+    model = EquipmentDeploymentAction
+    template_name = 'odm2/equipment-deployments-list.html'
+    context_object_name = 'deployments'
+
+
+class EquipmentDeploymentDetailView(DetailView):
+    model = EquipmentDeploymentAction
+    template_name = 'odm2/equipment-deployment-detail.html'
+    context_object_name = 'deployment'
+    slug_url_kwarg = 'action_id'
+    slug_field = 'action_id'
+
+
+class InstrumentDeploymentsListView(ActionListView):
+    model = InstrumentDeploymentAction
+    template_name = 'odm2/instrument-deployments-list.html'
+    context_object_name = 'deployments'
+
+
+class InstrumentDeploymentDetailView(DetailView):
+    model = InstrumentDeploymentAction
+    template_name = 'odm2/instrument-deployment-detail.html'
+    context_object_name = 'deployment'
+    slug_url_kwarg = 'action_id'
+    slug_field = 'action_id'
+
+
+class CalibrationActionListView(ActionListView):
+    model = InstrumentCalibrationAction
+    template_name = 'odm2/calibration-action-list.html'
+
+
+class CalibrationActionDetailView(ActionDetailView):
+    model = InstrumentCalibrationAction
+    template_name = 'odm2/calibration-action-detail.html'
+    page_title = 'Calibration Details'
+
+
+class InstrumentRetrievalListView(ActionListView):
+    model = InstrumentRetrievalAction
+    template_name = 'odm2/instrument-retrievals.html'
+
+
+class InstrumentRetrievalDetailView(ActionDetailView):
+    model = InstrumentRetrievalAction
+    template_name = 'odm2/instrument-retrieval.html'
+    page_title = 'Instrument Retrieval Details'
 

@@ -53,11 +53,13 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarSitesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions </a>
                             <div class="dropdown-menu" aria-labelledby="navbarSitesDropdown">
                                 <a class="nav-link" href="{% url 'site-visit-list' %}"> Site Visits</a>
-                                <a class="nav-link" href=""> Deployments</a>
+
+                                <a class="nav-link" href="{% url 'equipment-deployments-list' %}"> Equipment Deployments</a>
+                                <a class="nav-link" href="{% url 'instrument-deployments-list' %}"> Instrument Deployments</a>
                                 <a class="nav-link" href="{% url 'calibrations' %}"> Calibrations</a>
                                 <a class="nav-link" href=""> Methods</a>
                                 <a class="nav-link" href=""> Calibration Standards</a>
-                                <a class="nav-link" href="{% url 'Instrument Retrievals' %}">Instrument Retrievals</a>
+                                <a class="nav-link" href="{% url 'instrument-retrievals' %}">Instrument Retrievals</a>
                                 <a class="nav-link" href="{% url 'results-list' %}"> Results</a>
                             </div>
                         </li>
