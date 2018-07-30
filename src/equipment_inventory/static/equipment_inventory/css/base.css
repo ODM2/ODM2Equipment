@@ -16,7 +16,19 @@ html > body {
 
 /*MEDIA QUERIES*/
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 576px) {
+    /* small breakpoint */
+    .buttons-toolbar.button-link, .buttons-toolbar form, .buttons-toolbar button {
+        width: 100%;
+    }
+
+    .full-width-sm {
+        width: 100%; /* only go fullwidth on small screen */
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /* medium breakpoint */
     #table-macro-extra tr:first-child {
         display: none;
     }
@@ -24,25 +36,27 @@ html > body {
     #table-macro-extra {
         top: -1px;
     }
+
+    .full-width-md {
+        width: 100%;
+    }
+
 }
 
 @media only screen and (max-width: 992px) {
+    /* large breakpoint */
     .navbar-nav > li > a {
         line-height: 35px !important;
         height: initial;
     }
-}
 
-@media (max-width: 576px) {
-    .buttons-toolbar.button-link, .buttons-toolbar form, .buttons-toolbar button {
+    .full-width-lg {
         width: 100%;
     }
 }
 
-@media only screen and (max-width: 576px) {
-    .fullwidth-sm {
-        width: 100%;
-    }
+@media only screen and (max-width: 1200px) {
+    /* x-large breakpoint */
 }
 
 /*ICON COLORS*/
@@ -64,8 +78,22 @@ html > body {
 
 /* HELPERS */
 
+.text-ellipsis {
+    text-overflow: ellipsis;
+}
+
 .mdl-card.full-width .mdl-card__supporting-text, .mdl-card.full-width .mdl-card__title, .full-width {
     width: 100%;
+}
+
+.mdl-data-table__cell--non-selectable {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    transition-property: unset;
+    background-color: #fff;
+}
+.mdl-data-table__cell--non-selectable:hover {
+    background-color: #fff;
 }
 
 .light-background {

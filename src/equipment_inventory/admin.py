@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.shortcuts import redirect, reverse
 from equipment_inventory.admin_helpers.inlines import SiteVisitFeatureActionInline, ActionByInline, FeatureActionInline, \
     SingleEquipmentUsedInline, InstrumentFeatureActionInline, SiteInline, AffiliationInline, \
     MultipleEquipmentUsedInline, CalibrationActionInline, ReferenceMaterialValueInline, FactoryServiceMaintenanceInline, \
@@ -82,6 +83,12 @@ class EquipmentDeploymentAdmin(StandaloneActionAdminMixin, admin.ModelAdmin):
     action_type = 'Equipment deployment'
     inlines = [SingleNonInstrumentEquipmentUsedInline, FeatureActionInline]
 
+    def response_change(self, request, obj):
+        return redirect(reverse('equipment-deployment-detail', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('equipment-deployment-detail', kwargs={'pk': obj.pk}))
+
 
 @admin.register(InstrumentDeploymentAction)
 class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
@@ -92,12 +99,24 @@ class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     class Media:
         css = {'all': ('equipment_inventory/css/form-style.css', )}
 
+        def response_change(self, request, obj):
+            return redirect(reverse('instrument-deployment-detail', kwargs={'pk': obj.pk}))
+
+        def response_add(self, request, obj, post_url_continue=None):
+            return redirect(reverse('instrument-deployment-detail', kwargs={'pk': obj.pk}))
+
 
 @admin.register(EquipmentRetrievalAction)
 class EquipmentRetrievalAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = EquipmentRetrievalForm
     action_type = 'Equipment retrieval'
     inlines = [RelatedDeploymentRetrievalInline, SingleNonInstrumentEquipmentUsedInline, FeatureActionInline]
+
+    def response_change(self, request, obj):
+        return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
 
 
 @admin.register(InstrumentRetrievalAction)
@@ -106,12 +125,24 @@ class InstrumentRetrievalAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     action_type = 'Instrument retrieval'
     inlines = [RelatedDeploymentRetrievalInline, SingleInstrumentEquipmentUsedInline, FeatureActionInline]
 
+    def response_change(self, request, obj):
+        return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
+
 
 @admin.register(InstrumentCalibrationAction)
 class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = InstrumentCalibrationForm
     action_type = 'Instrument calibration'
     inlines = [MultipleIntrumentEquipmentUsedInline, CalibrationActionInline, FeatureActionInline]
+
+    def response_change(self, request, obj):
+        return redirect(reverse('calibration', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('calibration', kwargs={'pk': obj.pk}))
 
 
 @admin.register(EquipmentMaintenanceAction)

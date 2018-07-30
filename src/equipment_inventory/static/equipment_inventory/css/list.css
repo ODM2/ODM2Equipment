@@ -1,0 +1,12 @@
+.step-links {
+
+}
+
+.step-links a {
+    margin: 0 16px;
+    width: 20px;
+}
+
+.step-links a::selection {
+    color: initial;
+}

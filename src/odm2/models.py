@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import inspect
 import sys
 import uuid
+import re
 
 from django.conf import settings
 from django.db import models
