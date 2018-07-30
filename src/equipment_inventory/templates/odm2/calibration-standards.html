@@ -11,12 +11,18 @@
     <th class="mdl-data-table__cell--non-numeric">Model Name</th>
 {% endblock %}
 
+{% block header-actions %}
+{#    <a href="{% url 'admin:equpiment_inventory_calibrationstandards_add' %}">Create New</a>#}
+    <a href="#"
+       class="mdl-button mdl-button--raised mdl-button--accent mdl-js-button">Create New</a>
+{% endblock %}
+
 {% block table-rows %}
-    {% for calibration in object_list %}
-        {% for equipment in calibration.equipment_used.all %}
+    {% for standard in standards %}
+        {% for equipment in standard.equipment_used.all %}
             <tr>
                 <td class="mdl-data-table__cell--non-numeric">
-                    <a href="{% url 'calibration' calibration.pk %}">{{ calibration.begin_datetime }}</a>
+                    <a href="{% url 'calibration' standard.pk %}">{{ calibration.begin_datetime }}</a>
                 </td>
                 <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_serial_number }}</td>
                 <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_type }}</td>
@@ -25,4 +31,26 @@
             </tr>
         {% endfor %}
     {% endfor %}
+{% endblock %}
+
+{% block table-paginator %}
+    <tr>
+        <td colspan="5" class="mdl-data-table__cell--non-selectable">
+            <span class="step-links">
+            {% if standards.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ standards.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ standards.number }} of {{ standards.paginator.num_pages }}
+            </span>
+
+            {% if standards.has_next %}
+                <a href="?page={{ standards.next_page_number }}">next</a>
+                <a href="?page={{ standards.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            </span>
+        </td>
+    </tr>
 {% endblock %}
