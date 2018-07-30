@@ -38,6 +38,12 @@ class OrganizationAdmin(admin.ModelAdmin):
 class EquipmentAdmin(admin.ModelAdmin):
     form = EquipmentForm
 
+    def response_change(self, request, obj):
+        return redirect(reverse('equipment-list', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('equipment-details', kwargs={'pk': obj.pk}))
+
 
 @admin.register(EquipmentModel)
 class EquipmentModelAdmin(admin.ModelAdmin):
@@ -99,11 +105,11 @@ class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     class Media:
         css = {'all': ('equipment_inventory/css/form-style.css', )}
 
-        def response_change(self, request, obj):
-            return redirect(reverse('instrument-deployment-detail', kwargs={'pk': obj.pk}))
+    def response_change(self, request, obj):
+        return redirect(reverse('instrument-deployment-detail', kwargs={'action_id': obj.pk}))
 
-        def response_add(self, request, obj, post_url_continue=None):
-            return redirect(reverse('instrument-deployment-detail', kwargs={'pk': obj.pk}))
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('instrument-deployment-detail', kwargs={'action_id': obj.pk}))
 
 
 @admin.register(EquipmentRetrievalAction)

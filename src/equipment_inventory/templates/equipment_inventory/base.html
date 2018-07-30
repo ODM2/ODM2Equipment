@@ -67,8 +67,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarInventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Inventory </a>
                             <div class="dropdown-menu" aria-labelledby="navbarInventoryDropdown">
-                                <a class="nav-link" href=""> Equipment</a>
-                                <a class="nav-link" href=""> Equipment Models</a>
+                                <a class="nav-link" href="{% url 'equipment-list' %}"> Equipment</a>
+                                <a class="nav-link" href="{% url 'equipment-model-list' %}"> Equipment Models</a>
                                 <a class="nav-link" href=""> Factory Service History</a>
                                 <a class="nav-link" href=""> Instrument Output Variables</a>
                             </div>

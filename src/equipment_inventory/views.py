@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, EquipmentModel
 from equipment_inventory.models import *
 
 
@@ -156,4 +156,28 @@ class InstrumentRetrievalDetailView(ActionDetailView):
     model = InstrumentRetrievalAction
     template_name = 'odm2/instrument-retrieval.html'
     page_title = 'Instrument Retrieval Details'
+
+
+class EquipmentListView(ActionListView):
+    model = Equipment
+    template_name = 'odm2/equipment-list.html'
+    context_object_name = 'equipments'
+
+
+class EquipmentDetailView(ActionDetailView):
+    model = Equipment
+    template_name = 'odm2/equipment-details.html'
+    page_title = 'Equipment Details'
+
+
+class EquipmentModelListView(ActionListView):
+    model = EquipmentModel
+    template_name = 'odm2/equipment-model-list.html'
+
+
+class EquipmentModelDetailView(ActionDetailView):
+    model = EquipmentModel
+    template_name = 'odm2/equipment-model-detail.html'
+    page_title = 'Equipment Model Details'
+
 
