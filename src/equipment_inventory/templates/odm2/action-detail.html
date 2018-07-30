@@ -1,0 +1,130 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    <h3>{{ page_title|default:"Action Detail" }}</h3>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/site-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+{#    <div class="buttons-toolbar row">#}
+{#        <div class="col-12 text-right">#}
+{#            <a href="{% url 'admin:equipment_inventory_instrumentcalibrationaction_change' object.pk %}" id="btn-edit-sampling_feature"#}
+{#               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">#}
+{#                <i class="material-icons center-icon">mode_edit</i> Edit {{ object.action_type|title|default:"Action" }}#}
+{#            </a>#}
+{##}
+{#            <a href="{% url 'admin:equipment_inventory_instrumentcalibrationaction_delete' object.pk %}"#}
+{#               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">#}
+{#                <i class="material-icons center-icon">delete_forever</i> Delete#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
+{% endblock %}
+
+{% block detail_main_section %}
+
+        <div class="col-12">
+            <h5>{{ object.action_type|title|default:"Action Details" }}</h5>
+        </div>
+        <div class="col-12">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp full-width full-width-sm detail-table">
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Site Code</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.sampling_feature.sampling_feature_code|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Site Name</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.sampling_feature.sampling_feature_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Action Description</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.action_description|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Action Begin Date</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.begin_datetime|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Action End Date</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.end_datetime|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>UTC Offset</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.begin_datetime_utc_offset|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Variable Name</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.calibration.instrument_output_variable.variable.variable_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Variable Code</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.calibration.instrument_output_variable.variable.variable_code|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Calibration Equation</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.calibration.calibration_equation|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Check Value</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.calibration.calibration_check_value|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 100px"><strong>Calibration Link</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.action_file_link|default:'-' }}</td>
+                </tr>
+            </table>
+        </div>
+
+{% endblock %}
+
+{% block extra_content %}
+    <div class="row">
+        <div class="col-12">
+            <h5>Equpiment Used</h5>
+        </div>
+
+        {% for equipment in object.equipment_used.all %}
+        <div class="col-12">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp detail-table">
+                <tbody>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Equipment Serial Number</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_serial_number|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Equpiment Code</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_code|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Equipment Name</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_name|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Equipment Type</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_type|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Equipment Model Name</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_model.model_name|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Manufacturer Name</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_model.model_manufacturer|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong>Owner Name</strong></th>
+                        <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_owner|default:'-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

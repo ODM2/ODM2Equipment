@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="list-container col-sm-12">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Variable Code</th>
+                <th class="mdl-data-table__cell--non-numeric">Variable Name</th>
+                <th class="mdl-data-table__cell--non-numeric">Model Name</th>
+                <th class="mdl-data-table__cell--non-numeric">Method Code</th>
+                <th class="mdl-data-table__cell--non-numeric">Method Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for output_variable in variables %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">{{ output_variable.variable.variable_code }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ output_variable.variable.variable_name_id }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ output_variable.model.model_name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ output_variable.instrument_method.method_code }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ output_variable.instrument_method.method_name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

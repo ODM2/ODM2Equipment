@@ -1,0 +1,27 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    People
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Organization</th>
+    <th class="mdl-data-table__cell--non-numeric">Address</th>
+    <th class="mdl-data-table__cell--non-numeric">Phone</th>
+    <th class="mdl-data-table__cell--non-numeric">Email</th>
+{% endblock %}
+
+{% block table-rows %}
+    {% for person in people %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'people-detail' person.pk %}">{{ person.person_first_name }} {{ person.person_last_name }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{{ person.affiliations.first.organization.organization_name}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ person.affiliations.first.primary_address }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ person.affiliations.first.primary_phone }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ person.affiliations.first.primary_email }}</td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}
