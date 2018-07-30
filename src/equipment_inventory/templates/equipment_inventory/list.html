@@ -34,25 +34,28 @@
                                 </thead>
                                 <tbody>
                                     {% block table-rows %}{% endblock %}
-                                <tr>
-                                    <td colspan="5" class="mdl-data-table__cell--non-selectable">
-                                        <span class="step-links">
-                                        {% if actions.has_previous %}
-                                            <a href="?page=1">&laquo; first</a>
-                                            <a href="?page={{ actions.previous_page_number }}">previous</a>
-                                        {% endif %}
 
-                                        <span class="current">
-                                            Page {{ actions.number }} of {{ actions.paginator.num_pages }}
-                                        </span>
+                                    {% block table-pagination %}
+                                    <tr>
+                                        <td colspan="5" class="mdl-data-table__cell--no-hover">
+                                            <span class="step-links">
+                                            {% if actions.has_previous %}
+                                                <a href="?page=1">&laquo; first</a>
+                                                <a href="?page={{ actions.previous_page_number }}">previous</a>
+                                            {% endif %}
 
-                                        {% if actions.has_next %}
-                                            <a href="?page={{ actions.next_page_number }}">next</a>
-                                            <a href="?page={{ actions.paginator.num_pages }}">last &raquo;</a>
-                                        {% endif %}
-                                        </span>
-                                    </td>
-                                </tr>
+                                            <span class="current">
+                                                Page {{ actions.number }} of {{ actions.paginator.num_pages }}
+                                            </span>
+
+                                            {% if actions.has_next %}
+                                                <a href="?page={{ actions.next_page_number }}">next</a>
+                                                <a href="?page={{ actions.paginator.num_pages }}">last &raquo;</a>
+                                            {% endif %}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endblock %}
                                 </tbody>
                             </table>
                         </div>

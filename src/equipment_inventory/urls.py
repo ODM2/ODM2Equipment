@@ -36,4 +36,6 @@ urlpatterns = [
     path('instrument-retrievals', InstrumentRetrievalListView.as_view(), name='instrument-retrievals'),
     path('instrument-retrievals/<int:pk>', InstrumentRetrievalDetailView.as_view(), name='instrument-retrieval'),
     path('actions/<int:pk>', ActionDetailView.as_view(), name='action'),
+    path('methods', MethodListView.as_view(), name='methods'),
+    path('methods/<pk>', MethodDetailView.as_view(), name='method'),
 ]
