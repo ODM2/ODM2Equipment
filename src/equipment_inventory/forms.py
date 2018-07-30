@@ -4,10 +4,12 @@ from django.views.generic.edit import ModelFormMixin
 from easy_select2.widgets import Select2, Select2Multiple
 
 from equipment_inventory.models import SiteVisitAction, GenericAction, EquipmentDeploymentAction, \
-    InstrumentDeploymentAction, InstrumentCalibrationAction
+    InstrumentDeploymentAction, InstrumentCalibrationAction, InstrumentRetrievalAction, \
+    EquipmentRetrievalAction, RetrievalRelatedAction
 from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipment, Medium, Result, Variable, Unit, \
     ProcessingLevel, FeatureAction, Method, CalibrationAction, Model, Site, ActionBy, EquipmentUsed, People, \
-    Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue
+    Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue, \
+    EquipmentModel, MaintenanceAction, InstrumentOutputVariable, RelatedAction
 
 select_2_default_options = {
     'allowClear': True,
@@ -104,6 +106,26 @@ class EquipmentDeploymentForm(StandaloneActionForm):
         ]
 
 
+class FactoryServiceForm(forms.ModelForm):
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.equipment_maintenance_methods(),
+        widget=Select2(
+            select2attrs={'placeholder': 'Choose the equipment maintenance method', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentDeploymentAction
+        fields = [
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'end_datetime',
+            'end_datetime_utc_offset',
+            'action_description',
+            'action_file_link'
+        ]
+
+
 class InstrumentDeploymentForm(StandaloneActionForm):
     method = forms.ModelChoiceField(
         queryset=Method.objects.instrument_deployment_methods(),
@@ -112,6 +134,54 @@ class InstrumentDeploymentForm(StandaloneActionForm):
 
     class Meta:
         model = InstrumentDeploymentAction
+        fields = [
+            'parent_site_visit',
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'action_description',
+            'action_file_link',
+        ]
+
+
+class RelatedDeploymentRetrievalForm(forms.ModelForm):
+    related_action = forms.ModelChoiceField(
+        queryset=Action.objects.deployments(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the deployment', **select_2_default_options}),
+        label='Deployment'
+    )
+
+    class Meta:
+        model = RetrievalRelatedAction
+        exclude = ['relationship_type']
+
+
+class EquipmentRetrievalForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.equipment_retrieval_methods(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the equipment retrieval method', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentRetrievalAction
+        fields = [
+            'parent_site_visit',
+            'method',
+            'begin_datetime',
+            'begin_datetime_utc_offset',
+            'action_description',
+            'action_file_link',
+        ]
+
+
+class InstrumentRetrievalForm(StandaloneActionForm):
+    method = forms.ModelChoiceField(
+        queryset=Method.objects.instrument_retrieval_methods(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the instrument retrieval method', **select_2_default_options})
+    )
+
+    class Meta:
+        model = InstrumentRetrievalAction
         fields = [
             'parent_site_visit',
             'method',
@@ -207,6 +277,34 @@ class CalibrationActionForm(forms.ModelForm):
         }
 
 
+class FactoryServiceMaintenanceActionForm(forms.ModelForm):
+    class Meta:
+        model = MaintenanceAction
+        exclude = ['is_factory_service']
+
+
+class InstrumentEquipmentUsedForm(forms.ModelForm):
+    equipment = forms.ModelChoiceField(
+        queryset=Equipment.objects.instruments(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the equipment used', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentUsed
+        fields = ['equipment']
+
+
+class NonInstrumentEquipmentUsedForm(forms.ModelForm):
+    equipment = forms.ModelChoiceField(
+        queryset=Equipment.objects.non_instruments(),
+        widget=Select2(select2attrs={'placeholder': 'Choose the equipment used', **select_2_default_options})
+    )
+
+    class Meta:
+        model = EquipmentUsed
+        fields = ['equipment']
+
+
 class EquipmentUsedForm(forms.ModelForm):
     class Meta:
         model = EquipmentUsed
@@ -276,4 +374,37 @@ class ReferenceMaterialValueForm(forms.ModelForm):
         widgets = {
             'variable': Select2(select2attrs={'placeholder': 'Choose the variable', **select_2_default_options}),
             'unit': Select2(select2attrs={'placeholder': 'Choose the units', **select_2_default_options}),
+        }
+
+
+class EquipmentForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = '__all__'
+        widgets = {
+            'equipment_type': Select2(select2attrs={'placeholder': 'Choose the equipment type', **select_2_default_options}),
+            'equipment_model': Select2(select2attrs={'placeholder': 'Choose the equipment model', **select_2_default_options}),
+            'equipment_owner': Select2(select2attrs={'placeholder': 'Choose the owner', **select_2_default_options}),
+            'equipment_vendor': Select2(select2attrs={'placeholder': 'Choose the vendor', **select_2_default_options}),
+        }
+
+
+class EquipmentModelForm(forms.ModelForm):
+    class Meta:
+        model = EquipmentModel
+        fields = '__all__'
+        widgets = {
+            'model_manufacturer': Select2(select2attrs={'placeholder': 'Choose the model manufacturer', **select_2_default_options}),
+        }
+
+
+class InstrumentOutputVariableForm(forms.ModelForm):
+    class Meta:
+        model = InstrumentOutputVariable
+        fields = '__all__'
+        widgets = {
+            'model': Select2(select2attrs={'placeholder': 'Choose the model', **select_2_default_options}),
+            'variable': Select2(select2attrs={'placeholder': 'Choose the variable', **select_2_default_options}),
+            'instrument_method': Select2(select2attrs={'placeholder': 'Choose the method', **select_2_default_options}),
+            'instrument_raw_output_unit': Select2(select2attrs={'placeholder': 'Choose the units', **select_2_default_options}),
         }

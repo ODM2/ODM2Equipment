@@ -34,11 +34,28 @@ class MethodQuerySet(ODM2QuerySet):
     def equipment_deployment_methods(self):
         return self.filter(method_type='Equipment deployment')
 
+    def instrument_retrieval_methods(self):
+        return self.filter(method_type='Instrument retrieval')
+
+    def equipment_retrieval_methods(self):
+        return self.filter(method_type='Equipment retrieval')
+
     def instrument_calibration_methods(self):
         return self.filter(method_type='Instrument calibration')
 
+    def equipment_maintenance_methods(self):
+        return self.filter(method_type='Equipment maintenance')
+
     def generic_action_methods(self):
-        return self.exclude(method_type__in=['Equipment deployment', 'Instrument deployment', 'Instrument calibration', 'Field activity'])
+        return self.exclude(method_type__in=[
+            'Equipment deployment',
+            'Instrument deployment',
+            'Equipment maintenance',
+            'Equipment retrieval',
+            'Instrument retrieval',
+            'Instrument calibration',
+            'Field activity'
+        ])
 
 
 class ActionQuerySet(ODM2QuerySet):
@@ -51,14 +68,31 @@ class ActionQuerySet(ODM2QuerySet):
     def instrument_deployments(self):
         return self.filter(action_type='Instrument deployment')
 
+    def equipment_retrievals(self):
+        return self.filter(action_type='Equipment retrieval')
+
+    def instrument_retrievals(self):
+        return self.filter(action_type='Instrument retrieval')
+
     def site_visits(self):
         return self.filter(action_type='Field activity')
 
     def instrument_calibrations(self):
         return self.filter(action_type='Instrument calibration')
 
+    def equipment_maintenance(self):
+        return self.filter(action_type='Equipment maintenance')
+
     def generic_actions(self):
-        return self.exclude(action_type__in=['Equipment deployment', 'Instrument deployment', 'Instrument calibration', 'Field activity'])
+        return self.exclude(action_type__in=[
+            'Equipment deployment',
+            'Instrument deployment',
+            'Equipment maintenance',
+            'Equipment retrieval',
+            'Instrument retrieval',
+            'Instrument calibration',
+            'Field activity'
+        ])
 
     def with_parent_visits(self):
         related_action_model = [
@@ -91,10 +125,9 @@ class FeatureActionQuerySet(ODM2QuerySet):
         return self.prefetch_related('results__timeseriesresult__values', 'results__variable', 'results__unit')
 
 
-class RelatedActionManager(models.Manager):
-    def get_queryset(self):
-        queryset = super(RelatedActionManager, self).get_queryset()
-        return queryset.prefetch_related('related_action', 'action')
+class RelatedActionQuerySet(ODM2QuerySet):
+    def retrieval_relationships(self):
+        return self.prefetch_related('related_action').filter(relationship_type='Is retrieval for')
 
 
 class ResultManager(models.Manager):

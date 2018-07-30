@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from odm2.querysets import AffiliationQuerySet, RelatedActionManager, ResultManager, \
+from odm2.querysets import AffiliationQuerySet, RelatedActionQuerySet, ResultManager, \
     DataLoggerFileManager, InstrumentOutputVariableManager, \
     EquipmentManager, CalibrationReferenceEquipmentManager, EquipmentUsedManager, MaintenanceActionManager, \
     RelatedEquipmentManager, CalibrationActionManager, ODM2QuerySet, ActionQuerySet, ActionByQuerySet, \
@@ -532,9 +532,24 @@ class Action(ODM2Model):
 
     @property
     def parent_site_visit(self):
-        if self.all_parent_site_visits:
-            [visit] = self.all_parent_site_visits
-            return visit.related_action
+        if hasattr(self, 'all_parent_site_visits'):
+            visit = next(iter(self.all_parent_site_visits), None)
+            return getattr(visit, 'related_action', None)
+        return None
+
+    @property
+    def sampling_feature(self):
+        if not hasattr(self, '_sampling_feature'):
+            visit = self.parent_site_visit
+            if visit:
+                try:
+                    self._sampling_feature = visit.sampling_features.first()
+                except AttributeError:
+                    return None
+            else:
+                self._sampling_feature = self.sampling_features.first()
+
+        return self._sampling_feature
 
     def __str__(self):
         return '%s %s %s' % (
@@ -677,7 +692,7 @@ class RelatedAction(ObjectRelation):
     action = models.ForeignKey('Action', on_delete=models.CASCADE, related_name='related_actions', db_column='actionid')
     related_action = models.ForeignKey('Action', on_delete=models.CASCADE, related_name='reverse_related_actions', db_column='relatedactionid')
 
-    objects = RelatedActionManager()
+    objects = RelatedActionQuerySet.as_manager()
 
     def __str__(self):
         return '(%s) %s (%s)' % (self.action, self.relationship_type_id, self.related_action)
