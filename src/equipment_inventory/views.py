@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, \
-    CalibrationStandard
+    ReferenceMaterialValue
 from equipment_inventory.models import *
 
 
@@ -161,16 +161,24 @@ class InstrumentRetrievalDetailView(ActionDetailView):
 
 
 class CalibrationStandardsListView(ListView):
-    model = CalibrationStandard
+    """
+    I know the class name says "CalibrationStandard" in it, but don't be fooled,
+    aparently a Calibration Standard actually a Reference Material Value... ¯\_(ツ)_/¯
+    """
+    model = ReferenceMaterialValue
     template_name = 'odm2/calibration-standards.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
-        standards = self.object_list.order_by('action__action__begin_datetime')
-        paginator = Paginator(standards, 25)
+        object_list = self.object_list.order_by('pk')
+        paginator = Paginator(object_list, 25)
 
         page = self.request.GET.get('page', 1)
-        context.update(standards=paginator.get_page(page))
+        context.update(object_list=paginator.get_page(page))
         return context
 
+
+class CalibrationStandardDetailView(DetailView):
+    model = ReferenceMaterialValue
+    template_name = 'odm2/calibration-standard.html'
 
