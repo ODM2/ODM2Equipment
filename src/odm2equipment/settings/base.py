@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'nested_admin',
     'django.contrib.admin',
     'odm2',
+    'requests'
 
 ]
 
