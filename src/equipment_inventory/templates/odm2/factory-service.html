@@ -1,0 +1,98 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    <h3>{{ page_title|default:"Action Detail" }}</h3>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/site-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="{% url 'admin:equipment_inventory_equipmentmaintenanceaction_change' object.pk %}" id="btn-edit-sampling_feature"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+                <i class="material-icons center-icon">mode_edit</i> Edit {{ object.action_type|title|default:"Action" }}
+            </a>
+
+            <a href="{% url 'admin:equipment_inventory_equipmentmaintenanceaction_delete' object.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+
+        <div class="col-12">
+            <h5>{{ object.action_type|title|default:"Action Details" }}</h5>
+        </div>
+        <div class="col-12">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp full-width full-width-sm detail-table">
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Begin Date Time</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.begin_datetime|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Begin UTC Offset</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.begin_datetime_utc_offset|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>End Date Time</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.end_datetime|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>End UTC Offset</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.end_datetime_utc_offset|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Description</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.action_description|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Action File</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.action_file_link|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Method</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {% if object.method %}
+                            <a href="{% url 'method' object.method.pk %}">{{ object.method.method_name }}</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Maintenance Code</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.maintenance.maintenance_code|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Maintenance Reason</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.maintenance.maintenance_reason|default:'-' }}</td>
+                </tr>
+            </table>
+        </div>
+
+{% endblock %}
+
+{% block extra_content %}
+    <div class="row">
+        <div class="col-12">
+            <h5>Equpiment Used:</h5>
+        </div>
+        <div class="col-12">
+            <ul class="">
+                {% for equipment in object.equipment_used.all %}
+                <li><a href="{% url 'equipment-details' equipment.pk %}">{{ equipment.equipment_name|default:'-' }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}

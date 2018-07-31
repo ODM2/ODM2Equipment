@@ -43,5 +43,7 @@ urlpatterns = [
     path('equipments', EquipmentListView.as_view(), name='equipment-list'),
     path('equipment-details/<int:pk>', EquipmentDetailView.as_view(), name='equipment-details'),
     path('equipment-model-list', EquipmentModelListView.as_view(), name='equipment-model-list'),
-    path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details')
+    path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details'),
+    path('factory-service', FactoryServiceListView.as_view(), name='factory-service-list'),
+    path('factory-service/<pk>', FactoryServiceDetailView.as_view(), name='factory-service')
 ]

@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block table-rows %}
-    {% for person in people %}
+    {% for person in object_list %}
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
                 <a href="{% url 'people-detail' person.pk %}">{{ person.person_first_name }} {{ person.person_last_name }}</a>

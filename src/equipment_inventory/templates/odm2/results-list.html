@@ -12,15 +12,15 @@
 {% endblock %}
 
 {% block table-rows %}
-    {% for result in results %}
+    {% for result in object_list %}
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-                <a href="{% url 'result-detail' result.pk %}">{{ result.result_datetime }}</a>
+                <a href="{% url 'result-detail' result.pk %}">{{ result.result_datetime|default:"N/A" }}</a>
             </td>
-            <td class="mdl-data-table__cell--non-numeric">{{ result.feature_action.sampling_feature.sampling_feature_code}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{ result.feature_action.sampling_feature.sampling_feature_name }}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{ result.variable.variable_code }}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{ result.variable.variable_name }}
+            <td class="mdl-data-table__cell--non-numeric">{{ result.feature_action.sampling_feature.sampling_feature_code|default:"-" }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ result.feature_action.sampling_feature.sampling_feature_name|default:"-" }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ result.variable.variable_code|default:"-" }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ result.variable.variable_name|default:"-" }}
             </td>
         </tr>
     {% endfor %}

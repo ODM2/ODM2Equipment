@@ -14,9 +14,8 @@
 {% endblock %}
 
 {% block header-actions %}
-{#    <a href="{% url 'admin:equpiment_inventory_calibrationstandards_add' %}">Create New</a>#}
     <a href="{% url 'admin:odm2_referencematerial_add' %}"
-       class="mdl-button mdl-button--raised mdl-button--accent mdl-js-button">Create New</a>
+       class="mdl-button mdl-button--raised mdl-button--accent mdl-js-button mb-3">Create New</a>
 {% endblock %}
 
 {% block table-rows %}
@@ -37,9 +36,9 @@
     {% endfor %}
 {% endblock %}
 
-{% block table-paginator %}
+{% block table-pagination %}
     <tr>
-        <td colspan="7" class="mdl-data-table__cell--non-selectable">
+        <td colspan="7" class="mdl-data-table__cell--no-hover">
             <span class="step-links">
             {% if object_list.has_previous %}
                 <a href="?page=1">&laquo; first</a>
