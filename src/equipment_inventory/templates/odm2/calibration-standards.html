@@ -1,0 +1,60 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    Calibration Actions
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Medium</th>
+    <th class="mdl-data-table__cell--non-numeric">Units</th>
+    <th class="mdl-data-table__cell--non-numeric">Value</th>
+    <th class="mdl-data-table__cell--non-numeric">Organization Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Purchased</th>
+    <th class="mdl-data-table__cell--non-numeric">Lot Code</th>
+    <th class="mdl-data-table__cell--non-numeric">Expires</th>
+{% endblock %}
+
+{% block header-actions %}
+{#    <a href="{% url 'admin:equpiment_inventory_calibrationstandards_add' %}">Create New</a>#}
+    <a href="{% url 'admin:odm2_referencematerial_add' %}"
+       class="mdl-button mdl-button--raised mdl-button--accent mdl-js-button">Create New</a>
+{% endblock %}
+
+{% block table-rows %}
+    {% for standard in object_list %}
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'calibration-standard' standard.pk %}">
+                    {{ standard.reference_material.reference_material_medium|default:"-" }}
+                </a>
+            </th>
+            <th class="mdl-data-table__cell--non-numeric">{{ standard.unit.unit_abbreviation|default:"-" }}</th>
+            <th class="mdl-data-table__cell--non-numeric">{{ standard.reference_material_value|default:"-" }}</th>
+            <th class="mdl-data-table__cell--non-numeric">{{ standard.reference_material.reference_material_organization.organization_name|default:"-" }}</th>
+            <th class="mdl-data-table__cell--non-numeric">{{ standard.reference_material.reference_material_purchase_date|default:"-" }}</th>
+            <th class="mdl-data-table__cell--non-numeric">{{ standard.reference_material.reference_material_lot_code|default:"-" }}</th>
+            <th class="mdl-data-table__cell--non-numeric">{{ standard.reference_material.reference_material_expiration_date|default:"-" }}</th>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block table-paginator %}
+    <tr>
+        <td colspan="7" class="mdl-data-table__cell--non-selectable">
+            <span class="step-links">
+            {% if object_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ object_list.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}
+            </span>
+
+            {% if object_list.has_next %}
+                <a href="?page={{ object_list.next_page_number }}">next</a>
+                <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            </span>
+        </td>
+    </tr>
+{% endblock %}

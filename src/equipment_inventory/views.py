@@ -1,9 +1,11 @@
+from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, EquipmentModel
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, \
+    ReferenceMaterialValue, EquipmentModel
 from equipment_inventory.models import *
 
 
@@ -157,7 +159,30 @@ class InstrumentRetrievalDetailView(ActionDetailView):
     template_name = 'odm2/instrument-retrieval.html'
     page_title = 'Instrument Retrieval Details'
 
+    
+class CalibrationStandardsListView(ListView):
+    """
+    I know the class name says "CalibrationStandard" in it, but don't be fooled,
+    aparently a Calibration Standard actually a Reference Material Value... ¯\_(ツ)_/¯
+    """
+    model = ReferenceMaterialValue
+    template_name = 'odm2/calibration-standards.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        object_list = self.object_list.order_by('pk')
+        paginator = Paginator(object_list, 25)
+
+        page = self.request.GET.get('page', 1)
+        context.update(object_list=paginator.get_page(page))
+        return context
+
+
+class CalibrationStandardDetailView(DetailView):
+    model = ReferenceMaterialValue
+    template_name = 'odm2/calibration-standard.html'
+
+    
 class EquipmentListView(ActionListView):
     model = Equipment
     template_name = 'odm2/equipment-list.html'

@@ -71,6 +71,15 @@ class ReferenceMaterialAdmin(admin.ModelAdmin):
     form = ReferenceMaterialForm
     inlines = [ReferenceMaterialValueInline]
 
+    def response_change(self, request, obj):
+        return redirect(reverse('calibration-standard', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('calibration-standard', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('calibration-standards'))
+
 
 @admin.register(SiteVisitAction)
 class SiteVisitActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
@@ -149,6 +158,9 @@ class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
 
     def response_add(self, request, obj, post_url_continue=None):
         return redirect(reverse('calibration', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('calibrations'))
 
 
 @admin.register(EquipmentMaintenanceAction)
