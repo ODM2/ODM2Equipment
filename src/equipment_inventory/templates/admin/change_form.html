@@ -1,4 +1,4 @@
-{% extends "admin/base_site.html" %}
+{% extends "equipment_inventory/base.html" %}
 {% load i18n admin_urls static admin_modify %}
 
 {% block extrahead %}{{ block.super }}
@@ -23,63 +23,82 @@
 {% endblock %}
 {% endif %}
 
-{% block content %}<div id="content-main">
-{% block object-tools %}
-{% if change %}{% if not is_popup %}
-  <ul class="object-tools">
-    {% block object-tools-items %}
-    <li>
-        {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
-        <a href="{% add_preserved_filters history_url %}" class="historylink">{% trans "History" %}</a>
-    </li>
-    {% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif %}
-    {% endblock %}
-  </ul>
-{% endif %}{% endif %}
-{% endblock %}
-<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
-<div>
-{% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1" />{% endif %}
-{% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}" />{% endif %}
-{% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
-{% if errors %}
-    <p class="errornote">
-    {% if errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-    </p>
-    {{ adminform.form.non_field_errors }}
-{% endif %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base_custom.css" %}{% endblock %}" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/widgets.css"/>
+    <!-- These scripts here  -->
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+    <script type="text/javascript" src="/static/admin/js/core.js"></script>
+    <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="/static/admin/js/actions.min.js"></script>
+    <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+    {{ form.media }}
+    <div id="content-main">
+        {% block object-tools %}
+        {% if change %}{% if not is_popup %}
+          <ul class="object-tools">
+            {% block object-tools-items %}
+            <li>
+                {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+                <a href="{% add_preserved_filters history_url %}" class="historylink">{% trans "History" %}</a>
+            </li>
+            {% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif %}
+            {% endblock %}
+          </ul>
+        {% endif %}{% endif %}
+        {% endblock %}
 
-{% block field_sets %}
-{% for fieldset in adminform %}
-  {% include "admin/includes/fieldset.html" %}
-{% endfor %}
-{% endblock %}
+        <div class="ribbon ribbon-none"></div>
+        <div class="ribbon-container">
+            <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+                <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
+                    {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1" />{% endif %}
+                    {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}" />{% endif %}
+                    {% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+                    {% if errors %}
+                        <p class="errornote">
+                        {% if errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+                        </p>
+                        {{ adminform.form.non_field_errors }}
+                    {% endif %}
 
-{% block after_field_sets %}{% endblock %}
+                    {% block field_sets %}
+                    {% for fieldset in adminform %}
+                        <div class="row">
+                            {% include "admin/includes/fieldset.html" %}
+                        </div>
+                    {% endfor %}
+                    {% endblock %}
 
-{% block inline_field_sets %}
-{% for inline_admin_formset in inline_admin_formsets %}
-    {% include inline_admin_formset.opts.template %}
-{% endfor %}
-{% endblock %}
+                    {% block after_field_sets %}{% endblock %}
 
-{% block after_related_objects %}{% endblock %}
+                    {% block inline_field_sets %}
+                    {% for inline_admin_formset in inline_admin_formsets %}
+                        {% include inline_admin_formset.opts.template %}
+                    {% endfor %}
+                    {% endblock %}
 
-{% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+                    {% block after_related_objects %}{% endblock %}
 
-{% block admin_change_form_document_ready %}
-    <script type="text/javascript"
-            id="django-admin-form-add-constants"
-            src="{% static 'admin/js/change_form.js' %}"
-            {% if adminform and add %}
-                data-model-name="{{ opts.model_name }}"
-            {% endif %}>
-    </script>
-{% endblock %}
+                    {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
 
-{# JavaScript for prepopulated fields #}
-{% prepopulated_fields_js %}
+                    {% block admin_change_form_document_ready %}
+                        <script type="text/javascript"
+                                id="django-admin-form-add-constants"
+                                src="{% static 'admin/js/change_form.js' %}"
+                                {% if adminform and add %}
+                                    data-model-name="{{ opts.model_name }}"
+                                {% endif %}>
+                        </script>
+                    {% endblock %}
 
-</div>
-</form></div>
+                    {# JavaScript for prepopulated fields #}
+                    {% prepopulated_fields_js %}
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
