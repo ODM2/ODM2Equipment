@@ -177,6 +177,7 @@ class InstrumentRetrievalDetailView(ActionDetailView):
     template_name = 'odm2/instrument-retrieval.html'
     page_title = 'Instrument Retrieval Details'
 
+
 class MethodListView(PaginatorListView):
     model = Method
     template_name = 'odm2/methods.html'
@@ -186,23 +187,16 @@ class MethodListView(PaginatorListView):
 class MethodDetailView(DetailView):
     model = Method
     template_name = 'odm2/method.html'
-    
-class CalibrationStandardsListView(ListView):
+
+
+class CalibrationStandardsListView(PaginatorListView):
     """
     I know the class name says "CalibrationStandard" in it, but don't be fooled,
     aparently a Calibration Standard actually a Reference Material Value... ¯\_(ツ)_/¯
     """
     model = ReferenceMaterialValue
     template_name = 'odm2/calibration-standards.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        object_list = self.object_list.order_by('pk')
-        paginator = Paginator(object_list, 25)
-
-        page = self.request.GET.get('page', 1)
-        context.update(object_list=paginator.get_page(page))
-        return context
+    default_sort_by = '-reference_material__reference_material_medium'
 
 
 class CalibrationStandardDetailView(DetailView):
@@ -233,3 +227,11 @@ class EquipmentModelDetailView(ActionDetailView):
     page_title = 'Equipment Model Details'
 
 
+class InstrumentOutputVariablesListView(PaginatorListView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variables.html'
+
+
+class InstrumentOutputVariableDetailView(DetailView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variable.html'
