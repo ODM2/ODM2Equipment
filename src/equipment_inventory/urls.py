@@ -26,7 +26,7 @@ urlpatterns = [
     path('site-visits', SiteVisitListView.as_view(), name='site-visit-list'),
     path('site-visits/<action_id>', SiteVisitDetailView.as_view(), name='site-visit-detail'),
     path('people', PeopleListView.as_view(), name='people-list'),
-    path('people-detail/<person_id>', PeopleDetailView.as_view(), name='people-detail'),
+    path('people-detail/<int:pk>', PeopleDetailView.as_view(), name='people-detail'),
     path('equipment-deployments', EquipmentDeploymentsListView.as_view(), name='equipment-deployments-list'),
     path('instrument-deployments', InstrumentDeploymentsListView.as_view(), name='instrument-deployments-list'),
     path('equipment-deployment-detail/<action_id>', EquipmentDeploymentDetailView.as_view(), name='equipment-deployment-detail'),
@@ -39,5 +39,7 @@ urlpatterns = [
     path('equipments', EquipmentListView.as_view(), name='equipment-list'),
     path('equipment-details/<int:pk>', EquipmentDetailView.as_view(), name='equipment-details'),
     path('equipment-model-list', EquipmentModelListView.as_view(), name='equipment-model-list'),
-    path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details')
+    path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details'),
+    path('organization-list', OrganizationListView.as_view(), name='organization-list'),
+    path('organization-details/<int:pk>', OrganizationDetailView.as_view(), name='organization-details'),
 ]

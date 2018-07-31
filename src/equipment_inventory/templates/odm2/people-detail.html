@@ -13,8 +13,8 @@
 {% block header_buttons_toolbar %}
     <div class="buttons-toolbar row">
         <div class="col-12 text-right">
-            <a href="{% url 'admin:odm2_people_change' people.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
-                <i class="material-icons center-icon">mode_edit</i> Edit Result
+            <a href="{% url 'admin:odm2_people_change' object.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+                <i class="material-icons center-icon">mode_edit</i> Edit Person
             </a>
             <button type="button" data-toggle="modal" data-target="#site-delete-dialog"
                     style="background: #d9534f; color:#FFF;"
@@ -29,30 +29,59 @@
     <div class="detail-content col-sm-6">
         <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover full-width">
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Result Date</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ result.result_datetime }}</td>
+                <td class="mdl-data-table__cell--non-numeric">Name</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ object.person_first_name }} {{ object.person_last_name }} </td>
             </tr>
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Site Code</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ result.feature_action.sampling_feature.sampling_feature_code }}</td>
+                <td class="mdl-data-table__cell--non-numeric">Organization</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ object.affiliations.first.organization.organization_name }}</td>
             </tr>
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Site Name</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ result.feature_action.sampling_feature.sampling_feature_name }}</td>
+                <td class="mdl-data-table__cell--non-numeric">Address</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ object.affiliations.first.primary_address }}</td>
             </tr>
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Variable Code</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ result.variable.variable_code }}</td>
+                <td class="mdl-data-table__cell--non-numeric">Phone</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ object.affiliations.first.primary_phone }}</td>
             </tr>
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Variable Name</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ result.variable.variable_name }}</td>
-            </tr>
-            <tr>
-                <td class="mdl-data-table__cell--non-numeric">Result Type</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ result.result_type }}</td>
+                <td class="mdl-data-table__cell--non-numeric">Email</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ object.affiliations.first.primary_email }}</td>
             </tr>
         </table>
     </div>
 
+{% endblock %}
+
+{% block extra_content %}
+    <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+        <div class="row">
+            <div class="col-12">
+                <h6 class="page-title grid" style="grid-template-columns: auto auto;">
+                    <span>Equipments for this Person </span>
+                </h6>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover aligned">
+                    <thead>
+                    <tr>
+                        <th align="left">Serial Number</th>
+                        <th align="left">Model</th>
+                        <th align="left">Type</th>
+                        <th align="left">Manufacturer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for equipment in object.owned_equipment.all %}
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_serial_number }} {{ object.person_last_name }} </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_model }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_type }}</td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

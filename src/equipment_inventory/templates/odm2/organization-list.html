@@ -1,0 +1,53 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    Calibration Actions
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Code</th>
+    <th class="mdl-data-table__cell--non-numeric">Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Type</th>
+    <th class="mdl-data-table__cell--non-numeric d-none d-lg-table-cell">Website</th>
+{% endblock %}
+
+{% block header-actions %}
+    <a href="{% url 'admin:equipment_inventory_instrumentcalibrationaction_add' %}"
+       class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+        <i class="material-icons center-icon">create</i> Create
+    </a>
+{% endblock %}
+
+{% block table-rows %}
+    {% for organization in object_list %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'organization-details' organization.pk %}">{{ organization.organization_code }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{{ organization.organization_name }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ organization.organization_type }}</td>
+            <td class="mdl-data-table__cell--non-numeric d-none d-lg-table-cell">{{ organization.organization_link }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block table-pagination %}
+    <tr>
+        <td colspan="5" class="mdl-data-table__cell--non-selectable">
+            <span class="step-links">
+            {% if actions.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ actions.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ actions.number }} of {{ actions.paginator.num_pages }}
+            </span>
+
+            {% if actions.has_next %}
+                <a href="?page={{ actions.next_page_number }}">next</a>
+                <a href="?page={{ actions.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            </span>
+        </td>
+    </tr>
+{% endblock %}

@@ -3,7 +3,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, EquipmentModel
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, \
+    People, Equipment, EquipmentModel, Organization
 from equipment_inventory.models import *
 
 
@@ -62,20 +63,6 @@ class SiteVisitDetailView(DetailView):
     slug_field = 'action_id'
 
 
-class PeopleListView(ListView):
-    model = People
-    template_name = 'odm2/people-list.html'
-    context_object_name = 'people'
-
-
-class PeopleDetailView(DetailView):
-    model = People
-    template_name = 'odm2/people-detail.html'
-    context_object_name = 'person'
-    slug_url_kwarg = 'person_id'
-    slug_field = 'person_id'
-
-
 class ActionDetailView(DetailView):
     model = Action
     template_name = 'odm2/action-detail.html'
@@ -106,6 +93,18 @@ class ActionListView(ListView):
         context['actions'] = paginator.get_page(page)
 
         return context
+
+
+class PeopleListView(ActionListView):
+    model = People
+    template_name = 'odm2/people-list.html'
+    context_object_name = 'people'
+
+
+class PeopleDetailView(ActionDetailView):
+    model = People
+    template_name = 'odm2/people-detail.html'
+    # context_object_name = 'person'
 
 
 class EquipmentDeploymentsListView(ListView):
@@ -179,5 +178,16 @@ class EquipmentModelDetailView(ActionDetailView):
     model = EquipmentModel
     template_name = 'odm2/equipment-model-detail.html'
     page_title = 'Equipment Model Details'
+
+
+class OrganizationListView(ActionListView):
+    model = Organization
+    template_name = 'odm2/organization-list.html'
+
+
+class OrganizationDetailView(ActionDetailView):
+    model = Organization
+    template_name = 'odm2/organization-details.html'
+    page_title = 'Organization Details'
 
 
