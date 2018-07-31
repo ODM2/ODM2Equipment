@@ -65,11 +65,29 @@ class PeopleAdmin(admin.ModelAdmin):
 class MethodAdmin(admin.ModelAdmin):
     form = MethodForm
 
+    def response_change(self, request, obj):
+        return redirect(reverse('method', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('method', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('methods'))
+
 
 @admin.register(ReferenceMaterial)
 class ReferenceMaterialAdmin(admin.ModelAdmin):
     form = ReferenceMaterialForm
     inlines = [ReferenceMaterialValueInline]
+
+    def response_change(self, request, obj):
+        return redirect(reverse('calibration-standard', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('calibration-standard', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('calibration-standards'))
 
 
 @admin.register(SiteVisitAction)
@@ -95,6 +113,9 @@ class EquipmentDeploymentAdmin(StandaloneActionAdminMixin, admin.ModelAdmin):
     def response_add(self, request, obj, post_url_continue=None):
         return redirect(reverse('equipment-deployment-detail', kwargs={'pk': obj.pk}))
 
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('equipment-deployments-list'))
+
 
 @admin.register(InstrumentDeploymentAction)
 class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
@@ -106,10 +127,13 @@ class InstrumentDeploymentAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
         css = {'all': ('equipment_inventory/css/form-style.css', )}
 
     def response_change(self, request, obj):
-        return redirect(reverse('instrument-deployment-detail', kwargs={'action_id': obj.pk}))
+        return redirect(reverse('instrument-deployment-detail', kwargs={'pk': obj.pk}))
 
     def response_add(self, request, obj, post_url_continue=None):
-        return redirect(reverse('instrument-deployment-detail', kwargs={'action_id': obj.pk}))
+        return redirect(reverse('instrument-deployment-detail', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('instrument-deployments-list'))
 
 
 @admin.register(EquipmentRetrievalAction)
@@ -117,12 +141,6 @@ class EquipmentRetrievalAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     form = EquipmentRetrievalForm
     action_type = 'Equipment retrieval'
     inlines = [RelatedDeploymentRetrievalInline, SingleNonInstrumentEquipmentUsedInline, FeatureActionInline]
-
-    def response_change(self, request, obj):
-        return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
-
-    def response_add(self, request, obj, post_url_continue=None):
-        return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
 
 
 @admin.register(InstrumentRetrievalAction)
@@ -137,6 +155,9 @@ class InstrumentRetrievalAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
     def response_add(self, request, obj, post_url_continue=None):
         return redirect(reverse('instrument-retrieval', kwargs={'pk': obj.pk}))
 
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('instrument-retrievals'))
+
 
 @admin.register(InstrumentCalibrationAction)
 class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
@@ -149,6 +170,9 @@ class InstrumentCalibrationAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
 
     def response_add(self, request, obj, post_url_continue=None):
         return redirect(reverse('calibration', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('calibrations'))
 
 
 @admin.register(EquipmentMaintenanceAction)
