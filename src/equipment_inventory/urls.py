@@ -38,4 +38,8 @@ urlpatterns = [
     path('instrument-retrievals', InstrumentRetrievalListView.as_view(), name='instrument-retrievals'),
     path('instrument-retrievals/<int:pk>', InstrumentRetrievalDetailView.as_view(), name='instrument-retrieval'),
     path('actions/<int:pk>', ActionDetailView.as_view(), name='action'),
+    path('equipments', EquipmentListView.as_view(), name='equipment-list'),
+    path('equipment-details/<int:pk>', EquipmentDetailView.as_view(), name='equipment-details'),
+    path('equipment-model-list', EquipmentModelListView.as_view(), name='equipment-model-list'),
+    path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details')
 ]

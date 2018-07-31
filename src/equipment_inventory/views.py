@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, \
-    ReferenceMaterialValue
+    ReferenceMaterialValue, EquipmentModel
 from equipment_inventory.models import *
 
 
@@ -159,7 +159,7 @@ class InstrumentRetrievalDetailView(ActionDetailView):
     template_name = 'odm2/instrument-retrieval.html'
     page_title = 'Instrument Retrieval Details'
 
-
+    
 class CalibrationStandardsListView(ListView):
     """
     I know the class name says "CalibrationStandard" in it, but don't be fooled,
@@ -181,4 +181,28 @@ class CalibrationStandardsListView(ListView):
 class CalibrationStandardDetailView(DetailView):
     model = ReferenceMaterialValue
     template_name = 'odm2/calibration-standard.html'
+
+    
+class EquipmentListView(ActionListView):
+    model = Equipment
+    template_name = 'odm2/equipment-list.html'
+    context_object_name = 'equipments'
+
+
+class EquipmentDetailView(ActionDetailView):
+    model = Equipment
+    template_name = 'odm2/equipment-details.html'
+    page_title = 'Equipment Details'
+
+
+class EquipmentModelListView(ActionListView):
+    model = EquipmentModel
+    template_name = 'odm2/equipment-model-list.html'
+
+
+class EquipmentModelDetailView(ActionDetailView):
+    model = EquipmentModel
+    template_name = 'odm2/equipment-model-detail.html'
+    page_title = 'Equipment Model Details'
+
 

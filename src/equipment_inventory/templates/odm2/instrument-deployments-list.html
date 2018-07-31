@@ -1,6 +1,6 @@
 {% extends 'equipment_inventory/list.html' %}
 {% block list-title %}
-    People
+    Instrument Deployments
 {% endblock %}
 
 {% block table-headers %}
@@ -10,11 +10,18 @@
     <th class="mdl-data-table__cell--non-numeric">Equipment Serial Number</th>
 {% endblock %}
 
+{% block header-actions %}
+    <a href="{% url 'admin:equipment_inventory_instrumentdeploymentaction_add' %}"
+       class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+        <i class="material-icons center-icon">create</i> Create
+    </a>
+{% endblock %}
+
 {% block table-rows %}
     {% for action in actions %}
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-                <a href="{% url 'instrument-deployment-detail' action.pk %}">{{ action.begin_datetime }} {{ person.person_last_name }}</a>
+                <a href="{% url 'instrument-deployment-detail' action.pk %}">{{ action.begin_datetime }}</a>
             </td>
             <td class="mdl-data-table__cell--non-numeric">{{ action.parent_site_visit.feature_actions.first.sampling_feature.sampling_feature_code}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ action.parent_site_visit.feature_actions.first.sampling_feature.sampling_feature_name }}</td>

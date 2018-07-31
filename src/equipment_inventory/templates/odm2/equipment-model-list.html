@@ -1,0 +1,33 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    Equipment Models
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Equipment Model Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Equipment Part Number</th>
+    <th class="mdl-data-table__cell--non-numeric">Manufacturer Name</th>
+    <th class="mdl-data-table__cell--non-numeric">Equipment Model Description</th>
+
+
+{% endblock %}
+
+{% block header-actions %}
+    <a href="{% url 'admin:odm2_equipmentmodel_add' %}"
+       class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+        <i class="material-icons center-icon">create</i> Create
+    </a>
+{% endblock %}
+
+{% block table-rows %}
+    {% for equipmentmodel in object_list %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'equipment-model-details' equipmentmodel.pk %}">{{ equipmentmodel.model_name }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{{ equipmentmodel.model_part_number}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ equipmentmodel.model_manufacturer.organization_name}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ equipmentmodel.model_description }}
+        </tr>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    <h3>{{ page_title }}</h3>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/site-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="{% url 'admin:odm2_equipment_change' object.pk %}" id="btn-edit-sampling_feature"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+                <i class="material-icons center-icon">mode_edit</i> Edit Equipment
+            </a>
+
+            <a href="{% url 'admin:odm2_equipment_delete' object.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+
+        <div class="col-12">
+            <h5>Equipment</h5>
+        </div>
+        <div class="col-12">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp">
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Equipment Serial Number:</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_serial_number|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Equipment Type</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_type|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Equipment Code</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_code|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Equipment Name</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Equipment Description</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_description|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Equipment Link</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_documentation_link|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Name</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_mocel.equipment_model_id|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Description</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_model.model_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Purchase Date</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_purchase_date|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Purchase Order Number</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_purchase_order_number|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Documentation Link</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.quipment_documentation_link|default:'-' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-12">
+            <h5>Owner</h5>
+        </div>
+            <div class="col-12">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp">
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Name:</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'people-detail' object.equipment_owner.pk %}">{{ object.equipment_owner.person_first_name|default:'-' }} {{ object.equipment_owner.person_last_name|default:'-' }}</a></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Institution</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_owner.affiliations.first.organization.organization_name|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Address</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_owner.affiliations.first.primary_address|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Phone</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_owner.affiliations.first.primary_phone|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Email</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_owner.affiliations.first.primary_email|default:'-' }}</td>
+                    </tr>
+                </table>
+            </div>
+    <div class="col-12">
+            <h5>Manufacturer</h5>
+        </div>
+            <div class="col-12">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp">
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Name:</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_model.model_manufacturer.organization_name|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><strong>Website</strong></td>
+                        <td class="mdl-data-table__cell--non-numeric"><a target="_blank"
+                           href="{% if "http" not in object.equipment_model.model_manufacturer.organization_link %}
+                        http://{% endif %}{{ object.equipment_model.model_manufacturer.organization_link }}/">
+                            {{ object.equipment_model.model_manufacturer.organization_link|default:'-' }}</a></td>
+                    </tr>
+                </table>
+            </div>
+
+{% endblock %}
