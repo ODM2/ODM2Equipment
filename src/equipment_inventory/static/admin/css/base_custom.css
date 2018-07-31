@@ -974,8 +974,13 @@
 		width: 50%;
 	}
 
-	.vIntegerField, .vLargeTextField {
+	.vIntegerField, .vTextField, .vLargeTextField, 	input[type=text], input[type=number], input[type=password],
+	input[type=email], input[type=url], input[type=tel], .form-row textarea, .form-row select {
 		width: 66%;
+	}
+
+	.related-widget-wrapper {
+		width: 100%;
 	}
 
 @media(min-width: 840px) {
@@ -984,12 +989,13 @@
 	}
 }
 
-	@media(max-width: 840px) {
-			.vDateField, .vTimeField {
-			width: 75%;
-		}
-
-		.vIntegerField, .vLargeTextField {
-			width: 97%;
-		}
+@media(max-width: 840px) {
+		.vDateField, .vTimeField {
+		width: 75%;
 	}
+
+	.vIntegerField, .vTextField, .vLargeTextField, 	input[type=text], input[type=number], input[type=password],
+	input[type=email], input[type=url], input[type=tel], .form-row textarea, .form-row select {
+		width: 97%;
+	}
+}
