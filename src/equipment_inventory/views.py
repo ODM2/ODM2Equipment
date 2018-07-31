@@ -5,13 +5,31 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, \
-    ReferenceMaterialValue, EquipmentModel
+  ReferenceMaterialValue, EquipmentModel, Method
 from equipment_inventory.models import *
 
 
 class HomeView(TemplateView):
     template_name = 'equipment_inventory/home.html'
 
+
+class PaginatorListView(ListView):
+
+    default_sort_by = 'pk'
+    default_per_page = 25
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+
+        sort_by = self.request.GET.get('sort_by', self.default_sort_by)
+        page = self.request.GET.get('page', 1)
+        per_page = self.request.GET.get('per_page', self.default_per_page)
+
+        object_list = self.object_list.order_by(sort_by)
+        paginator = Paginator(object_list, per_page)
+
+        context.update(object_list=paginator.get_page(page))
+        return context
 
 # Site Views
 
@@ -159,6 +177,15 @@ class InstrumentRetrievalDetailView(ActionDetailView):
     template_name = 'odm2/instrument-retrieval.html'
     page_title = 'Instrument Retrieval Details'
 
+class MethodListView(PaginatorListView):
+    model = Method
+    template_name = 'odm2/methods.html'
+    default_sort_by = 'method_type'
+
+
+class MethodDetailView(DetailView):
+    model = Method
+    template_name = 'odm2/method.html'
     
 class CalibrationStandardsListView(ListView):
     """

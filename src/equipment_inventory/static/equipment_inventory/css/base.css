@@ -86,13 +86,13 @@ html > body {
     width: 100%;
 }
 
-.mdl-data-table__cell--non-selectable {
+.mdl-data-table__cell--no-hover {
     transition-duration: unset;
     transition-timing-function: unset;
     transition-property: unset;
     background-color: #fff;
 }
-.mdl-data-table__cell--non-selectable:hover {
+.mdl-data-table__cell--no-hover:hover {
     background-color: #fff;
 }
 

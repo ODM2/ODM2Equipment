@@ -35,9 +35,9 @@
                                 <tbody>
                                     {% block table-rows %}{% endblock %}
 
-                                    {% block table-paginator %}
+                                    {% block table-pagination %}
                                     <tr>
-                                        <td colspan="5" class="mdl-data-table__cell--non-selectable">
+                                        <td colspan="5" class="mdl-data-table__cell--no-hover">
                                             <span class="step-links">
                                             {% if actions.has_previous %}
                                                 <a href="?page=1">&laquo; first</a>
@@ -55,7 +55,7 @@
                                             </span>
                                         </td>
                                     </tr>
-                                    {% endblock %}
+                                {% endblock %}
                                 </tbody>
                             </table>
                         </div>
