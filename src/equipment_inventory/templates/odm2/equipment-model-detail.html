@@ -1,0 +1,126 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    <h3>{{ page_title }}</h3>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/site-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="{% url 'admin:odm2_equipmentmodel_change' object.pk %}" id="btn-edit-sampling_feature"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+                <i class="material-icons center-icon">mode_edit</i> Edit Equipment
+            </a>
+
+            <a href="{% url 'admin:odm2_equipmentmodel_delete' object.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+
+        <div class="col-12">
+            <h5>Equipment Model Details</h5>
+        </div>
+        <div class="col-12">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp">
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Name:</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.model_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Part Number</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.model_part_number|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Manufacturer Name</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.model_manufacturer.organization_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Manufacturer Website</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric"><a target="_blank"
+                           href="{% if "http" not in object.model_manufacturer.organization_link %}
+                        http://{% endif %}{{ object.model_manufacturer.organization_link }}/">
+                            {{ object.model_manufacturer.organization_link|default:'-' }}</a></td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Description</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.model_description|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Is Instrument</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.is_instrument|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Specifications File Link</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.model_specifications_file_link|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>Model Link</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric"><a target="_blank"
+                           href="{% if "http" not in object.model_link %}
+                        http://{% endif %}{{ object.model_link }}/">
+                            {{ object.model_link|default:'-' }}</a></td>
+                </tr>
+            </table>
+        </div>
+
+
+{% endblock %}
+
+
+{% block extra_content %}
+    <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+        <div class="row">
+            <div class="col-12">
+                <h6 class="page-title grid" style="grid-template-columns: auto auto;">
+                    <span>Equipments for this Model</span>
+                </h6>
+
+                {% include 'includes/equipment-used.template.html' with equipments=object.equipment.all %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-md-9"><h3>Variables for this Model</h3></div>
+        </div>
+        <hr class="divider">
+        </div>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp">
+
+                <tr>
+                    <th>Variable Code</th>
+                    <th>Variable Name</th>
+                    <th>Model Name</th>
+                    <th>Method Code</th>
+                    <th>Method Name</th>
+                </tr>
+
+
+                {% for variable in object.instrument_output_variables.all %}
+                    {% if variable.model.is_instrument %}
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            {{ variable.variable.variable_code }}
+                        </td>
+                        <td>{{ variable.variable.variable_name}}</td>
+                        <td>{{ object.model_name }}</td>
+                        <td>{{ variable.instrument_method.method_code }}</td>
+                        <td>{{ variable.instrument_method.method_name }}</td>
+                    </tr>
+                    {% endif %}
+                {%endfor%}
+
+            </table>
+        </div>
+{% endblock %}
+

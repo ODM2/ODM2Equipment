@@ -33,9 +33,15 @@ urlpatterns = [
     path('instrument-deployment-detail/<action_id>', InstrumentDeploymentDetailView.as_view(), name='instrument-deployment-detail'),
     path('calibrations', CalibrationActionListView.as_view(), name='calibrations'),
     path('calibrations/<int:pk>', CalibrationActionDetailView.as_view(), name='calibration'),
+    path('calibration-standards', CalibrationStandardsListView.as_view(), name='calibration-standards'),
+    path('calibration-standards/<pk>', CalibrationStandardDetailView.as_view(), name='calibration-standard'),
     path('instrument-retrievals', InstrumentRetrievalListView.as_view(), name='instrument-retrievals'),
     path('instrument-retrievals/<int:pk>', InstrumentRetrievalDetailView.as_view(), name='instrument-retrieval'),
     path('actions/<int:pk>', ActionDetailView.as_view(), name='action'),
     path('methods', MethodListView.as_view(), name='methods'),
     path('methods/<pk>', MethodDetailView.as_view(), name='method'),
+    path('equipments', EquipmentListView.as_view(), name='equipment-list'),
+    path('equipment-details/<int:pk>', EquipmentDetailView.as_view(), name='equipment-details'),
+    path('equipment-model-list', EquipmentModelListView.as_view(), name='equipment-model-list'),
+    path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details')
 ]

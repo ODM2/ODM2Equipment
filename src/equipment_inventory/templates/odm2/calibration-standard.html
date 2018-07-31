@@ -1,0 +1,79 @@
+{% extends 'equipment_inventory/details.html' %}
+{% load static %}
+
+{% block detail-title %}
+    <h4>Calibration Standard (Reference Material)</h4>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'odm2/css/site-detail.css' %}">
+{% endblock %}
+
+{% block header_buttons_toolbar %}
+    <div class="buttons-toolbar row">
+        <div class="col-12 text-right">
+            <a href="{% url 'admin:odm2_referencematerial_change' object.pk %}" id="btn-edit-sampling_feature"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+                <i class="material-icons center-icon">mode_edit</i> Edit
+            </a>
+
+            <a href="{% url 'admin:odm2_referencematerial_delete' object.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
+                <i class="material-icons center-icon">delete_forever</i> Delete
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_main_section %}
+
+        <div class="col-12">
+            <h5>Calibration Standard Details</h5>
+        </div>
+        <div class="col-12">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover mdl-shadow--2dp full-width full-width-sm detail-table">
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Reference Material Value</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material_value|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Accuracy</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material_accuracy|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Variable</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.variable.variable_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Units</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.unit.unit_name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Purchase Date</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material.reference_material_purchase_date|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Lot Code</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material.reference_material_lot_code|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Expiration Date</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material.reference_material_expiration_date|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Certificate File</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material.reference_material_certificate_link|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Medium</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material.reference_material_medium.name|default:'-' }}</td>
+                </tr>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric"><strong>Organization</strong></th>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.reference_material.reference_material_organization.organization_name|default:'-' }}</td>
+                </tr>
+            </table>
+        </div>
+
+{% endblock %}

@@ -38,6 +38,12 @@ class OrganizationAdmin(admin.ModelAdmin):
 class EquipmentAdmin(admin.ModelAdmin):
     form = EquipmentForm
 
+    def response_change(self, request, obj):
+        return redirect(reverse('equipment-list', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('equipment-details', kwargs={'pk': obj.pk}))
+
 
 @admin.register(EquipmentModel)
 class EquipmentModelAdmin(admin.ModelAdmin):
@@ -73,6 +79,15 @@ class MethodAdmin(admin.ModelAdmin):
 class ReferenceMaterialAdmin(admin.ModelAdmin):
     form = ReferenceMaterialForm
     inlines = [ReferenceMaterialValueInline]
+
+    def response_change(self, request, obj):
+        return redirect(reverse('calibration-standard', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('calibration-standard', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('calibration-standards'))
 
 
 @admin.register(SiteVisitAction)
