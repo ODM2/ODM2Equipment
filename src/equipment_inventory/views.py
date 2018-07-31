@@ -198,15 +198,6 @@ class CalibrationStandardsListView(PaginatorListView):
     template_name = 'odm2/calibration-standards.html'
     default_sort_by = '-reference_material__reference_material_medium'
 
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(object_list=object_list, **kwargs)
-    #     object_list = self.object_list.order_by('pk')
-    #     paginator = Paginator(object_list, 25)
-    #
-    #     page = self.request.GET.get('page', 1)
-    #     context.update(object_list=paginator.get_page(page))
-    #     return context
-
 
 class CalibrationStandardDetailView(DetailView):
     model = ReferenceMaterialValue
@@ -236,6 +227,11 @@ class EquipmentModelDetailView(ActionDetailView):
     page_title = 'Equipment Model Details'
 
 
-class InstrumentOutputVariablesListView(ListView):
+class InstrumentOutputVariablesListView(PaginatorListView):
     model = InstrumentOutputVariable
     template_name = 'odm2/instrument-output-variables.html'
+
+
+class InstrumentOutputVariableDetailView(DetailView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variable.html'

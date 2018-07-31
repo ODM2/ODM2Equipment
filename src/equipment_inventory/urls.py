@@ -45,4 +45,5 @@ urlpatterns = [
     path('equipment-model-list', EquipmentModelListView.as_view(), name='equipment-model-list'),
     path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details'),
     path('instrument-output-variables', InstrumentOutputVariablesListView.as_view(), name='instrument-output-variables'),
+    path('instrument-output-variables/<pk>', InstrumentOutputVariableDetailView.as_view(), name='instrument-output-variable'),
 ]
