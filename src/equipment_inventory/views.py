@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import reverse
 from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.contrib.contenttypes.models import ContentType
 
 
 from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, \
@@ -62,6 +63,7 @@ class SiteDetailView(DetailView):
 class ActionListView(PaginatorListView):
     model = Action
     default_sort_order = '-begin_datetime'
+    template_name = 'odm2/actions.html'
 
 
 class ActionDetailView(DetailView):
@@ -244,3 +246,8 @@ class InstrumentOutputVariablesListView(PaginatorListView):
 class InstrumentOutputVariableDetailView(DetailView):
     model = InstrumentOutputVariable
     template_name = 'odm2/instrument-output-variable.html'
+
+
+class OtherActionsListView(ActionListView):
+    model = GenericAction
+    page_title = 'Action Detail'

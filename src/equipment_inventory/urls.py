@@ -50,4 +50,5 @@ urlpatterns = [
     path('factory-service/<pk>', FactoryServiceDetailView.as_view(), name='factory-service'),
     path('instrument-output-variables', InstrumentOutputVariablesListView.as_view(), name='instrument-output-variables'),
     path('instrument-output-variables/<pk>', InstrumentOutputVariableDetailView.as_view(), name='instrument-output-variable'),
+    path('other-actions', OtherActionsListView.as_view(), name='other-actions')
 ]

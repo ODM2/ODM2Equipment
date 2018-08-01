@@ -549,7 +549,6 @@ class Action(ODM2Model):
                     return None
             else:
                 self._sampling_feature = self.sampling_features.first()
-
         return self._sampling_feature
 
     def __str__(self):
