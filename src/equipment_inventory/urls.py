@@ -44,6 +44,8 @@ urlpatterns = [
     path('equipment-details/<int:pk>', EquipmentDetailView.as_view(), name='equipment-details'),
     path('equipment-model-list', EquipmentModelListView.as_view(), name='equipment-model-list'),
     path('equipment-model-details/<int:pk>', EquipmentModelDetailView.as_view(), name='equipment-model-details'),
+    path('factory-service', FactoryServiceListView.as_view(), name='factory-service-list'),
+    path('factory-service/<pk>', FactoryServiceDetailView.as_view(), name='factory-service'),
     path('instrument-output-variables', InstrumentOutputVariablesListView.as_view(), name='instrument-output-variables'),
     path('instrument-output-variables/<pk>', InstrumentOutputVariableDetailView.as_view(), name='instrument-output-variable'),
 ]
