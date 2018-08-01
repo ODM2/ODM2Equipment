@@ -180,6 +180,7 @@ class CalibrationStandardsListView(ActionListView):
     """
     model = ReferenceMaterialValue
     template_name = 'odm2/calibration-standards.html'
+    default_sort_by = '-reference_material__reference_material_medium'
 
 
 class CalibrationStandardDetailView(DetailView):
@@ -220,4 +221,12 @@ class FactoryServiceDetailView(ActionDetailView):
     template_name = 'odm2/factory-service.html'
     page_title = 'Factory Service Detail'
 
+    
+class InstrumentOutputVariablesListView(PaginatorListView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variables.html'
 
+
+class InstrumentOutputVariableDetailView(DetailView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variable.html'
