@@ -39,7 +39,7 @@ class EquipmentAdmin(admin.ModelAdmin):
     form = EquipmentForm
 
     def response_change(self, request, obj):
-        return redirect(reverse('equipment-list', kwargs={'pk': obj.pk}))
+        return redirect(reverse('equipment-details', kwargs={'pk': obj.pk}))
 
     def response_add(self, request, obj, post_url_continue=None):
         return redirect(reverse('equipment-details', kwargs={'pk': obj.pk}))
@@ -91,7 +91,7 @@ class ReferenceMaterialAdmin(admin.ModelAdmin):
 
 
 @admin.register(SiteVisitAction)
-class SiteVisitActionAdmin(StandaloneActionAdminMixin, NestedModelAdmin):
+class SiteVisitActionAdmin(NestedModelAdmin, StandaloneActionAdminMixin):
     form = SiteVisitActionForm
     action_type = 'Field activity'
     inlines = [SiteVisitFeatureActionInline, ActionByInline]

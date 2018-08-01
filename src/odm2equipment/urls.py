@@ -25,4 +25,5 @@ urlpatterns = [
     path('{}admin/'.format(BASE_URL), admin.site.urls),
     path(BASE_URL, include('equipment_inventory.urls')),
     path('{}nested_admin/'.format(BASE_URL), include('nested_admin.urls')),
+    path('users/', include('users.urls', namespace='users'))
 ]

@@ -30,8 +30,8 @@
 
 <body>
 <div id="wrapper">
-    <header>
-        <nav class="navbar navbar-expand-lg fixed-top light-background">
+{#    <header>#}
+        <nav class="navbar navbar-expand-lg light-background">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static 'equipment_inventory/img/iutah_logo.png' %}" alt="Equipment Inventory" width="128" height="45">
             </a>
@@ -103,19 +103,22 @@
                 <span class="user-info"><i class="fa fa-user" aria-hidden="true"></i> Logged in as {{ user }}</span>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                        <a class="nav-link" href="{% url 'admin:logout' %}?next=/"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
                     </li>
                 </ul>
                 {% else %}
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a>
+                        <a class="nav-link" href="{% url 'admin:login' %}?next=/"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a>
                     </li>
                 </ul>
                 {% endif %}
             </div>
         </nav>
-    </header>
+{#    </header>#}
     {% block home_page_banner %}{% endblock %}
     {% block content %}{% endblock %}
     <div id="clipboard-snackbar" class="mdl-js-snackbar mdl-snackbar">

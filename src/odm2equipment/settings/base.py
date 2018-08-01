@@ -43,16 +43,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'odm2',
+    'equipment_inventory',
+    'users',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'easy_select2',
-    'equipment_inventory',
     'nested_admin',
     'django.contrib.admin',
-    'odm2',
     'requests'
 
 ]
