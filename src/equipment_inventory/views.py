@@ -38,7 +38,7 @@ class PaginatorListView(ListView):
 
 
 # Site Views
-class SiteListView(ListView):
+class SiteListView(PaginatorListView):
     model = SamplingFeature
     template_name = 'odm2/sites-list.html'
     context_object_name = 'sampling_features'
@@ -107,25 +107,12 @@ class PeopleListView(ActionListView):
     model = People
     template_name = 'odm2/people-list.html'
     context_object_name = 'people'
+    default_sort_by = 'person_last_name'
 
 
 class PeopleDetailView(ActionDetailView):
     model = People
     template_name = 'odm2/people-detail.html'
-
-
-class PeopleListView(PaginatorListView):
-    model = People
-    template_name = 'odm2/people-list.html'
-    default_sort_by = 'person_last_name'
-
-
-class PeopleDetailView(DetailView):
-    model = People
-    template_name = 'odm2/people-detail.html'
-    context_object_name = 'person'
-    slug_url_kwarg = 'person_id'
-    slug_field = 'person_id'
 
 
 class EquipmentDeploymentsListView(ActionListView):
