@@ -11,6 +11,8 @@ from odm2.models import SamplingFeature, Affiliation, Action, ActionType, Equipm
     Organization, CalibrationReferenceEquipment, CalibrationStandard, ReferenceMaterial, ReferenceMaterialValue, \
     EquipmentModel, MaintenanceAction, InstrumentOutputVariable, RelatedAction
 
+from django.contrib.admin.widgets import AdminDateWidget;
+
 select_2_default_options = {
     'allowClear': True,
 }
@@ -26,6 +28,8 @@ class SiteVisitActionForm(forms.ModelForm):
             'end_datetime_utc_offset',
             'action_description'
         ]
+        begin_datetime_utc_offset = forms.NumberInput()
+        end_datetime_utc_offset = forms.NumberInput()
 
 
 class StandaloneActionForm(forms.ModelForm):

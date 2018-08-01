@@ -33,11 +33,11 @@ class PaginatorListView(ListView):
         object_list = self.object_list.order_by(sort_by)
         paginator = Paginator(object_list, per_page)
 
-        context.update(object_list=paginator.get_page(page))
+        context.update(object_list=paginator.get_page(page), actions=paginator.get_page(page))
         return context
 
-# Site Views
 
+# Site Views
 class SiteListView(ListView):
     model = SamplingFeature
     template_name = 'odm2/sites-list.html'
@@ -59,7 +59,23 @@ class SiteDetailView(DetailView):
         return context
 
 
-class ResultsListView(ListView):
+class ActionListView(PaginatorListView):
+    model = Action
+    default_sort_order = '-begin_datetime'
+
+
+class ActionDetailView(DetailView):
+    model = Action
+    template_name = 'odm2/action-detail.html'
+    page_title = 'Action Detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(page_title=self.page_title)
+        return context
+
+
+class ResultsListView(PaginatorListView):
     model = Result
     template_name = 'odm2/results-list.html'
     context_object_name = 'results'
@@ -87,38 +103,6 @@ class SiteVisitDetailView(DetailView):
     slug_field = 'action_id'
 
 
-class ActionDetailView(DetailView):
-    model = Action
-    template_name = 'odm2/action-detail.html'
-    page_title = 'Action Detail'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(page_title=self.page_title)
-        return context
-
-
-class ActionListView(ListView):
-    model = Action
-
-    default_page_count = 25
-    default_sort_order = '-begin_datetime'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-
-        page = self.request.GET.get('page', 1)
-        per_page = self.request.GET.get('per_page', self.default_page_count)
-        sort_by = self.request.GET.get('sort_by', self.default_sort_order)
-
-        actions = self.object_list.order_by(sort_by)
-
-        paginator = Paginator(actions, per_page)
-        context['actions'] = paginator.get_page(page)
-
-        return context
-
-
 class PeopleListView(ActionListView):
     model = People
     template_name = 'odm2/people-list.html'
@@ -128,10 +112,23 @@ class PeopleListView(ActionListView):
 class PeopleDetailView(ActionDetailView):
     model = People
     template_name = 'odm2/people-detail.html'
-    # context_object_name = 'person'
 
 
-class EquipmentDeploymentsListView(ListView):
+class PeopleListView(PaginatorListView):
+    model = People
+    template_name = 'odm2/people-list.html'
+    default_sort_by = 'person_last_name'
+
+
+class PeopleDetailView(DetailView):
+    model = People
+    template_name = 'odm2/people-detail.html'
+    context_object_name = 'person'
+    slug_url_kwarg = 'person_id'
+    slug_field = 'person_id'
+
+
+class EquipmentDeploymentsListView(ActionListView):
     model = EquipmentDeploymentAction
     template_name = 'odm2/equipment-deployments-list.html'
     context_object_name = 'deployments'
@@ -180,6 +177,7 @@ class InstrumentRetrievalDetailView(ActionDetailView):
     template_name = 'odm2/instrument-retrieval.html'
     page_title = 'Instrument Retrieval Details'
 
+
 class MethodListView(PaginatorListView):
     model = Method
     template_name = 'odm2/methods.html'
@@ -189,23 +187,16 @@ class MethodListView(PaginatorListView):
 class MethodDetailView(DetailView):
     model = Method
     template_name = 'odm2/method.html'
-    
-class CalibrationStandardsListView(ListView):
+
+
+class CalibrationStandardsListView(ActionListView):
     """
-    I know the class name says "CalibrationStandard" in it, but don't be fooled,
-    aparently a Calibration Standard actually a Reference Material Value... ¯\_(ツ)_/¯
+    I know the class name has "CalibrationStandard" in it, but don't be fooled,
+    aparently a Calibration Standard is actually a Reference Material Value... ¯\_(ツ)_/¯
     """
     model = ReferenceMaterialValue
     template_name = 'odm2/calibration-standards.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        object_list = self.object_list.order_by('pk')
-        paginator = Paginator(object_list, 25)
-
-        page = self.request.GET.get('page', 1)
-        context.update(object_list=paginator.get_page(page))
-        return context
+    default_sort_by = '-reference_material__reference_material_medium'
 
 
 class CalibrationStandardDetailView(DetailView):
@@ -247,3 +238,22 @@ class OrganizationDetailView(ActionDetailView):
     page_title = 'Organization Details'
 
 
+class FactoryServiceListView(ActionListView):
+    model = EquipmentMaintenanceAction
+    template_name = 'odm2/factory-service-list.html'
+
+
+class FactoryServiceDetailView(ActionDetailView):
+    model = EquipmentMaintenanceAction
+    template_name = 'odm2/factory-service.html'
+    page_title = 'Factory Service Detail'
+
+    
+class InstrumentOutputVariablesListView(PaginatorListView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variables.html'
+
+
+class InstrumentOutputVariableDetailView(DetailView):
+    model = InstrumentOutputVariable
+    template_name = 'odm2/instrument-output-variable.html'

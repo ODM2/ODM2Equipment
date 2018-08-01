@@ -37,20 +37,20 @@
 
                                     {% block table-pagination %}
                                     <tr>
-                                        <td colspan="5" class="mdl-data-table__cell--no-hover">
+                                        <td colspan="100" class="mdl-data-table__cell--no-hover">
                                             <span class="step-links">
-                                            {% if actions.has_previous %}
+                                            {% if object_list.has_previous %}
                                                 <a href="?page=1">&laquo; first</a>
-                                                <a href="?page={{ actions.previous_page_number }}">previous</a>
+                                                <a href="?page={{ object_list.previous_page_number }}">previous</a>
                                             {% endif %}
 
                                             <span class="current">
-                                                Page {{ actions.number }} of {{ actions.paginator.num_pages }}
+                                                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}
                                             </span>
 
-                                            {% if actions.has_next %}
-                                                <a href="?page={{ actions.next_page_number }}">next</a>
-                                                <a href="?page={{ actions.paginator.num_pages }}">last &raquo;</a>
+                                            {% if object_list.has_next %}
+                                                <a href="?page={{ object_list.next_page_number }}">next</a>
+                                                <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
                                             {% endif %}
                                             </span>
                                         </td>

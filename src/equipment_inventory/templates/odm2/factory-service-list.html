@@ -1,0 +1,31 @@
+{% extends 'equipment_inventory/list.html' %}
+{% block list-title %}
+    Factory Service History
+{% endblock %}
+
+{% block table-headers %}
+    <th class="mdl-data-table__cell--non-numeric">Date</th>
+    <th class="mdl-data-table__cell--non-numeric">Equipment Code</th>
+    <th class="mdl-data-table__cell--non-numeric">Equipment Type</th>
+    <th class="mdl-data-table__cell--non-numeric">Equipment Serial Number</th>
+{% endblock %}
+
+{% block header-actions %}
+    <a href="{% url 'admin:equipment_inventory_equipmentmaintenanceaction_add' %}"
+       class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
+        <i class="material-icons center-icon">create</i> Create
+    </a>
+{% endblock %}
+
+{% block table-rows %}
+    {% for action in object_list %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a href="{% url 'factory-service' action.pk %}">{{ action.begin_datetime }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">{{ action.equipment_used.equipment_code|default:"-" }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ action.equipment_used.equipment_type|default:"-" }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ action.equipment_used.equipment_serial_number|default:"-" }}
+        </tr>
+    {% endfor %}
+{% endblock %}
