@@ -30,7 +30,7 @@
             <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_code}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_model }}
             <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_vendor }}
-            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'people-detail' equipment.equipment_owner %}">{{ equipment.equipment_owner }}</a>
+            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'people-detail' equipment.equipment_owner.pk %}">{{ equipment.equipment_owner }}</a>
 
         </tr>
     {% endfor %}

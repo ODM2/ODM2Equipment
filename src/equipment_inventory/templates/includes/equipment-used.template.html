@@ -1,7 +1,7 @@
 <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 side-table-details">
     <table>
         {% for equipment in equipments %}
-            <tbody>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover">
                 <tr>
                     <th>Equipment Serial Number</th>
                     <td>
@@ -35,7 +35,7 @@
                     <th>Link</th>
                     <td>{{ equipment.equipment_documentation_link }}</td>
                 </tr>
-            </tbody>
+            </table>
         {% endfor %}
     </table>
 

@@ -4,8 +4,13 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+
+from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, \
+    People, Equipment, EquipmentModel, Organization
+
 from odm2.models import SamplingFeature, InstrumentOutputVariable, Result, Action, FeatureAction, People, Equipment, \
   ReferenceMaterialValue, EquipmentModel, Method
+
 from equipment_inventory.models import *
 
 
@@ -98,6 +103,17 @@ class SiteVisitDetailView(DetailView):
     slug_field = 'action_id'
 
 
+class PeopleListView(ActionListView):
+    model = People
+    template_name = 'odm2/people-list.html'
+    context_object_name = 'people'
+
+
+class PeopleDetailView(ActionDetailView):
+    model = People
+    template_name = 'odm2/people-detail.html'
+
+
 class PeopleListView(PaginatorListView):
     model = People
     template_name = 'odm2/people-list.html'
@@ -175,8 +191,8 @@ class MethodDetailView(DetailView):
 
 class CalibrationStandardsListView(ActionListView):
     """
-    I know the class name says "CalibrationStandard" in it, but don't be fooled,
-    aparently a Calibration Standard actually a Reference Material Value... ¯\_(ツ)_/¯
+    I know the class name has "CalibrationStandard" in it, but don't be fooled,
+    aparently a Calibration Standard is actually a Reference Material Value... ¯\_(ツ)_/¯
     """
     model = ReferenceMaterialValue
     template_name = 'odm2/calibration-standards.html'
@@ -209,6 +225,17 @@ class EquipmentModelDetailView(ActionDetailView):
     model = EquipmentModel
     template_name = 'odm2/equipment-model-detail.html'
     page_title = 'Equipment Model Details'
+
+
+class OrganizationListView(ActionListView):
+    model = Organization
+    template_name = 'odm2/organization-list.html'
+
+
+class OrganizationDetailView(ActionDetailView):
+    model = Organization
+    template_name = 'odm2/organization-details.html'
+    page_title = 'Organization Details'
 
 
 class FactoryServiceListView(ActionListView):
