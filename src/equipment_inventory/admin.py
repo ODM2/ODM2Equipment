@@ -33,6 +33,15 @@ class UnitAdmin(admin.ModelAdmin):
 class OrganizationAdmin(admin.ModelAdmin):
     form = OrganizationForm
 
+    def response_change(self, request, obj):
+        return redirect(reverse('organization-details', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('organization-details', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('organization-list'))
+
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
@@ -49,16 +58,43 @@ class EquipmentAdmin(admin.ModelAdmin):
 class EquipmentModelAdmin(admin.ModelAdmin):
     form = EquipmentModelForm
 
+    def response_change(self, request, obj):
+        return redirect(reverse('equipment-model-details', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('equipment-model-details', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('equipment-model-list'))
+
 
 @admin.register(InstrumentOutputVariable)
 class InstrumentOutputVariableAdmin(admin.ModelAdmin):
     form = InstrumentOutputVariableForm
+
+    def response_change(self, request, obj):
+        return redirect(reverse('instrument-output-variable', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('instrument-output-variable', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('instrument-output-variables'))
 
 
 @admin.register(People)
 class PeopleAdmin(admin.ModelAdmin):
     form = PersonForm
     inlines = [AffiliationInline]
+
+    def response_change(self, request, obj):
+        return redirect(reverse('people-detail', kwargs={'pk': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('people-detail', kwargs={'pk': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('people'))
 
 
 @admin.register(Method)
@@ -99,6 +135,15 @@ class SiteVisitActionAdmin(NestedModelAdmin, StandaloneActionAdminMixin):
     def save_model(self, request, obj, form, change):
         obj.method = Method.objects.get_or_create(method_type_id='Field activity', method_code='Site Visit', method_name='Site Visit')[0]
         super(SiteVisitActionAdmin, self).save_model(request, obj, form, change)
+
+    def response_change(self, request, obj):
+        return redirect(reverse('site-visit-detail', kwargs={'action_id': obj.pk}))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return redirect(reverse('site-visit-detail', kwargs={'action_id': obj.pk}))
+
+    def response_delete(self, request, obj_display, obj_id):
+        return redirect(reverse('site-visit-list'))
 
 
 @admin.register(EquipmentDeploymentAction)
