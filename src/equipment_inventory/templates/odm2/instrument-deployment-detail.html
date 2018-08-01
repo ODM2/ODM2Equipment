@@ -13,14 +13,13 @@
 {% block header_buttons_toolbar %}
     <div class="buttons-toolbar row">
         <div class="col-12 text-right">
-            <a href="{% url 'admin:equipment_inventory_instrumentdeploymentaction_change' deployment.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+            <a href="{% url 'admin:equipment_inventory_instrumentdeploymentaction_change' deployment.pk %}" id="btn-edit-sampling_feature" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
                 <i class="material-icons center-icon">mode_edit</i> Edit Deployment
             </a>
-            <button type="button" data-toggle="modal" data-target="#equipmentdeploymentaction-delete-dialog"
-                    style="background: #d9534f; color:#FFF;"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+            <a href="{% url 'admin:equipment_inventory_instrumentdeploymentaction_delete' object.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
                 <i class="material-icons center-icon">delete_forever</i> Delete
-            </button>
+            </a>
         </div>
     </div>
 {% endblock %}
@@ -74,7 +73,7 @@
 {% block extra_content %}
     <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-12">
                 <h6 class="page-title grid" style="grid-template-columns: auto auto;">
                     <span>Equipment Used</span>
                 </h6>

@@ -142,6 +142,13 @@ html > body {
     color: #3b8a8a;
 }
 
+
+td.mdl-data-table__cell--non-numeric{
+    overflow: auto;
+    /*max-width: 150px;*/
+}
+
+
 span.user-info {
     pointer-events: none;
 }
@@ -201,6 +208,20 @@ span.user-info {
 .ribbon-container {
     padding: 0 15px;
 }
+
+/* TABLES */
+#equipment_table{
+    width: 100%;
+    table-layout: auto;
+    overflow: scroll;
+    text-align: left;
+}
+
+#equipment_row{
+    width: 100%;
+    overflow: scroll;
+}
+
 
 /* FOOTER */
 

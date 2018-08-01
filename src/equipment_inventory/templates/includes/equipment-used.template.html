@@ -1,41 +1,37 @@
 {% load template_tags %}
-<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 side-table-details">
-    <table>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static "equipment_inventory/css/base.css" %}" />
+
+<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 side-table-details" id="equipment_row">
+    {% block table-headers %}
+
+    {% endblock %}
+    <table class="data-table">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover" id="equipment_table">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Serial Number</th>
+                    <th class="mdl-data-table__cell--non-numeric">Equipment Type</th>
+                    <th class="mdl-data-table__cell--non-numeric">Equipment Code</th>
+                    <th class="mdl-data-table__cell--non-numeric">Equipment Model</th>
+                    <th class="mdl-data-table__cell--non-numeric">Owner</th>
+                </tr>
+            </thead>
         {% for equipment in equipments %}
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover">
-                <tr>
-                    <th>Equipment Serial Number</th>
-                    <td>
-                        <a href="">
-                            {{ equipment.equipment_serial_number }}</a>
+
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'equipment-details' equipment.pk %}">
+                        {{ equipment.equipment_serial_number }}</a>
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_name }}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_code }}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ equipment.equipment_model.model_name }}</td>
+                <td>
+                    <a href="{% url 'people-detail' equipment.equipment_owner.pk %}">
+                        {{ equipment.equipment_owner.person_first_name }} {{ equipment.equipment_owner.person_last_name }}</a>
                     </td>
-                    <th>Equipment Name</th>
-                    <td>{{ equipment.equipment_name }}</td>
-                    <th>Equipment Model Name</th>
-                    <td>
-                        <a href="">
-                            {{ equipment.equipment_model.model_name }}</a>
-                    </td>
-                    <th>Equipment Owner</th>
-                    <td>
-                        <a href="">
-                            {{ equipment.equipment_owner.person_first_name }} {{ equipment.equipment_owner.person_last_name }}</a>
-                    </td>
-                    <th>Purchase Date</th>
-                    <td>{{ equipment.equipment_purchase_date }}</td>
                 </tr>
-                <tr>
-                    <th>Equipment Code</th>
-                    <td>{{ equipment.equipment_code }}</td>
-                    <th>Equipment Type</th>
-                    <td>{{ equipment.equipment_type }}</td>
-                    <th>Equipment Manufacturer</th>
-                    <td>{{ equipment.equipment_model.model_manufacturer.organization_name }}</td>
-                    <th>Equipment Description</th>
-                    <td>{{ equipment.equipment_description }}</td>
-                    <th>Link</th>
-                    <td>{{ equipment.equipment_documentation_link|http_to_https|urlize|default:'-' }}</td>
-                </tr>
+            </tr>
             </table>
         {% endfor %}
     </table>

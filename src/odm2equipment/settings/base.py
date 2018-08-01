@@ -142,7 +142,7 @@ USE_TZ = True
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, os.pardir, "equipment_inventory", "static"),
-    # UPDATE: added this line below and it works now.
+    os.path.join(BASE_DIR, os.pardir, "equipment_inventory", "static", "equipment_inventory"),
+    os.path.join(BASE_DIR, os.pardir, "equipment_inventory", "static", "odm2"),
     os.path.join(BASE_DIR, os.pardir, "equipment_inventory", "static", "admin"),
 ]

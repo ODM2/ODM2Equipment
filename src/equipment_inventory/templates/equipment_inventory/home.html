@@ -1,6 +1,5 @@
 {% extends 'equipment_inventory/base.html' %}
 {% load static %}
-{% load template_tags %}
 
 {% block styles %}
     {{ block.super }}
@@ -13,20 +12,11 @@
         <div class="parallax-window" data-parallax="scroll" {% if user.is_authenticated %}style="height: 400px;"{% endif %} data-image-src="" id="banner-image-container">
             <div class="legend-container" {% if user.is_authenticated %}style="height: 400px;"{% endif %}>
                 <div class="row logos-row">
-                    <div class="col-6 col-sm-3 offset-sm-3">
-                        <img class="img-fluid" src="{% static "equipment_inventory/img/iutah_home_logo.png" %}" alt="iUtah Home Logo">
+                    <div class="col-12 col-sm-6 offset-sm-3" id="waterfall">
+                        <img class="img-fluid" src="{% static "equipment_inventory/img/waterfall_banner.jpg" %}" alt="Waterfall Banner">
                     </div>
                 </div>
-                <div class="banner-legend text-center">
-                    <h2 class="text-center">NOT THE Data Sharing Portal </h2>
-                    <h4 class="text-center" style="text-decoration: line-through">Contribute your water quality data</h4>
-                    <h4 class="text-center">Manage your odm2 equipment!</h4>
 
-                    {% if not user.is_authenticated %}
-                        <h4 class="text-center">Ready to start <span style="text-decoration: line-through">sharing your data?</span><span style="font-weight: 400">managing your equipment?</span></h4>
-
-                    {% endif %}
-                </div>
             </div>
         </div>
     </div>
@@ -34,22 +24,28 @@
 
 {% block content %}
     <div class="container-fluid content-section">
-        <div class="container shadow" id="how-it-works-section">
-            <div class="row">
-                <section class="col-sm-12">
-                    <div class="text-center section-title">How it works (the equipment management, obviously.)</div>
-                    <p class="lead text-center" style="text-decoration: line-through">The WikiWatershed Data Portal supports multiple types of water quality data.</p>
-                    <p class="lead text-center">What do you know?! It just does!</p>
-                    <br><br>
-                    <div class="row">
-                        <div class="col-sm-8 offset-sm-2 col-md-4 offset-md-2 col-8 offset-2">
-                            <br><br>
-                        </div>
-                    </div>
+        <div class="container" id="how-it-works-section">
+            <div class="banner-legend">
+                    <h2 class="text-center">ODM2 Equipment Manager</h2>
+                    <p class="text-left">This equipment management web application provides access to and recording of information
+                        on equipment inventory and related actions. It is based on the Equipment Extension of Version 2 of the
+                        <a href="http://github.com/odm2/odm2" data-toggle="tooltip" title="github.com/odm2/odm2">Observations Data Model (ODM2).</a>
+                        This interface is designed for monitoring networks using in site sensors to manage physical infrastructure and link it to observational data.
+                    </p>
+                <div><h3 class = "text-center">Sponsors</h3></div>
+                <div><p class ="text-center">This project is receiving or has received support from a number of agencies and complementary efforts including:</p></div>
 
-                    <br><br><br>
-                </section>
-            </div>
+                <div class="sponsors">
+                    <a href="http://www.iutahepscor.org">
+                        <img alt="iUTAH website" data-toggle="tooltip" title="iutahepscor.org" src="{% static "equipment_inventory/img/iutah_home_logo.png" %}" height="150" vspace="50" hspace="50"></a>
+                    <a href="http://www.nsf.gov">
+                        <img alt = "National Science Foundation website" data-toggle="tooltip" title="nsf.gov" src="{% static "equipment_inventory/img/nsf_logo.jpg" %}" height="150" hspace="50"></a>
+                </div>
+                    {% if not user.is_authenticated %}
+
+                    {% endif %}
+                </div>
+
         </div>
     </div>
 {% endblock %}
