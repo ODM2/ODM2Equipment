@@ -13,14 +13,13 @@
 {% block header_buttons_toolbar %}
     <div class="buttons-toolbar row">
         <div class="col-12 text-right">
-            <a href="{% url 'admin:equipment_inventory_sitevisitaction_change' visit.pk %}" id="btn-edit-sampling_feature" class="button-link mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+            <a href="{% url 'admin:equipment_inventory_sitevisitaction_change' visit.pk %}" id="btn-edit-sampling_feature" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect mb-2 full-width-sm">
                 <i class="material-icons center-icon">mode_edit</i> Edit Site Visit
             </a>
-            <button type="button" data-toggle="modal" data-target="#site-delete-dialog"
-                    style="background: #d9534f; color:#FFF;"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+            <a href="{% url 'admin:equipment_inventory_sitevisitaction_delete' object.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect delete mb-2 full-width-sm">
                 <i class="material-icons center-icon">delete_forever</i> Delete
-            </button>
+            </a>
         </div>
     </div>
 {% endblock %}
@@ -64,4 +63,52 @@
         </table>
     </div>
 
+{% endblock %}
+
+
+{% block extra_content %}
+    <div class="container ribbon-content mdl-color--white mdl-shadow--4dp">
+        <div class="row">
+            <div class="col-12">
+                <h6 class="page-title grid" style="grid-template-columns: auto auto;">
+                    <span>Related Actions</span>
+                </h6>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table-no-hover aligned">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Action Type</th>
+                        <th class="mdl-data-table__cell--non-numeric">Begin Date Time</th>
+                        <th class="mdl-data-table__cell--non-numeric">End Date Time</th>
+                        <th class="mdl-data-table__cell--non-numeric">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for action in visit.reverse_related_actions.all %}
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                {% if action.action.action_type_id == 'Instrument calibration' %}
+                                    <a href="{% url 'calibration' action.action.pk %}">
+                                {% elif action.action.action_type_id == 'Equipment deployment' %}
+                                    <a href="{% url 'equipment-deployment-detail' action.action.pk %}">
+                                {% elif action.action.action_type_id == 'Instrument deployment' %}
+                                     <a href="{% url 'instrument-deployment-detail' action.action.pk %}">
+                                {% elif action.action.action_type_id == 'Instrument retrieval' %}
+                                 <a href="{% url 'instrument-retrieval' action.action.pk %}">
+                                {# TODO Add else for generic action. and Equipment Retrieval. #}
+                                {% endif %}
+                                        {{ action.action.action_type }}
+                                    </a>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ action.action.begin_datetime }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ action.action.end_datetime }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ action.action.action_description }}</td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

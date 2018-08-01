@@ -2,3 +2,5 @@ Django==2.0.7
 django-easy-select2==1.5.2
 psycopg2==2.7.5
 pytz==2018.5
+django-nested-admin==3.0.21
+requests==2.19.1

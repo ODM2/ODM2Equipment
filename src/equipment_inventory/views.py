@@ -86,9 +86,6 @@ class ResultsListView(PaginatorListView):
 class ResultDetailView(DetailView):
     model = Result
     template_name = 'odm2/result-detail.html'
-    context_object_name = 'result'
-    slug_url_kwarg = 'result_id'
-    slug_field = 'result_id'
 
 
 class SiteVisitListView(ListView):
