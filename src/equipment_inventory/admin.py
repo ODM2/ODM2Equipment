@@ -39,7 +39,7 @@ class EquipmentAdmin(admin.ModelAdmin):
     form = EquipmentForm
 
     def response_change(self, request, obj):
-        return redirect(reverse('equipment-list'))
+        return redirect(reverse('equipment-list', kwargs={'pk': obj.pk}))
 
     def response_add(self, request, obj, post_url_continue=None):
         return redirect(reverse('equipment-details', kwargs={'pk': obj.pk}))
