@@ -1,4 +1,6 @@
 {% extends 'equipment_inventory/list.html' %}
+{% load template_tags %}
+
 {% block list-title %}
     Calibration Actions
 {% endblock %}
@@ -25,7 +27,7 @@
             </td>
             <td class="mdl-data-table__cell--non-numeric">{{ organization.organization_name }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ organization.organization_type }}</td>
-            <td class="mdl-data-table__cell--non-numeric d-none d-lg-table-cell">{{ organization.organization_link }}</td>
+            <td class="mdl-data-table__cell--non-numeric d-none d-lg-table-cell">{{ organization.organization_link|http_to_https|urlize|default:'-' }}</td>
         </tr>
     {% endfor %}
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'equipment_inventory/details.html' %}
 {% load static %}
+{% load template_tags %}
+
 
 {% block detail-title %}
     <h3>{{ page_title }}</h3>
@@ -117,10 +119,7 @@
                     </tr>
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric"><strong>Website</strong></td>
-                        <td class="mdl-data-table__cell--non-numeric"><a target="_blank"
-                           href="{% if "http" not in object.equipment_model.model_manufacturer.organization_link %}
-                        http://{% endif %}{{ object.equipment_model.model_manufacturer.organization_link }}/">
-                            {{ object.equipment_model.model_manufacturer.organization_link|default:'-' }}</a></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ object.equipment_model.model_manufacturer.organization_link|http_to_https|urlize|default:'-' }}</td>
                     </tr>
                 </table>
             </div>

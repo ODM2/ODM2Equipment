@@ -1,3 +1,4 @@
+{% load template_tags %}
 <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 side-table-details">
     <table>
         {% for equipment in equipments %}
@@ -33,7 +34,7 @@
                     <th>Equipment Description</th>
                     <td>{{ equipment.equipment_description }}</td>
                     <th>Link</th>
-                    <td>{{ equipment.equipment_documentation_link }}</td>
+                    <td>{{ equipment.equipment_documentation_link|http_to_https|urlize|default:'-' }}</td>
                 </tr>
             </table>
         {% endfor %}

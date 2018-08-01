@@ -85,6 +85,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'odm2equipment.wsgi.application'
 
 

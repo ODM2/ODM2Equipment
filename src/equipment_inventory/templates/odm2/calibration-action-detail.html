@@ -1,5 +1,6 @@
 {% extends 'equipment_inventory/details.html' %}
 {% load static %}
+{% load template_tags %}
 
 {% block detail-title %}
     <h3>{{ page_title }}</h3>
@@ -75,7 +76,7 @@
                 </tr>
                 <tr>
                     <td class="mdl-data-table__cell--non-numeric"><strong>Calibration Link</strong></td>
-                    <td class="mdl-data-table__cell--non-numeric">{{ object.action_file_link|default:'-' }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ object.action_file_link|http_to_https|urlize|default:'-' }}</td>
                 </tr>
             </table>
         </div>
